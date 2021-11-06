@@ -7,5 +7,7 @@ export const TemplateToComponents: React.FC<{}> = () => {
     // call renderChildren() on children of children, in this function
   };
 
+  //render as text first
+
   return <>{/* renderChildren() */}</>;
 };

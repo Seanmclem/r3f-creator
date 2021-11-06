@@ -12,6 +12,9 @@ import {
 import { CameraControls } from "../components/CameraControls1";
 import { Sidebar } from "../components/main-ui/Sidebar";
 
+import { box_template } from "../templates/canvas-templates";
+import { TemplateToComponents } from "../translators/TemplateToComponents";
+
 const Box = () => (
   <mesh>
     <boxGeometry args={[5, 5, 5]} />
@@ -32,7 +35,12 @@ export const MainUI: React.VFC<{}> = () => {
         <CameraControls />
         <ambientLight intensity={0.5} />
         <directionalLight position={[10, 15, 10]} color={"red"} />
-        <Box />
+
+        {/* <TemplateToComponents /> */}
+        {/* //here */}
+        <>
+          <Box />
+        </>
       </Canvas>
     </MainUiContainer>
   );

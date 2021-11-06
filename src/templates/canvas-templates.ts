@@ -1,20 +1,22 @@
 export const box_template = {
-  children: {
-    mesh: {
+  tagName: "Fragment", // Makes <></>
+  children: [
+    {
+      tagName: "mesh",
       children: [
         {
-          boxGeometry: {
-            props: [{ args: [5, 5, 5] }],
-          },
+          tagName: "boxGeometry",
+          props: [{ args: [5, 5, 5] }],
+          children: [],
         },
         {
-          meshBasicMaterial: {
-            props: [{ color: "blue" }],
-          },
+          tagName: "meshBasicMaterial",
+          props: [{ color: "blue" }],
+          children: [],
         },
       ],
     },
-  },
+  ],
 };
 
 export const basicCanvas1 = [box_template];
