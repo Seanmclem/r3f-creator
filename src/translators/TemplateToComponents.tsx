@@ -1,13 +1,39 @@
-interface props {
-  template: any;
+import { Fragment } from "react";
+// import { basicCanvas1 } from "../templates/canvas-templates";
+
+export interface props {
+  template: UIchild[];
 }
 
-export const TemplateToComponents: React.FC<{}> = () => {
-  const renderChildren = (children: any[]) => {
-    // call renderChildren() on children of children, in this function
+export interface UIchild {
+  id: string;
+  tagName: string;
+  props?: object;
+  children: UIchild[];
+}
+
+export const TemplateToComponents: React.FC<props> = ({ template }) => {
+  const renderChildren: any = (children: UIchild[]) => {
+    if (!children?.length) {
+      return null;
+    }
+    return children.map((mainChild) => {
+      const TheComponent = mainChild.tagName as any;
+      const props = mainChild.props || [];
+
+      return mainChild.tagName === "Fragment" ? (
+        <Fragment key={mainChild.id}>
+          {renderChildren(mainChild.children)}
+        </Fragment>
+      ) : (
+        <TheComponent key={mainChild.id} {...props}>
+          {renderChildren(mainChild.children)}
+        </TheComponent>
+      );
+    });
   };
 
-  //render as text first
+  // const TheComponent4 = "box" as any;
 
-  return <>{/* renderChildren() */}</>;
+  return <>{renderChildren(template)}</>;
 };
