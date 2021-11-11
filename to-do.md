@@ -14,3 +14,4 @@
 - [ ] Add basic menus to update props
 - [ ] Add basic menu to Add more primitives to the tree
 - [ ] Add component templates, for example a pre-made box, or a slope/ramp. That can be dropped in and configured similar to individual primitives.
+- [ ] Add convert to AST at some point...
