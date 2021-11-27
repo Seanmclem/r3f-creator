@@ -16,16 +16,11 @@ export const TreeListChildren: React.FC<props> = ({ children, parentName }) => {
       {children.map((mainChild, index) => {
         // const TheComponent = mainChild.tagName as any;
         const nodeAddress =
-          !parentName || !mainChild.tagName
-            ? `root`
-            : `${parentName}.[${index}]${mainChild.tagName}`;
-        console.log({ nodeAddress });
+          !parentName || !mainChild.tagName ? `0` : `${parentName}.${index}`;
+        // console.log({ nodeAddress });
         return (
-          <PrimitivesList
-            key={mainChild.id}
-            data-derp={!parentName || !mainChild.tagName ? `root` : nodeAddress}
-          >
-            <TreeItemLabel item={mainChild} />
+          <PrimitivesList key={mainChild.id}>
+            <TreeItemLabel item={mainChild} nodeAddress={nodeAddress} />
             <TreeListChildren
               children={mainChild.children}
               parentName={nodeAddress}

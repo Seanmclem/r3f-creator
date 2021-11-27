@@ -4,10 +4,15 @@ import { UIchild } from "../../translators/TemplateToComponents";
 
 interface props {
   item: UIchild;
+  nodeAddress: string;
 }
 
-export const TreeItemLabel: React.FC<props> = ({ item }) => {
-  return <Container>{item.tagName}</Container>;
+export const TreeItemLabel: React.FC<props> = ({ item, nodeAddress }) => {
+  return (
+    <Container onClick={() => console.log({ nerper: nodeAddress })}>
+      {item.tagName}
+    </Container>
+  );
 };
 
 const Container = styled.div`
