@@ -8,7 +8,6 @@ interface props {
 }
 
 export const TreeListChildren: React.FC<props> = ({ children, parentName }) => {
-  debugger;
   if (!children?.length) {
     return null;
   }
