@@ -1,6 +1,6 @@
 import styled from "styled-components/macro";
 import { UIchild } from "../../translators/TemplateToComponents";
-import { TreeItemLabel } from "./TreeItem";
+import { TreeItemLabelBox } from "./TreeItem";
 
 interface props {
   children: UIchild[];
@@ -20,7 +20,7 @@ export const TreeListChildren: React.FC<props> = ({ children, parentName }) => {
         // console.log({ nodeAddress });
         return (
           <PrimitivesList key={mainChild.id}>
-            <TreeItemLabel item={mainChild} nodeAddress={nodeAddress} />
+            <TreeItemLabelBox item={mainChild} nodeAddress={nodeAddress} />
             <TreeListChildren
               children={mainChild.children}
               parentName={nodeAddress}

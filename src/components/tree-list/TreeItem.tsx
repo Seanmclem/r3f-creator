@@ -7,7 +7,7 @@ interface props {
   nodeAddress: string;
 }
 
-export const TreeItemLabel: React.FC<props> = ({ item, nodeAddress }) => {
+export const TreeItemLabelBox: React.FC<props> = ({ item, nodeAddress }) => {
   return (
     <Container onClick={() => console.log({ nerper: nodeAddress })}>
       {item.tagName}
