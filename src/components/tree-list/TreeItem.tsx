@@ -6,7 +6,7 @@ interface props {
   item: UIchild;
 }
 
-export const TreeItem: React.FC<props> = ({ item }) => {
+export const TreeItemLabel: React.FC<props> = ({ item }) => {
   return <Container>{item.tagName}</Container>;
 };
 

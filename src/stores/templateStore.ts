@@ -10,7 +10,6 @@ export const useTemplateStore = create<ISet>((set: SetState<ISet>) => ({
   mainTemplate: [],
   updateMainTemplate: (updatedTemplate: UIchild[]) =>
     set((_state: ISet) => {
-      debugger;
       return { mainTemplate: updatedTemplate };
     }),
 }));
