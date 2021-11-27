@@ -11,8 +11,8 @@
 - [x] Use recipe to add canvas
 - [x] Add basic Cube
 - [x] Add directory stucture component to left-side for component tree
-- [ ] test changing color of item in tree when clicked
-- [ ] In order to select and update deeply nested primitives, and their references. I'll need to have loops leave trail of breadcrumbs on children, to indicate which child the are, and in what position
+- [x] In order to select and update deeply nested primitives, and their references. I'll need to have loops leave trail of breadcrumbs on children, to indicate which child the are, and in what position
+- [ ] test changing color of item in tree when clicked, using reverse-find-loop
 - [ ] Add basic menus to update props
 - [ ] Add basic menu to Add more primitives to the tree
 - [ ] Add component templates, for example a pre-made box, or a slope/ramp. That can be dropped in and configured similar to individual primitives.
