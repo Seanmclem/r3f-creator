@@ -1,5 +1,5 @@
 import { useWindowSize } from "@react-hook/window-size";
-import styled from "styled-components";
+import styled from "styled-components/macro";
 
 import {
   Canvas,

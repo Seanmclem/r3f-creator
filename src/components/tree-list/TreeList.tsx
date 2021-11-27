@@ -13,19 +13,25 @@ const Container = styled.div`
 `;
 
 export const TreeList: React.FC<props> = ({ templateChildren }) => {
-  const renderChildren: any = (children: UIchild[]) => {
+  const renderChildren: any = (children: UIchild[], parentName?: string) => {
     if (!children?.length) {
       return null;
     }
-    return children.map((mainChild) => {
-      const TheComponent = mainChild.tagName as any;
-      const props = mainChild.props || [];
+    return children.map((mainChild, index) => {
+      // const TheComponent = mainChild.tagName as any;
+      const nodeAddress =
+        !parentName || !mainChild.tagName
+          ? `root`
+          : `${parentName}.[${index}]${mainChild.tagName}`;
 
       return (
-        <TheComponent key={mainChild.id} {...props}>
+        <PrimitivesList
+          key={mainChild.id}
+          data-derp={!parentName || !mainChild.tagName ? `root` : nodeAddress}
+        >
           <TreeItem item={mainChild} />
-          {renderChildren(mainChild.children)}
-        </TheComponent>
+          {renderChildren(mainChild.children, nodeAddress)}
+        </PrimitivesList>
       );
     });
   };
@@ -33,6 +39,6 @@ export const TreeList: React.FC<props> = ({ templateChildren }) => {
   return <Container>{renderChildren(templateChildren)}</Container>;
 };
 
-const Heading = styled.div`
+const PrimitivesList = styled.div`
   margin-left: 15px;
 `;
