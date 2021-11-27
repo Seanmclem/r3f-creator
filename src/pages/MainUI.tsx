@@ -45,7 +45,7 @@ export const MainUI: React.VFC<{}> = () => {
         <CameraControls />
         <ambientLight intensity={0.5} />
         <directionalLight position={[10, 15, 10]} color={"red"} />
-
+        <gridHelper args={[100, 25]} />
         <TemplateToComponents template={mainTemplate} />
       </Canvas>
     </MainUiContainer>
