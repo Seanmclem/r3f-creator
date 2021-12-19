@@ -8,7 +8,7 @@ export interface props {
 export interface UIchild {
   id: string;
   tagName: string;
-  props?: object;
+  props?: any;
   children: UIchild[];
 }
 
