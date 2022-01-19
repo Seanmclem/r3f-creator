@@ -50,7 +50,7 @@ const middleChildren = ({
       nodeAddressArray.length === 1 &&
       index === parseInt(nodeAddressedPosition)
     ) {
-      console.log("Enf ov da line", uiChild.tagName);
+      console.log("End ov da line", uiChild.tagName);
       if (uiChild?.props?.color) {
         uiChild.props.color = "red";
         updateMainTemplate(originalNodes);

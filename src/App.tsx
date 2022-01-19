@@ -14,10 +14,10 @@ const App = () => {
         </nav> */}
 
       <Switch>
-        <Route path="/">
+        <Route path="/" exact>
           <MainUI />
         </Route>
-        <Route path="/ast1">
+        <Route path="/ast1" exact>
           <FormCreator />
         </Route>
       </Switch>
