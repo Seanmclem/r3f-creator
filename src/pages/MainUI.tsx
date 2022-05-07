@@ -1,5 +1,5 @@
 import { useWindowSize } from "@react-hook/window-size";
-import styled from "styled-components/macro";
+import styled from "styled-components";
 
 import {
   Canvas,
@@ -32,7 +32,7 @@ export const MainUI: React.VFC<{}> = () => {
     (state) => state.updateMainTemplate
   );
   useEffect(() => {
-    updateMainTemplate(basicCanvas1);
+    updateMainTemplate(basicCanvas1); // added on first load
   }, []);
 
   return (

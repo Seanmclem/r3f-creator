@@ -3,10 +3,11 @@ import styled from "styled-components";
 import { useTemplateStore } from "../../stores/templateStore";
 import { UIchild } from "../../translators/TemplateToComponents";
 
-const loopChildren = (
+const sendNodeUpdate = (
   nodeAddress: string,
   mainTemplate: UIchild[],
-  updateMainTemplate: (mainTemplate: UIchild[]) => void // save state
+  updateMainTemplate: (mainTemplate: UIchild[]) => void, // save state
+  updateToDo: any
 ) => {
   const { nodeAddressArray, originalNodes } = getNodesBreakdown({
     nodeAddress,
@@ -17,6 +18,7 @@ const loopChildren = (
     originalNodes,
     nodeAddressArray,
     updateMainTemplate,
+    updateToDo,
   });
 };
 
@@ -82,6 +84,7 @@ interface FindAndUpdateNode {
   originalNodes: UIchild[];
   nodeAddressArray: string[];
   updateMainTemplate: (mainTemplate: UIchild[]) => void;
+  updateToDo: any;
 }
 
 const findAndUpdateNode = ({
@@ -89,6 +92,7 @@ const findAndUpdateNode = ({
   originalNodes,
   nodeAddressArray,
   updateMainTemplate,
+  updateToDo,
 }: FindAndUpdateNode) => {
   // const reducer = (accumulated: UIchild[], currentValue: UIchild) => previousValue + currentValue;
 
@@ -106,7 +110,7 @@ const findAndUpdateNode = ({
     if (hasReachedSelectedNode && index === currentNodeDepth) {
       console.log("Reached Selected Node:", uiChild.tagName);
       if (uiChild?.props?.color) {
-        uiChild.props.color = "red"; // do changes... Need to pass these in too
+        uiChild.props[updateToDo.key] = updateToDo.value; // do changes... Need to pass these in too
         // ^ mutating the originalNodes, copied off mainTemplate
         updateMainTemplate(originalNodes);
       }
@@ -129,6 +133,7 @@ const findAndUpdateNode = ({
             originalNodes,
             nodeAddressArray,
             updateMainTemplate,
+            updateToDo,
           });
         }
       }
@@ -148,7 +153,10 @@ export const TreeItemLabelBox: React.FC<props> = ({ item, nodeAddress }) => {
   );
 
   const handleClick = () => {
-    loopChildren(nodeAddress, mainTemplate, updateMainTemplate);
+    sendNodeUpdate(nodeAddress, mainTemplate, updateMainTemplate, {
+      key: "color",
+      value: "purple",
+    });
     // ^ my weird hacky loop function to make prop updates
 
     // save selectedNode to store

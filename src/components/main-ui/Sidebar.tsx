@@ -7,12 +7,19 @@ interface props {
   mainTemplate: UIchild[];
 }
 
+/** Left-side, main */
 export const Sidebar: React.FC<props> = ({ mainTemplate }) => {
   return (
-    <SidebarContainer>
-      <Spacer height={20} />
-      <TreeList templateChildren={mainTemplate} />
-    </SidebarContainer>
+    <>
+      <SidebarContainer>
+        <Spacer height={20} />
+        <TreeList templateChildren={mainTemplate} />
+      </SidebarContainer>
+      {/* <SidebarContainer>
+        <Spacer height={20} />
+        <TreeList templateChildren={mainTemplate} />
+      </SidebarContainer> */}
+    </>
   );
 };
 

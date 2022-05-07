@@ -13,6 +13,7 @@ const App = () => {
             </li>
         </nav> */}
 
+      {/* Routes, why? One day? why? */}
       <Switch>
         <Route path="/" exact>
           <MainUI />
