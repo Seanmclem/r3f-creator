@@ -6,12 +6,13 @@ import { UIchild } from "../../translators/TemplateToComponents";
 const loopChildren = (
   nodeAddress: string,
   mainTemplate: UIchild[],
-  updateMainTemplate: (mainTemplate: UIchild[]) => void
+  updateMainTemplate: (mainTemplate: UIchild[]) => void // save state
 ) => {
-  const nodeAddressArray = nodeAddress.split(".");
-  nodeAddressArray.shift();
-  const originalNodes = [...mainTemplate];
-  middleChildren({
+  const { nodeAddressArray, originalNodes } = getNodesBreakdown({
+    nodeAddress,
+    mainTemplate,
+  });
+  findAndUpdateNode({
     nodes: originalNodes,
     originalNodes,
     nodeAddressArray,
@@ -19,19 +20,76 @@ const loopChildren = (
   });
 };
 
-interface MiddleChildren {
+/* #region Borked improvements turned out same as original  */
+// const traverseDepth = ({
+//   originalNodes,
+//   childNodes,
+//   nodeAddressArray,
+// }: {
+//   originalNodes: UIchild[];
+//   childNodes: UIchild[];
+//   nodeAddressArray: string[];
+// }) => {
+//   console.log({ originalNodes, childNodes, nodeAddressArray });
+//   const arrayIndexOfCurrentUIChild = nodeAddressArray?.[0]
+//     ? parseInt(nodeAddressArray[0])
+//     : undefined;
+
+//   const hasReachedLastAddress = nodeAddressArray.length === 1;
+
+//   if (hasReachedLastAddress && arrayIndexOfCurrentUIChild) {
+//     const finalSelectedNode = childNodes[arrayIndexOfCurrentUIChild];
+//   } else {
+//     const nextNode = uiChild.children?.[currentNodeDepth];
+
+//     traverseDepth({
+//       originalNodes,
+//       childNodes: originalNodes.children,
+//       nodeAddressArray,
+//     });
+//   }
+//   // nodeAddressArray.shift();
+
+//   console.log({ arrayIndexOfCurrentUIChild });
+//   // const currentNodeDepth = parseInt(nodeAddressedPosition);
+
+//   // const hasReachedSelectedNode = nodeAddressArray.length === 1;
+
+//   // if(!hasReachedSelectedNode){
+
+//   // }
+
+//   // const last = childNodes[currentNodeDepth]
+// };
+/* #endregion */
+
+const getNodesBreakdown = ({
+  nodeAddress,
+  mainTemplate,
+}: {
+  nodeAddress: string;
+  mainTemplate: UIchild[];
+}) => {
+  const nodeAddressArray = nodeAddress.split(".");
+  // nodeAddressArray.shift();
+  const originalNodes = [...mainTemplate];
+
+  return { nodeAddressArray, originalNodes };
+};
+
+interface FindAndUpdateNode {
   nodes: UIchild[];
   originalNodes: UIchild[];
   nodeAddressArray: string[];
   updateMainTemplate: (mainTemplate: UIchild[]) => void;
 }
 
-const middleChildren = ({
+const findAndUpdateNode = ({
   nodes,
   originalNodes,
   nodeAddressArray,
   updateMainTemplate,
-}: MiddleChildren) => {
+}: FindAndUpdateNode) => {
   // const reducer = (accumulated: UIchild[], currentValue: UIchild) => previousValue + currentValue;
 
   // // 1 + 2 + 3 + 4
@@ -40,36 +98,39 @@ const middleChildren = ({
   // nodeAddressArray.
 
   nodes.forEach((uiChild, index) => {
-    console.log({ uiChild });
-    console.log({ index });
     const nodeAddressedPosition = nodeAddressArray[0];
+    const currentNodeDepth = parseInt(nodeAddressedPosition);
 
-    console.log({ nodeAddressArray: [...nodeAddressArray] });
-    debugger;
-    if (
-      nodeAddressArray.length === 1 &&
-      index === parseInt(nodeAddressedPosition)
-    ) {
-      console.log("End ov da line", uiChild.tagName);
+    const hasReachedSelectedNode = nodeAddressArray.length === 1;
+
+    if (hasReachedSelectedNode && index === currentNodeDepth) {
+      console.log("Reached Selected Node:", uiChild.tagName);
       if (uiChild?.props?.color) {
-        uiChild.props.color = "red";
+        uiChild.props.color = "red"; // do changes... Need to pass these in too
+        // ^ mutating the originalNodes, copied off mainTemplate
         updateMainTemplate(originalNodes);
       }
       console.log({ originalNodes });
     } else {
-      debugger;
-      const nextNode = uiChild.children?.[parseInt(nodeAddressedPosition)];
-      debugger;
-      console.log(nodeAddressedPosition, nextNode);
+      nodeAddressArray.shift();
+
+      const nextNodeAddressedPosition = nodeAddressArray[0];
+      const nectNodeDepth = parseInt(nextNodeAddressedPosition);
+
+      const nextNode = uiChild.children?.[nectNodeDepth];
 
       if (nextNode) {
-        nodeAddressArray.shift();
-        middleChildren({
-          nodes: nextNode.children,
-          originalNodes,
-          nodeAddressArray,
-          updateMainTemplate,
-        });
+        // ^takes first/current-item off the list,
+        // before looping again, because it accesses the first one every time
+
+        if (nodeAddressArray) {
+          findAndUpdateNode({
+            nodes: nextNode.children,
+            originalNodes,
+            nodeAddressArray,
+            updateMainTemplate,
+          });
+        }
       }
     }
   });
@@ -88,6 +149,14 @@ export const TreeItemLabelBox: React.FC<props> = ({ item, nodeAddress }) => {
 
   const handleClick = () => {
     loopChildren(nodeAddress, mainTemplate, updateMainTemplate);
+    // ^ my weird hacky loop function to make prop updates
+
+    // save selectedNode to store
+    // open new sidebar in-reaction
+    // display selected node's prop(s)
+    // save edits, on button click.
+    //    use rewrite of loopChildren()?
+
     console.log({ nodeAddress });
 
     // console.log({ mainTemplate });
