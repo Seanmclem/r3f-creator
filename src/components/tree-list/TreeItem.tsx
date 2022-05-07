@@ -152,18 +152,24 @@ export const TreeItemLabelBox: React.FC<props> = ({ item, nodeAddress }) => {
     (state) => state.updateMainTemplate
   );
 
+  const updateSelectedNode = useTemplateStore(
+    (state) => state.updateSelectedNode
+  );
+
   const handleClick = () => {
     sendNodeUpdate(nodeAddress, mainTemplate, updateMainTemplate, {
       key: "color",
       value: "purple",
     });
-    // ^ my weird hacky loop function to make prop updates
+    // ^ Fixed
 
-    // save selectedNode to store
-    // open new sidebar in-reaction
-    // display selected node's prop(s)
-    // save edits, on button click.
-    //    use rewrite of loopChildren()?
+    // [] save selectedNode to store
+    updateSelectedNode(item); // UIChild
+
+    // [] open new sidebar in-reaction
+    // [] display selected node's prop(s)
+    // [] save edits, on button click.
+    // [] use rewrite of loopChildren()?
 
     console.log({ nodeAddress });
 
