@@ -3,6 +3,7 @@ import { TreeList } from "../tree-list/TreeList";
 import { Spacer } from "../Spacer";
 import { UIchild } from "../../translators/TemplateToComponents";
 import { useTemplateStore } from "../../stores/templateStore";
+import { StandardContainer } from "../styled-components";
 
 interface props {
   mainTemplate: UIchild[];
@@ -21,7 +22,18 @@ export const Sidebar: React.FC<props> = ({ mainTemplate }) => {
       {selectedNode ? (
         <SidebarContainer>
           <Spacer height={20} />
-          <div>{selectedNode.tagName}</div>
+          <StandardContainer>
+            <div>{selectedNode.tagName}</div>
+            <ul>
+              {selectedNode.props
+                ? Object.keys(selectedNode.props).map((key) => (
+                    <li>
+                      {key} : {selectedNode.props[key]}
+                    </li>
+                  ))
+                : null}
+            </ul>
+          </StandardContainer>
         </SidebarContainer>
       ) : null}
     </>
