@@ -24,11 +24,12 @@ export const Sidebar: React.FC<props> = ({ mainTemplate }) => {
           <Spacer height={20} />
           <StandardContainer>
             <div>{selectedNode.tagName}</div>
+            {/* new sidebar, and contents, needs dedicated components(s) */}
             <ul>
               {selectedNode.props
                 ? Object.keys(selectedNode.props).map((key) => (
                     <li>
-                      {key} : {selectedNode.props[key]}
+                      {key} : {JSON.stringify(selectedNode.props[key])}
                     </li>
                   ))
                 : null}
