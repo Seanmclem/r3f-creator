@@ -1,145 +1,8 @@
 import React from "react";
 import styled from "styled-components";
+import { sendNodeUpdate } from "../../functions/editor-tree-functions";
 import { useTemplateStore } from "../../stores/templateStore";
 import { UIchild } from "../../translators/TemplateToComponents";
-
-const sendNodeUpdate = (
-  nodeAddress: string,
-  mainTemplate: UIchild[],
-  updateMainTemplate: (mainTemplate: UIchild[]) => void, // save state
-  updateToDo: any
-) => {
-  const { nodeAddressArray, originalNodes } = getNodesBreakdown({
-    nodeAddress,
-    mainTemplate,
-  });
-  findAndUpdateNode({
-    nodes: originalNodes,
-    originalNodes,
-    nodeAddressArray,
-    updateMainTemplate,
-    updateToDo,
-  });
-};
-
-/* #region Borked improvements turned out same as original  */
-// const traverseDepth = ({
-//   originalNodes,
-//   childNodes,
-//   nodeAddressArray,
-// }: {
-//   originalNodes: UIchild[];
-//   childNodes: UIchild[];
-//   nodeAddressArray: string[];
-// }) => {
-//   console.log({ originalNodes, childNodes, nodeAddressArray });
-//   const arrayIndexOfCurrentUIChild = nodeAddressArray?.[0]
-//     ? parseInt(nodeAddressArray[0])
-//     : undefined;
-
-//   const hasReachedLastAddress = nodeAddressArray.length === 1;
-
-//   if (hasReachedLastAddress && arrayIndexOfCurrentUIChild) {
-//     const finalSelectedNode = childNodes[arrayIndexOfCurrentUIChild];
-//   } else {
-//     const nextNode = uiChild.children?.[currentNodeDepth];
-
-//     traverseDepth({
-//       originalNodes,
-//       childNodes: originalNodes.children,
-//       nodeAddressArray,
-//     });
-//   }
-//   // nodeAddressArray.shift();
-
-//   console.log({ arrayIndexOfCurrentUIChild });
-//   // const currentNodeDepth = parseInt(nodeAddressedPosition);
-
-//   // const hasReachedSelectedNode = nodeAddressArray.length === 1;
-
-//   // if(!hasReachedSelectedNode){
-
-//   // }
-
-//   // const last = childNodes[currentNodeDepth]
-// };
-/* #endregion */
-
-const getNodesBreakdown = ({
-  nodeAddress,
-  mainTemplate,
-}: {
-  nodeAddress: string;
-  mainTemplate: UIchild[];
-}) => {
-  const nodeAddressArray = nodeAddress.split(".");
-  // nodeAddressArray.shift();
-  const originalNodes = [...mainTemplate];
-
-  return { nodeAddressArray, originalNodes };
-};
-
-interface FindAndUpdateNode {
-  nodes: UIchild[];
-  originalNodes: UIchild[];
-  nodeAddressArray: string[];
-  updateMainTemplate: (mainTemplate: UIchild[]) => void;
-  updateToDo: any;
-}
-
-const findAndUpdateNode = ({
-  nodes,
-  originalNodes,
-  nodeAddressArray,
-  updateMainTemplate,
-  updateToDo,
-}: FindAndUpdateNode) => {
-  // const reducer = (accumulated: UIchild[], currentValue: UIchild) => previousValue + currentValue;
-
-  // // 1 + 2 + 3 + 4
-  // console.log(array1.reduce(reducer));
-
-  // nodeAddressArray.
-
-  nodes.forEach((uiChild, index) => {
-    const nodeAddressedPosition = nodeAddressArray[0];
-    const currentNodeDepth = parseInt(nodeAddressedPosition);
-
-    const hasReachedSelectedNode = nodeAddressArray.length === 1;
-
-    if (hasReachedSelectedNode && index === currentNodeDepth) {
-      console.log("Reached Selected Node:", uiChild.tagName);
-      if (uiChild?.props?.color) {
-        uiChild.props[updateToDo.key] = updateToDo.value; // do changes... Need to pass these in too
-        // ^ mutating the originalNodes, copied off mainTemplate
-        updateMainTemplate(originalNodes);
-      }
-      console.log({ originalNodes });
-    } else {
-      nodeAddressArray.shift();
-
-      const nextNodeAddressedPosition = nodeAddressArray[0];
-      const nectNodeDepth = parseInt(nextNodeAddressedPosition);
-
-      const nextNode = uiChild.children?.[nectNodeDepth];
-
-      if (nextNode) {
-        // ^takes first/current-item off the list,
-        // before looping again, because it accesses the first one every time
-
-        if (nodeAddressArray) {
-          findAndUpdateNode({
-            nodes: nextNode.children,
-            originalNodes,
-            nodeAddressArray,
-            updateMainTemplate,
-            updateToDo,
-          });
-        }
-      }
-    }
-  });
-};
 
 interface props {
   item: UIchild;
@@ -147,26 +10,30 @@ interface props {
 }
 
 export const TreeItemLabelBox: React.FC<props> = ({ item, nodeAddress }) => {
-  const mainTemplate = useTemplateStore((state) => state.mainTemplate);
-  const updateMainTemplate = useTemplateStore(
-    (state) => state.updateMainTemplate
-  );
+  // const mainTemplate = useTemplateStore((state) => state.mainTemplate);
+  // const updateMainTemplate = useTemplateStore(
+  //   (state) => state.updateMainTemplate
+  // );
 
+  const selectedNode = useTemplateStore((state) => state.selectedNode);
   const updateSelectedNode = useTemplateStore(
     (state) => state.updateSelectedNode
   );
 
-  const handleClick = () => {
-    sendNodeUpdate(nodeAddress, mainTemplate, updateMainTemplate, {
-      key: "color",
-      value: "purple",
-    });
+  const updateSelectedNodeAddress = useTemplateStore(
+    (state) => state.updateSelectedNodeAddress
+  );
+
+  const handleTreeItemClick = () => {
+    // opens InnerSidebar
+
+    //sendNodeUpdate({ nodeAddress, mainTemplate, updateMainTemplate, update });
     // ^ Fixed
 
-    // [] save selectedNode to store
+    // [x] save selectedNode to store
     updateSelectedNode(item); // UIChild
-
-    // [] open new sidebar in-reaction
+    updateSelectedNodeAddress(nodeAddress);
+    // [x] open new sidebar in-reaction
     // [] display selected node's prop(s)
     // [] save edits, on button click.
     // [] use rewrite of loopChildren()?
@@ -177,16 +44,20 @@ export const TreeItemLabelBox: React.FC<props> = ({ item, nodeAddress }) => {
   };
 
   return (
-    <Container onClick={handleClick}>
+    <TreeItem
+      onClick={handleTreeItemClick}
+      selected={selectedNode?.id === item.id}
+    >
       {/* // onclick make red */}
       {item.tagName}
-    </Container>
+    </TreeItem>
   );
 };
 
-const Container = styled.div`
+const TreeItem = styled.div<{ selected?: boolean }>`
   margin: 5px;
   padding: 10px;
-  background-color: white;
+  background-color: ${({ selected }) => (selected ? "#80a9e244" : "white")};
+  border: ${({ selected }) => (selected ? "1px solid black" : "none")};
   border-radius: 10px;
 `;
