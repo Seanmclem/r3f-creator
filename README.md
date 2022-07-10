@@ -1,6 +1,8 @@
 # React Three Fiber (r3f) Builder
 
-The goal of this project is to build a visual editor to simplify creating models and shapes for React Three Fiber. You would be able to use a visual editor to add primitives to your model component, and configure their props with a GUI. You could see changes previewed in real-time. Then, when you're ready to export, we will use the File system access API in chromium to save our files. Or maybe simple download fallbacks too.
+The goal of this project is to build a visual editor for building scenes for React Three Fiber. You can add ThreeJs primitives provided by r3f, or custom components loaded. Add them to your scene and configure their props with a GUI. 
+
+You can see changes previewed in real-time. When you're ready, you can export your scene to valid r3f code and into a react project to run your scene as you've made it.
 
 One day, I'd like it to be more of a Unity-like experience for R3F and the web.
 
