@@ -11,8 +11,3 @@ In the project directory, you can run:
 `yarn start` or `npm run start`
 
 ### To-doing
-
-- [x] Selected Sidebar components
-- [x] Modularize code for updating nodes to separate utils file
-- [x] Move actual trigger of node update to secondary-sidebar prop-listing
-- [ ] Make props manually editable, instead of just changing color onClick
