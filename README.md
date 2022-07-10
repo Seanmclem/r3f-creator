@@ -4,7 +4,7 @@ The goal of this project is to build a visual editor to simplify creating models
 
 One day, I'd like it to be more of a Unity-like experience for R3F and the web.
 
-Project is currently in infancy. Check `to-do.md` for basic status and updates. Like and subscribe :P
+Project is currently in infancy. Check `to-do.md` for basic status and updates. Like and subscribe 😝
 
 In the project directory, you can run:
 
