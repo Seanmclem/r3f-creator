@@ -2,10 +2,7 @@ import React, { useState } from "react";
 import { TextInput } from "ready-fields";
 
 //
-import { BabelFileResult, NodePath, transform } from "@babel/core";
-import tsPlugin from "@babel/plugin-syntax-typescript";
-import generate from "@babel/generator";
-import traverse from "@babel/traverse";
+import { NodePath } from "@babel/core"; // ???!!?
 import * as types from "@babel/types";
 import ReactJson from "react-json-view";
 import {
@@ -14,46 +11,16 @@ import {
   Spacer,
   ColumnsContainer,
   Column,
-} from "./AstTools";
-import * as astFunctions from "../functions/ast_functions";
-import { UIchild } from "../translators/TemplateToComponents";
+} from "./_OLD_AstTools";
 //
 import { basicCanvas1 } from "../templates/canvas-templates";
+import {
+  changeAstToCode,
+  stringCode_To_Ast,
+  renderChildren,
+  transformAST,
+} from "../functions/ast_functions";
 
-const changeCodetoAST = (code: string) => {
-  return transform(code, {
-    ast: true,
-    babelrc: false,
-    plugins: [
-      [
-        tsPlugin,
-        {
-          isTSX: true,
-          allExtensions: true,
-        },
-      ],
-    ],
-    filename: "form-file.tsx",
-  });
-};
-const changeAstToCode = (
-  newAST: any,
-  babelFileResult: BabelFileResult | null
-) => {
-  if (!babelFileResult?.code && babelFileResult?.code !== "") {
-    return undefined;
-  } else {
-    const backToCode = generate(
-      newAST,
-      {
-        sourceFileName: "example.tsx",
-        filename: "example.tsx",
-      },
-      babelFileResult.code
-    );
-    return backToCode;
-  }
-};
 const addImports = (path: NodePath<types.Program>) => {
   path.pushContainer(
     "body",
@@ -143,72 +110,6 @@ const addExport = (path: NodePath<types.Program>) => {
   );
 };
 
-const renderChildren: any = (children: UIchild[]) => {
-  if (!children?.length) {
-    return [];
-  }
-  return children.map((mainChild) => {
-    const TheComponent = mainChild.tagName as any;
-    const props = mainChild.props || [];
-
-    return mainChild.tagName === "Fragment"
-      ? types.jsxFragment(
-          types.jsxOpeningFragment(),
-          types.jsxClosingFragment(),
-          renderChildren(mainChild.children)
-        )
-      : types.jsxElement(
-          types.jsxOpeningElement(
-            types.jsxIdentifier(mainChild.tagName),
-            renderAttributes(mainChild.props)
-          ),
-          types.jsxClosingElement(types.jsxIdentifier(mainChild.tagName)),
-          renderChildren(mainChild.children)
-        );
-  });
-};
-
-const renderAttributes: any = (attributes: any) => {
-  if (!attributes) {
-    return [];
-  }
-
-  const attributesArray = Object.entries(attributes);
-
-  return attributesArray.map((attributePair) =>
-    types.jsxAttribute(
-      types.jsxIdentifier(attributePair[0]),
-      types.jsxExpressionContainer(
-        types.stringLiteral(JSON.stringify(attributePair[1]))
-      )
-    )
-  );
-};
-
-const transformAST = (
-  babelFileResult: BabelFileResult | null,
-  setBabelFileResult: any
-) => {
-  if (!babelFileResult?.ast) {
-    return undefined;
-  } else {
-    const ast = babelFileResult.ast;
-    traverse(ast, {
-      Program(path) {
-        // When the current node is the Program node
-        // addImports(path);
-        addExport(path);
-      },
-    });
-    setBabelFileResult(babelFileResult);
-    return ast;
-  }
-};
-const codeToAst = (code: string = "", setBabelFileResult?: any) => {
-  const babelFileResult = changeCodetoAST(code);
-  setBabelFileResult(babelFileResult);
-};
-
 const theString = `
 export const FormCreatorInner: React.FC<{}> = () => {
 
@@ -231,7 +132,7 @@ export const FormCreator: React.FC<{}> = () => {
       <TopBar>
         <button
           onClick={() => {
-            codeToAst(theString, setBabelFileResult);
+            stringCode_To_Ast(theString, setBabelFileResult);
           }}
         >
           {`Code To full AST`}
@@ -242,7 +143,7 @@ export const FormCreator: React.FC<{}> = () => {
       <TopBar>
         <button
           onClick={() => {
-            codeToAst("", setBabelFileResult);
+            stringCode_To_Ast("", setBabelFileResult);
           }}
         >
           {`Code To blank AST`}
@@ -250,7 +151,11 @@ export const FormCreator: React.FC<{}> = () => {
         <Spacer />
         <button
           onClick={() => {
-            const ast = transformAST(babelFileResult, setBabelFileResult);
+            const ast = transformAST(
+              babelFileResult,
+              setBabelFileResult,
+              addExport
+            );
             setAstResult(ast);
           }}
         >

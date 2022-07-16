@@ -122,6 +122,9 @@ const addExport = (path: NodePath<types.Program>) => {
   );
 };
 
+// comst new Line
+// [types.jsxText("\n            AST test poop \n")]
+
 const addImports = (path: NodePath<types.Program>) => {
   path.pushContainer(
     "body",

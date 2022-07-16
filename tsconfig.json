@@ -17,5 +17,6 @@
     "jsx": "react-jsx"
   },
   "include": ["src"],
+  "exclude": ["src/raw-types/*.ts, src/raw-types/*.tsx"],
   "typeRoots": ["./typings", "./node_modules/@types/"]
 }

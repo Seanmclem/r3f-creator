@@ -1,6 +1,7 @@
 import React from "react";
-import { BrowserRouter as Router, Switch, Route, Link } from "react-router-dom";
-import { FormCreator } from "./pages/FormCreator";
+import { BrowserRouter as Router, Switch, Route } from "react-router-dom";
+import { Exporter } from "./pages/Exporter";
+// import { FormCreator } from "./pages/FormCreator";
 import { MainUI } from "./pages/MainUI";
 
 const App = () => {
@@ -19,7 +20,7 @@ const App = () => {
           <MainUI />
         </Route>
         <Route path="/ast1" exact>
-          <FormCreator />
+          <Exporter />
         </Route>
       </Switch>
     </Router>
