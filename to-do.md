@@ -18,9 +18,13 @@
 - [x] Make props manually editable, instead of just changing color onClick
 - [x] Add basic menus to update props
 - [ ] Add/Refine, convert to AST, and export...
+- [ ] Next, Revisit scene-exporting. Refine, cleanup, make univeral to more prop types.
+  - [ ] File names, project shell wrapper, etc
 - [ ] Add ability/menu to add more props to a primitive
 - [ ] Add menu to Add more primitives to the tree
-- [ ] Add ability to parse TS files, using FS Access API and AST lib, into json format that JS can more easily understand.
-- [ ] Add component templates, for example a pre-made box, or a slope/ramp. That can be dropped in and configured similar to individual primitives. Using dynamic, lazy imports
+- [ ] Non-primitive components
+  - [ ] Test a simple box-based dynamic-lazy-import
+  - [ ] Add ability to parse TS files, using FS Access API and AST lib, into json format that JS can more easily understand.
+  - [ ] Add component templates, for example a pre-made box, or a slope/ramp. That can be dropped in and configured similar to individual primitives. Using dynamic, lazy imports
 - [ ] Slope/ramp
 - [ ] Add/edit cameras and canvases...
