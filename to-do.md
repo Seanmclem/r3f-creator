@@ -18,6 +18,8 @@
 - [x] Make props manually editable, instead of just changing color onClick
 - [x] Add basic menus to update props
 - [ ] Add/Refine, convert to AST, and export...
+  - [ ] Test exporting to string, then file, from existing "basicCanvas1" import
+  - [ ] Get "basicCanvas1" from global stores json object
 - [ ] Next, Revisit scene-exporting. Refine, cleanup, make univeral to more prop types.
   - [ ] File names, project shell wrapper, etc
 - [ ] Add ability/menu to add more props to a primitive

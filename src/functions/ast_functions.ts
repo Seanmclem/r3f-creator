@@ -35,9 +35,10 @@ export const createStringUseState = ({
 
 export const renderChildren: any = (children: UIchild[]) => {
   if (!children?.length) {
-    return [];
+    return [types.jsxText("\n")];
   }
-  return children.map((mainChild) => {
+
+  const result = children.map((mainChild, idx) => {
     const TheComponent = mainChild.tagName as any;
     const props = mainChild.props || [];
 
@@ -45,7 +46,7 @@ export const renderChildren: any = (children: UIchild[]) => {
       ? types.jsxFragment(
           types.jsxOpeningFragment(),
           types.jsxClosingFragment(),
-          renderChildren(mainChild.children)
+          [types.jsxText("\n"), ...renderChildren(mainChild.children)]
         )
       : types.jsxElement(
           types.jsxOpeningElement(
@@ -56,29 +57,48 @@ export const renderChildren: any = (children: UIchild[]) => {
           renderChildren(mainChild.children)
         );
   });
+  //   console.log(children);
+  return [...result, types.jsxText("\n")];
 };
 
-export const renderAttributes: any = (attributes: any) => {
-  if (!attributes) {
+export const formatPropValue = (value: unknown) => {
+  if (typeof value === "string") {
+    return types.stringLiteral(JSON.stringify(value));
+  } else if (Array.isArray(value)) {
+    return types.arrayExpression(
+      value.map((val) =>
+        typeof val === "string"
+          ? types.stringLiteral(val)
+          : types.numericLiteral(val)
+      )
+    );
+  }
+};
+
+export const renderAttributes: any = (props: any) => {
+  if (!props) {
     return [];
   }
 
-  const attributesArray = Object.entries(attributes);
+  const propsArray = Object.entries(props);
 
-  return attributesArray.map((attributePair) =>
-    types.jsxAttribute(
-      types.jsxIdentifier(attributePair[0]),
-      types.jsxExpressionContainer(
-        types.stringLiteral(JSON.stringify(attributePair[1]))
-      )
-    )
-  );
+  return propsArray
+    .filter((PropsKeyValue) => PropsKeyValue[0] && PropsKeyValue[1])
+    .map((PropsKeyValue) => {
+      return types.jsxAttribute(
+        types.jsxIdentifier(PropsKeyValue[0]),
+        types.jsxExpressionContainer(
+          // // here
+          formatPropValue(PropsKeyValue[1])!
+        )
+      );
+    });
 };
 
-export const transformAST = (
-  babelFileResult: BabelFileResult | undefined,
-  setBabelFileResult: any,
-  addExport: (...args: any[]) => void
+export const addExportBody_to_AST = (
+  babelFileResult: BabelFileResult | null,
+  addExport: (...args: any[]) => void,
+  parentComponentName?: string
 ) => {
   if (!babelFileResult?.ast) {
     return undefined;
@@ -86,24 +106,23 @@ export const transformAST = (
     const ast = babelFileResult.ast;
     traverse(ast, {
       Program(path) {
-        // When the current node is the Program node
         // addImports(path);
-        addExport(path);
+        addExport(path, parentComponentName);
       },
     });
-    setBabelFileResult(babelFileResult);
     return ast;
   }
 };
 
-export const stringCode_To_Ast = (
-  code: string = "",
-  setBabelFileResult?: any
-) => {
-  const babelFileResult = changeCodetoAST(code);
-  setBabelFileResult(babelFileResult);
-};
-const changeCodetoAST = (code: string) => {
+// export const stringCode_To_Ast = (
+//   code: string = "",
+//   setBabelFileResult?: any
+// ) => {
+//   const babelFileResult = changeCodetoAST(code);
+//   setBabelFileResult(babelFileResult);
+// };
+
+export const changeCodetoAST = (code: string) => {
   return transform(code, {
     ast: true,
     babelrc: false,
@@ -121,10 +140,10 @@ const changeCodetoAST = (code: string) => {
 };
 
 export const changeAstToCode = (
-  newAST: any,
-  babelFileResult: BabelFileResult | undefined
+  newAST: types.File | undefined,
+  babelFileResult: BabelFileResult | null
 ) => {
-  if (!babelFileResult?.code && babelFileResult?.code !== "") {
+  if ((!babelFileResult?.code && babelFileResult?.code !== "") || !newAST) {
     return undefined;
   } else {
     const backToCode = generate(

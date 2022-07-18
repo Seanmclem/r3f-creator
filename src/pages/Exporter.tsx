@@ -15,9 +15,10 @@ import {
 import { basicCanvas1 } from "../templates/canvas-templates";
 import {
   changeAstToCode,
-  stringCode_To_Ast,
+  // stringCode_To_Ast,
   renderChildren,
-  transformAST,
+  addExportBody_to_AST,
+  changeCodetoAST,
 } from "../functions/ast_functions";
 
 const addImports = (path: NodePath<types.Program>) => {
@@ -49,7 +50,10 @@ const addImports = (path: NodePath<types.Program>) => {
   );
 };
 
-const addExport = (path: NodePath<types.Program>) => {
+const addExport = (
+  path: NodePath<types.Program>,
+  parentComponentName?: string
+) => {
   const commentDebugger = types.debuggerStatement();
   commentDebugger.leadingComments = [
     {
@@ -73,19 +77,22 @@ const addExport = (path: NodePath<types.Program>) => {
         types.variableDeclaration("const", [
           types.variableDeclarator(
             // typeAnnotation on identifier -> https://github.com/babel/babel/issues/12895
-            Object.assign(types.identifier("FormCreatorInner"), {
-              typeAnnotation: types.typeAnnotation(
-                types.genericTypeAnnotation(
-                  types.qualifiedTypeIdentifier(
-                    types.identifier("FC"),
-                    types.identifier("React")
-                  ),
-                  types.typeParameterInstantiation([
-                    types.objectTypeAnnotation([]),
-                  ])
-                )
-              ),
-            }),
+            Object.assign(
+              types.identifier(parentComponentName || "FormCreatorInner"),
+              {
+                typeAnnotation: types.typeAnnotation(
+                  types.genericTypeAnnotation(
+                    types.qualifiedTypeIdentifier(
+                      types.identifier("FC"),
+                      types.identifier("React")
+                    ),
+                    types.typeParameterInstantiation([
+                      types.objectTypeAnnotation([]),
+                    ])
+                  )
+                ),
+              }
+            ),
             types.arrowFunctionExpression(
               [
                 // types.objectPattern([])
@@ -94,6 +101,7 @@ const addExport = (path: NodePath<types.Program>) => {
               types.blockStatement([
                 types.returnStatement(
                   types.jsxFragment(
+                    // double fragment
                     types.jsxOpeningFragment(),
                     types.jsxClosingFragment(),
                     renderChildren(basicCanvas1)
@@ -122,55 +130,65 @@ export const FormCreatorInner: React.FC<{}> = () => {
     )
 }`;
 export const Exporter: React.FC<{}> = () => {
-  const [babelFileResult, setBabelFileResult] = useState<
-    BabelFileResult | undefined
-  >();
+  /** BabelFileResult contains the dot-ast object */
+  const [babelFileResult, setBabelFileResult] =
+    useState<BabelFileResult | null>(null);
   const [astResult, setAstResult] = useState<types.File | undefined>();
   const [finalCode, setFinalCode] = useState<string>("");
+
+  const handleJsonTemplate_to_AST = () => {
+    /** BabelFileResult contains the dot-ast object */
+    const newBabelFileResult = changeCodetoAST("");
+    const newAST = addExportBody_to_AST(
+      newBabelFileResult,
+      addExport, //addExport populates the json template, into the AST, before returning it
+      "CustomComponent"
+    );
+
+    console.log({ newAST });
+
+    setBabelFileResult(newBabelFileResult); // do I need this
+    setAstResult(newAST);
+  };
+
+  const handleAst_to_codeString = () => {
+    const newFinalCode = changeAstToCode(astResult, babelFileResult);
+    setFinalCode(newFinalCode?.code || ""); // dot-code is the code-string-result
+    console.log({ code: newFinalCode?.code || "poo" });
+  };
+
+  const doAll = () => {
+    const newBabelFileResult = changeCodetoAST("");
+    const newAST = addExportBody_to_AST(
+      newBabelFileResult,
+      addExport, //addExport populates the json template, into the AST, before returning it
+      "CustomComponent"
+    );
+
+    console.log({ newAST });
+
+    setBabelFileResult(newBabelFileResult); // do I need this
+    setAstResult(newAST);
+
+    const newFinalCode = changeAstToCode(newAST, newBabelFileResult);
+    setFinalCode(newFinalCode?.code || "");
+  };
 
   return (
     <ASTtoolsContainer>
       <TopBar>
-        <button
-          onClick={() => {
-            stringCode_To_Ast(theString, setBabelFileResult);
-          }}
-        >
-          {`Code To full AST`}
+        <button onClick={handleJsonTemplate_to_AST}>
+          {`JSON Template to AST`}
         </button>
         <Spacer />
-      </TopBar>
 
-      <TopBar>
-        <button
-          onClick={() => {
-            stringCode_To_Ast("", setBabelFileResult);
-          }}
-        >
-          {`Code To blank AST`}
+        <button onClick={handleAst_to_codeString}>
+          {`AST to Code-string`}
         </button>
         <Spacer />
-        <button
-          onClick={() => {
-            const ast = transformAST(
-              babelFileResult,
-              setBabelFileResult,
-              addExport
-            );
-            setAstResult(ast);
-          }}
-        >
-          {`Add Body to AST`}
-        </button>
+
+        <button onClick={doAll}>{`Export To File`}</button>
         <Spacer />
-        <button
-          onClick={() => {
-            const finalCode = changeAstToCode(astResult, babelFileResult);
-            setFinalCode(finalCode?.code || ""); // dot-code is a string
-          }}
-        >
-          {`AST back to Code`}
-        </button>
       </TopBar>
       <ColumnsContainer>
         <Column>
