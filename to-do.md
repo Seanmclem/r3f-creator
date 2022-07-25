@@ -17,12 +17,15 @@
 - [x] Move actual trigger of node update to secondary-sidebar prop-listing
 - [x] Make props manually editable, instead of just changing color onClick
 - [x] Add basic menus to update props
-- [ ] Add/Refine, convert to AST, and export...
-  - [ ] Test exporting to string, then file, from existing "basicCanvas1" import
-  - [ ] Get "basicCanvas1" from global stores json object
+- [x] Add/Refine, convert to AST, and export...
+  - [x] Test exporting to string, then file, from existing "basicCanvas1" import
+  - [x] imporve import-adding
+  - [x] Get "basicCanvas1" from global stores json object
+    - [ ] Currently populating on first load, once Exported is embedded in modal or something, just use pre-populated mainTemplate
 - [ ] Next, Revisit scene-exporting. Refine, cleanup, make univeral to more prop types.
   - [ ] File names, project shell wrapper, etc
 - [ ] Add ability/menu to add more props to a primitive
+  - [ ] Big step, use TS to parse Types in frontend, to help define UI for adding primatives
 - [ ] Add menu to Add more primitives to the tree
 - [ ] Non-primitive components
   - [ ] Test a simple box-based dynamic-lazy-import

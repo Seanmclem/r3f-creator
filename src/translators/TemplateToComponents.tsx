@@ -5,6 +5,10 @@ export interface props {
   template: UIchild[];
 }
 
+// interface PropThing {
+
+// }
+
 export interface UIchild {
   id: string;
   tagName: string;

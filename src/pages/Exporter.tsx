@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 
 //
 import { BabelFileResult, NodePath } from "@babel/core"; // ???!!?
@@ -19,41 +19,27 @@ import {
   renderChildren,
   addExportBody_to_AST,
   changeCodetoAST,
+  addImports_ToBody,
+  Imported,
 } from "../functions/ast_functions";
+import { saveFile } from "../functions/file-system-utils";
+import { useTemplateStore } from "../stores/templateStore";
+import { UIchild } from "../translators/TemplateToComponents";
 
 const addImports = (path: NodePath<types.Program>) => {
-  path.pushContainer(
-    "body",
-    types.importDeclaration(
-      [
-        types.importDefaultSpecifier(types.identifier("React")),
-        types.importSpecifier(
-          types.identifier("useState"),
-          types.identifier("useState")
-        ),
-      ],
-      types.stringLiteral("react")
-    )
-  );
-
-  path.pushContainer(
-    "body",
-    types.importDeclaration(
-      [
-        types.importSpecifier(
-          types.identifier("TextInput"),
-          types.identifier("TextInput")
-        ),
-      ],
-      types.stringLiteral("ready-fields")
-    )
-  );
+  const imported: Imported = { default: "React", from: "react" };
+  addImports_ToBody(path, [imported]);
 };
 
-const addExport = (
-  path: NodePath<types.Program>,
-  parentComponentName?: string
-) => {
+const addExport = ({
+  path,
+  mainTemplate,
+  parentComponentName,
+}: {
+  path: NodePath<types.Program>;
+  mainTemplate: UIchild[];
+  parentComponentName?: string;
+}) => {
   const commentDebugger = types.debuggerStatement();
   commentDebugger.leadingComments = [
     {
@@ -104,7 +90,7 @@ const addExport = (
                     // double fragment
                     types.jsxOpeningFragment(),
                     types.jsxClosingFragment(),
-                    renderChildren(basicCanvas1)
+                    renderChildren(mainTemplate) // not equiv to mainTemplate
                   )
                 ),
               ])
@@ -115,6 +101,9 @@ const addExport = (
     ]
     /// END Simple function declaration/body
   );
+
+  console.log({ basicCanvas1 });
+  console.log({ mainTemplate });
 };
 
 const theString = `
@@ -136,14 +125,23 @@ export const Exporter: React.FC<{}> = () => {
   const [astResult, setAstResult] = useState<types.File | undefined>();
   const [finalCode, setFinalCode] = useState<string>("");
 
+  const mainTemplate = useTemplateStore((state) => state.mainTemplate);
+  const updateMainTemplate = useTemplateStore(
+    (state) => state.updateMainTemplate
+  );
+  useEffect(() => {
+    updateMainTemplate(basicCanvas1); // added on first load ... Needs to not do this, after Exporter is implemented as modal
+  }, []);
+
   const handleJsonTemplate_to_AST = () => {
     /** BabelFileResult contains the dot-ast object */
     const newBabelFileResult = changeCodetoAST("");
-    const newAST = addExportBody_to_AST(
-      newBabelFileResult,
-      addExport, //addExport populates the json template, into the AST, before returning it
-      "CustomComponent"
-    );
+    const newAST = addExportBody_to_AST({
+      babelFileResult: newBabelFileResult,
+      addImports,
+      addExport,
+      mainTemplate,
+    });
 
     console.log({ newAST });
 
@@ -159,11 +157,12 @@ export const Exporter: React.FC<{}> = () => {
 
   const doAll = () => {
     const newBabelFileResult = changeCodetoAST("");
-    const newAST = addExportBody_to_AST(
-      newBabelFileResult,
-      addExport, //addExport populates the json template, into the AST, before returning it
-      "CustomComponent"
-    );
+    const newAST = addExportBody_to_AST({
+      babelFileResult: newBabelFileResult,
+      addImports,
+      addExport,
+      mainTemplate,
+    });
 
     console.log({ newAST });
 
@@ -172,6 +171,22 @@ export const Exporter: React.FC<{}> = () => {
 
     const newFinalCode = changeAstToCode(newAST, newBabelFileResult);
     setFinalCode(newFinalCode?.code || "");
+  };
+
+  const justExport = () => {
+    const newBabelFileResult = changeCodetoAST("");
+    const newAST = addExportBody_to_AST({
+      babelFileResult: newBabelFileResult,
+      addImports,
+      addExport,
+      mainTemplate,
+    });
+    const newFinalCode = changeAstToCode(newAST, newBabelFileResult);
+
+    newFinalCode?.code && saveFile(newFinalCode.code);
+
+    // export to new file handle,
+    // or later make a directory and just drop it there
   };
 
   return (
@@ -187,7 +202,10 @@ export const Exporter: React.FC<{}> = () => {
         </button>
         <Spacer />
 
-        <button onClick={doAll}>{`Export To File`}</button>
+        <button onClick={doAll}>{`Finish Code-gen`}</button>
+        <Spacer />
+
+        <button onClick={justExport}>{`Actually Export To File`}</button>
         <Spacer />
       </TopBar>
       <ColumnsContainer>

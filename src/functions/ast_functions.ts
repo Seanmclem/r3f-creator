@@ -86,28 +86,117 @@ export const renderAttributes: any = (props: any) => {
     .filter((PropsKeyValue) => PropsKeyValue[0] && PropsKeyValue[1])
     .map((PropsKeyValue) => {
       return types.jsxAttribute(
+        // render prop by name
         types.jsxIdentifier(PropsKeyValue[0]),
         types.jsxExpressionContainer(
-          // // here
+          // format prop values
           formatPropValue(PropsKeyValue[1])!
         )
       );
     });
 };
 
-export const addExportBody_to_AST = (
-  babelFileResult: BabelFileResult | null,
-  addExport: (...args: any[]) => void,
-  parentComponentName?: string
+export interface NamedImport {
+  name: string;
+  nameOverride?: string;
+}
+
+export interface Imported {
+  default?: string;
+  namedImports?: NamedImport[];
+  from: string;
+}
+
+export const addImports_ToBody = (
+  path: NodePath<types.Program>,
+  imports: Imported[]
 ) => {
+  imports.forEach((imported) => {
+    const arrayToAdd = [];
+
+    if (imported.default) {
+      arrayToAdd.push(
+        types.importDefaultSpecifier(types.identifier(imported.default))
+      );
+    }
+    if (imported.namedImports?.length) {
+      imported.namedImports.forEach((namedImport) => {
+        arrayToAdd.push(
+          types.importSpecifier(
+            types.identifier(namedImport.name),
+            types.identifier(namedImport.nameOverride || namedImport.name)
+          )
+        );
+      });
+    }
+
+    path.pushContainer(
+      "body",
+      types.importDeclaration(
+        [...arrayToAdd],
+        types.stringLiteral(imported.from)
+      )
+    );
+  });
+
+  // path.pushContainer(
+  //   "body",
+  //   types.importDeclaration(
+  //     [
+  //       types.importDefaultSpecifier(types.identifier("React")),
+  //       types.importSpecifier(
+  //         types.identifier("useState"),
+  //         types.identifier("useState")
+  //       ),
+  //     ],
+  //     types.stringLiteral("react")
+  //   )
+  // );
+
+  // path.pushContainer(
+  //   "body",
+  //   types.importDeclaration(
+  //     [
+  //       types.importSpecifier(
+  //         types.identifier("TextInput"),
+  //         types.identifier("TextInput")
+  //       ),
+  //     ],
+  //     types.stringLiteral("ready-fields")
+  //   )
+  // );
+};
+
+/** addExport: populates the json template, into the AST, before returning it */
+export const addExportBody_to_AST = ({
+  babelFileResult,
+  addImports,
+  addExport,
+  parentComponentName = "CustomComponent",
+  mainTemplate,
+}: {
+  babelFileResult: BabelFileResult | null;
+  addImports: (path: NodePath<types.Program>) => void;
+  addExport: ({
+    path,
+    mainTemplate,
+    parentComponentName,
+  }: {
+    path: NodePath<types.Program>;
+    mainTemplate: UIchild[];
+    parentComponentName?: string | undefined;
+  }) => void;
+  parentComponentName?: string;
+  mainTemplate: UIchild[];
+}) => {
   if (!babelFileResult?.ast) {
     return undefined;
   } else {
     const ast = babelFileResult.ast;
     traverse(ast, {
       Program(path) {
-        // addImports(path);
-        addExport(path, parentComponentName);
+        addImports(path);
+        addExport({ path, parentComponentName, mainTemplate });
       },
     });
     return ast;
