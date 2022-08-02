@@ -60,4 +60,5 @@ const TreeItem = styled.div<{ selected?: boolean }>`
   background-color: ${({ selected }) => (selected ? "#80a9e244" : "white")};
   border: ${({ selected }) => (selected ? "1px solid black" : "none")};
   border-radius: 10px;
+  cursor: pointer;
 `;

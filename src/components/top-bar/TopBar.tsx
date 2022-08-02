@@ -61,7 +61,7 @@ const Container = styled.div`
   display: flex;
   height: 35px;
   width: 100%;
-  background-color: red;
+  background-color: gray;
 `;
 
 const Button = styled.button`
