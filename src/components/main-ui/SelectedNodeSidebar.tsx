@@ -16,10 +16,13 @@ interface KeyValueProp {
 interface props {}
 
 export const SelectedNodeSidebar: React.FC<props> = () => {
-  // const mainTemplate = useTemplateStore((state) => state.mainTemplate);
+  const mainTemplate = useTemplateStore((state) => state.mainTemplate);
   // const updateMainTemplate = useTemplateStore(
   //   (state) => state.updateMainTemplate
   // );
+  useEffect(() => {
+    console.log({ mainTemplate });
+  }, [mainTemplate]);
 
   const selectedNode = useTemplateStore((state) => state.selectedNode);
 

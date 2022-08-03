@@ -23,7 +23,8 @@
   - [x] Get "basicCanvas1" from global stores json object
     - [x] Currently populating on first load, once Exported is embedded in modal or something, just use pre-populated mainTemplate
 - [x] Next, Revisit scene-exporting. Refine, cleanup, make univeral to more prop types.
-- [ ] Working.. Editing Array-Prop values
+- [x] Success editing Array-Prop values
+- [x] Simplify and fix/improve deep-nested multi dim array prop editing.. "DeepSplice"
 - [ ] Add ability/menu to add more props to a primitive
   - [ ] Big step, use TS to parse Types in frontend, to help define UI for adding primatives
 - [ ] Add menu to Add more primitives to the tree

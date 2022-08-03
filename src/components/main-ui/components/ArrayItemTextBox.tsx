@@ -42,7 +42,7 @@ export const ArrayItemTextBox: React.FC<props> = ({
       {label ? <label htmlFor={name}>{label}</label> : null}
       <input
         name={name}
-        type={"text"}
+        type={"number"}
         onChange={handleChange}
         value={textValue}
       />

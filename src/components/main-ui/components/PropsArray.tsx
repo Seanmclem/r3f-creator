@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import styled from "styled-components";
 import { useSendNodeUpdate } from "../../../hooks/useSendNodeUpdate";
 import { ArrayItemTextBox } from "./ArrayItemTextBox";
@@ -10,6 +10,7 @@ interface props {
 
 export const PropsArray: React.FC<props> = ({ propKey, propValue }) => {
   console.log({ propKey, propValue });
+  const [hasMounted, setHasMounted] = useState(false);
   const handleUpdate = useSendNodeUpdate();
 
   const [arrayOfValues, setArrayOfValues] = useState(propValue);
@@ -20,8 +21,31 @@ export const PropsArray: React.FC<props> = ({ propKey, propValue }) => {
     setArrayOfValues(newArray);
   };
 
+  const handleSaveClick = () => {
+    console.log("PropsArray -> handleSaveClick -> ", {
+      key: propKey,
+      value: arrayOfValues.map((val) => parseInt(val as string)),
+      orig: propValue,
+    });
+    handleUpdate({
+      key: propKey,
+      value: arrayOfValues.map((val) => parseInt(val as string)),
+    });
+  };
+
+  useEffect(() => {
+    if (!hasMounted) {
+      setHasMounted(true);
+    }
+    if (hasMounted) {
+      console.log("EFFECT");
+      handleSaveClick();
+    }
+  }, [hasMounted, arrayOfValues]);
+
   return (
     <Container>
+      <label>{propKey}</label>
       {arrayOfValues.map((arrayItem, idx) => (
         <Container key={idx}>
           <ArrayItemTextBox
@@ -35,11 +59,7 @@ export const PropsArray: React.FC<props> = ({ propKey, propValue }) => {
         </Container>
       ))}
       {/* <Spacer height={20} /> */}
-      <button
-        onClick={() => handleUpdate({ key: propKey, value: arrayOfValues })}
-      >
-        Save
-      </button>
+      <button onClick={handleSaveClick}>Save</button>
     </Container>
   );
 };

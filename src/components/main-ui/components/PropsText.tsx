@@ -15,6 +15,13 @@ export const PropsText: React.FC<props> = ({ propKey, propValue }) => {
 
   const handlePrepUpdate = () => {
     const update: KeyValueProp = { key: propKey, value: textValue };
+
+    console.log("PropsText -> handlePrepUpdate -> ", {
+      key: propKey,
+      value: textValue,
+      orig: propValue,
+    });
+
     handleUpdate(update);
   };
 
