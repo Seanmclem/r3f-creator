@@ -1,6 +1,10 @@
 import React, { useEffect, useState } from "react";
 import styled from "styled-components";
+import { whatAreTheseTYPES } from "../../../functions/type-utils";
 import { useSendNodeUpdate } from "../../../hooks/useSendNodeUpdate";
+import { Space } from "../../../pages/_OLD_AstTools";
+import { useTemplateStore } from "../../../stores/templateStore";
+import { Spacer } from "../../Spacer";
 import { ArrayItemTextBox } from "./ArrayItemTextBox";
 
 interface props {
@@ -9,11 +13,16 @@ interface props {
 }
 
 export const PropsArray: React.FC<props> = ({ propKey, propValue }) => {
-  console.log({ propKey, propValue });
+  console.log("uno", { propKey, propValue });
+  const selectedNode = useTemplateStore((state) => state.selectedNode);
   const [hasMounted, setHasMounted] = useState(false);
-  const handleUpdate = useSendNodeUpdate();
+
+  const types = whatAreTheseTYPES(selectedNode!.tagName);
+  const [isArgs, setIsArgs] = useState(propKey === "args");
+  const propType = types[propKey];
 
   const [arrayOfValues, setArrayOfValues] = useState(propValue);
+  const handleUpdate = useSendNodeUpdate();
 
   const updateArray = (val: string, idx: number) => {
     const newArray = [...arrayOfValues];
@@ -24,7 +33,7 @@ export const PropsArray: React.FC<props> = ({ propKey, propValue }) => {
   const handleSaveClick = () => {
     console.log("PropsArray -> handleSaveClick -> ", {
       key: propKey,
-      value: arrayOfValues.map((val) => parseInt(val as string)),
+      value: arrayOfValues.map((val) => parseInt(val as string)), // PARSEiNT
       orig: propValue,
     });
     handleUpdate({
@@ -48,18 +57,21 @@ export const PropsArray: React.FC<props> = ({ propKey, propValue }) => {
       <label>{propKey}</label>
       {arrayOfValues.map((arrayItem, idx) => (
         <Container key={idx}>
+          <Spacer height={10} />
           <ArrayItemTextBox
             originalItem={propValue[idx]}
             arrayItemIdx={idx}
             arrayItemValue={arrayItem}
             name={`${propKey}-${idx}`}
             updateArray={updateArray}
-            label={`item-${idx}`}
+            // label={`item-${idx}`}
+            propKeyValue={{ key: propKey, value: propValue }}
+            propType={propType}
           />
         </Container>
       ))}
       {/* <Spacer height={20} /> */}
-      <button onClick={handleSaveClick}>Save</button>
+      {/* <button onClick={handleSaveClick}>Save</button> */}
     </Container>
   );
 };

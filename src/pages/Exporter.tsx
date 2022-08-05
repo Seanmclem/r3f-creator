@@ -7,7 +7,7 @@ import ReactJson from "react-json-view";
 import {
   ASTtoolsContainer,
   TopBar,
-  Spacer,
+  Space,
   ColumnsContainer,
   Column,
 } from "./_OLD_AstTools";
@@ -195,18 +195,18 @@ export const Exporter: React.FC<{}> = () => {
         <button onClick={handleJsonTemplate_to_AST}>
           {`JSON Template to AST`}
         </button>
-        <Spacer />
+        <Space />
 
         <button onClick={handleAst_to_codeString}>
           {`AST to Code-string`}
         </button>
-        <Spacer />
+        <Space />
 
         <button onClick={doAll}>{`Finish Code-gen`}</button>
-        <Spacer />
+        <Space />
 
         <button onClick={justExport}>{`Actually Export To File`}</button>
-        <Spacer />
+        <Space />
       </TopBar>
       <ColumnsContainer>
         <Column>

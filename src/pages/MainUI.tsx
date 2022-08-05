@@ -1,14 +1,7 @@
 import { useWindowSize } from "@react-hook/window-size";
 import styled from "styled-components";
 
-import {
-  Canvas,
-  extend,
-  ReactThreeFiber,
-  useFrame,
-  useThree,
-  // Vector3,
-} from "@react-three/fiber";
+import { Canvas } from "@react-three/fiber";
 import { CameraControls } from "../components/CameraControls1";
 import { Sidebar } from "../components/main-ui/Sidebar";
 

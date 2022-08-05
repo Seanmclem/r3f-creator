@@ -4,9 +4,12 @@ import { Spacer } from "../Spacer";
 import { useTemplateStore } from "../../stores/templateStore";
 import { StandardContainer } from "../styled-components";
 import { sendNodeUpdate } from "../../functions/editor-tree-functions";
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { PropEditingSwitch } from "./components/PropEditingSwitch";
 import { useSendNodeUpdate } from "../../hooks/useSendNodeUpdate";
+import { whatAreTheseTYPES } from "../../functions/type-utils";
+import { useElementBoundingRect } from "../../hooks/useElementBoundingRect";
+import { useWindowSizeStore } from "../../stores/WindowSizeStore";
 
 interface KeyValueProp {
   key: string;
@@ -16,15 +19,10 @@ interface KeyValueProp {
 interface props {}
 
 export const SelectedNodeSidebar: React.FC<props> = () => {
-  const mainTemplate = useTemplateStore((state) => state.mainTemplate);
-  // const updateMainTemplate = useTemplateStore(
-  //   (state) => state.updateMainTemplate
-  // );
-  useEffect(() => {
-    console.log({ mainTemplate });
-  }, [mainTemplate]);
-
+  const ref = useRef<HTMLDivElement | null>(null);
   const selectedNode = useTemplateStore((state) => state.selectedNode);
+
+  // useElementBoundingRect(ref, selectedNode, "SECONDARY");
 
   const selectedNodeAddress = useTemplateStore(
     (state) => state.selectedNodeAddress
@@ -33,22 +31,13 @@ export const SelectedNodeSidebar: React.FC<props> = () => {
   if (!selectedNode || !selectedNodeAddress) {
     return null;
   }
-  //   const update: KeyValueProp = {
-  //     // there's code in the loop to only update color...
-  //     key: "color",
-  //     value: "purple",
-  //   };
-  // const handleUpdate = (update: KeyValueProp) => {
-  //   sendNodeUpdate({
-  //     nodeAddress: selectedNodeAddress,
-  //     mainTemplate,
-  //     updateMainTemplate,
-  //     update,
-  //   });
-  // };
+
+  console.log("here");
+  const poop = whatAreTheseTYPES(selectedNode.tagName);
+  console.log({ poop });
 
   return (
-    <SidebarContainer>
+    <SidebarContainer ref={ref}>
       <Spacer height={20} />
       <StandardContainer>
         <div>{selectedNode.tagName}</div>
@@ -75,7 +64,10 @@ export const SelectedNodeSidebar: React.FC<props> = () => {
 };
 
 const SidebarContainer = styled.div`
-  width: 300px;
+  /* width: 300px; */
+  min-width: 300px;
+  width: auto;
+  padding: 0 15px;
   /* height: 100%; */
   background-color: lightgray;
   border-left: 2px solid #80a9e299;

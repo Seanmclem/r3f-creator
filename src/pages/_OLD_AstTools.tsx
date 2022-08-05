@@ -51,7 +51,7 @@ export const Column = styled.div`
   overflow-x: auto;
 `;
 
-export const Spacer = styled.div`
+export const Space = styled.div`
   height: 100%;
   width: 20px;
 `;
@@ -202,7 +202,7 @@ export const AstTools: React.FC<{}> = () => {
         >
           {`Code -> AST -> Code`}
         </button>
-        <Spacer />
+        <Space />
 
         <button
           id="code-to-ast"
@@ -213,7 +213,7 @@ export const AstTools: React.FC<{}> = () => {
         >
           {`Code -> AST`}
         </button>
-        <Spacer />
+        <Space />
 
         <button
           onClick={() => {
@@ -224,7 +224,7 @@ export const AstTools: React.FC<{}> = () => {
         >
           {`Do Transform`}
         </button>
-        <Spacer />
+        <Space />
 
         <button
           onClick={() => {
