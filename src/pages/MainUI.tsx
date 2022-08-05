@@ -43,6 +43,13 @@ export const MainUI: React.VFC<{}> = () => {
           <directionalLight position={[10, 15, 10]} color={"red"} />
           <gridHelper args={[100, 25]} />
 
+          {/* <>
+            <mesh>
+              <boxGeometry args={[5, 5, 5]} />
+              <meshBasicMaterial color={"pink"} />
+            </mesh>
+          </> */}
+
           <TemplateToComponents template={mainTemplate} />
         </Canvas>
       </MainUiContainer>

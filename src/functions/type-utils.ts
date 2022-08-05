@@ -9,8 +9,6 @@
 //   }
 // };
 
-import { Mesh } from "three";
-
 export const IBoxGeometry = {
   // Not really an Interface
   args: [
@@ -66,13 +64,41 @@ export const IMeshBasicMaterial = {
 };
 
 // Mesh
-// position?: Vector3;
-// up?: Vector3;
-// scale?: Vector3;
-// rotation?: Euler;
-// matrix?: Matrix4;
-// quaternion?: Quaternion;
+export const IMesh = {
+  // Not really an Interface
+  position: { type: ["undefined", "Vector3"], optional: true },
+  up: { type: ["undefined", "Vector3"], optional: true },
+  scale: { type: ["undefined", "Matrix4"], optional: true },
+
+  rotation: { type: ["undefined", "Euler"], optional: true },
+  matrix: { type: ["undefined", "Vector3"], optional: true },
+  quaternion: { type: ["undefined", "Quaternion"], optional: true },
+  layers: { type: ["undefined", "Layers"], optional: true },
+};
 // layers?: Layers;
+
+/** if first letter is a capital */
+export const ISupportingTypes = {
+  // Not really an Interface
+  Vector3: [
+    { index: 0, key: "x", type: ["undefined", "number"], optional: true },
+    { index: 1, key: "y", type: ["undefined", "number"], optional: true },
+    { index: 2, key: "z", type: ["undefined", "number"], optional: true },
+  ],
+  Matrix4: { type: ["number"] },
+  Euler: [
+    { index: 0, key: "x", type: ["undefined", "number"], optional: true },
+    { index: 1, key: "y", type: ["undefined", "number"], optional: true },
+    { index: 2, key: "z", type: ["undefined", "number"], optional: true },
+    { index: 3, key: "order", type: ["string"], optional: true },
+  ],
+  Quaternion: [
+    { index: 0, key: "x", type: ["undefined", "number"], optional: true },
+    { index: 1, key: "y", type: ["undefined", "number"], optional: true },
+    { index: 2, key: "z", type: ["undefined", "number"], optional: true },
+    { index: 3, key: "w", type: ["undefined", "number"], optional: true },
+  ],
+};
 
 export const whatAreTheseTYPES = (tagName: string) => {
   console.log("test");
