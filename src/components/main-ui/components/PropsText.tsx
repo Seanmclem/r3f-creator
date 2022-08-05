@@ -52,7 +52,7 @@ export const PropsText: React.FC<props> = ({ propKey, propValue }) => {
           value={textValue}
           // placeholder={placeholder}
         />
-        <button onClick={handlePrepUpdate}>V</button>
+        <button onClick={handlePrepUpdate}>✔</button>
         <button onClick={handleRevert}>x</button>
       </BasicInputRow>
 

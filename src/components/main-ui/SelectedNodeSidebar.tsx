@@ -33,8 +33,15 @@ export const SelectedNodeSidebar: React.FC<props> = () => {
   }
 
   console.log("here");
-  const poop = whatAreTheseTYPES(selectedNode.tagName);
-  console.log({ poop });
+  const selectedNode_IProps = whatAreTheseTYPES(selectedNode.tagName);
+  const Iprop_keys =
+    typeof selectedNode_IProps === "object"
+      ? Object.keys(selectedNode_IProps)
+      : [];
+  console.log({ Iprop_keys });
+  // const supportingType = selectedNode_IProps?.[propKey];
+
+  // console.log({ selectedNode_IProps, supportingType });
 
   return (
     <SidebarContainer ref={ref}>
@@ -43,20 +50,26 @@ export const SelectedNodeSidebar: React.FC<props> = () => {
         <div>{selectedNode.tagName}</div>
         {/* new sidebar, and contents, needs dedicated components(s) */}
         <ul>
-          {selectedNode.props
+          {Iprop_keys.map((Iprop_key) => (
+            <li key={Iprop_key}>
+              <PropEditingSwitch
+                propKey={Iprop_key}
+                propValue={selectedNode.props[Iprop_key] || ""}
+                selectedNode_IProps={selectedNode_IProps}
+              />
+            </li>
+          ))}
+          {/* {selectedNode.props
             ? Object.keys(selectedNode.props).map((key) => (
                 <li key={key}>
-                  {/* <span>
-                    {key} : {JSON.stringify(selectedNode.props[key])}
-                  </span>{" "} */}
-                  {/* ... */}
                   <PropEditingSwitch
                     propKey={key}
                     propValue={selectedNode.props[key]}
+                    selectedNode_IProps={selectedNode_IProps}
                   />
                 </li>
               ))
-            : null}
+            : null} */}
         </ul>
       </StandardContainer>
     </SidebarContainer>

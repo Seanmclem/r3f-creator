@@ -9,7 +9,7 @@
 //   }
 // };
 
-export const IBoxGeometry = {
+export const IBoxGeometry: { args: PropArrayOption[] } = {
   // Not really an Interface
   args: [
     //constructor
@@ -77,8 +77,22 @@ export const IMesh = {
 };
 // layers?: Layers;
 
+interface PropArrayOption {
+  index: number;
+  key: string;
+  type: string[];
+  optional?: boolean;
+}
+
 /** if first letter is a capital */
-export const ISupportingTypes = {
+export const ISupportingTypes: {
+  Vector3: PropArrayOption[];
+  Matrix4: {
+    type: string[];
+  };
+  Euler: PropArrayOption[];
+  Quaternion: PropArrayOption[];
+} = {
   // Not really an Interface
   Vector3: [
     { index: 0, key: "x", type: ["undefined", "number"], optional: true },
@@ -103,6 +117,7 @@ export const ISupportingTypes = {
 export const whatAreTheseTYPES = (tagName: string) => {
   console.log("test");
   const options: Record<string, any> = {
+    mesh: IMesh,
     boxGeometry: IBoxGeometry,
     meshBasicMaterial: IMeshBasicMaterial,
   };

@@ -25,10 +25,12 @@
 - [x] Next, Revisit scene-exporting. Refine, cleanup, make univeral to more prop types.
 - [x] Success editing Array-Prop values
 - [x] Simplify and fix/improve deep-nested multi dim array prop editing.. "DeepSplice"
-- [ ] Pretty-up UI and sizing. for more props
-- [ ] Add ability/menu to add more props to a primitive
+- [x] Pretty-up UI and sizing. for more props
+- [ ] Add ability/menu to add more props to an Intrinsic Element
   - [x] Big step, use TS to parse Types in frontend, to help define UI for adding primatives
-  - [ ] use custom thing instead
+  - [x] use custom thing instead
+  - [ ] ... Listing props, need to differentiate by type, like boolean etc
+  - [ ] NEED to fix MESH prop listings
 - [ ] Add menu to Add more primitives to the tree
 - [ ] Non-primitive components
   - [ ] Test a simple box-based dynamic-lazy-import
