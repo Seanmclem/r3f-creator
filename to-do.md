@@ -29,12 +29,15 @@
 - [ ] Add ability/menu to add more props to an Intrinsic Element
   - [x] Big step, use TS to parse Types in frontend, to help define UI for adding primatives
   - [x] use custom thing instead
-  - [ ] ... Listing props, need to differentiate by type, like boolean etc
-  - [ ] NEED to fix MESH prop listings
-- [ ] Add menu to Add more primitives to the tree
-- [ ] Non-primitive components
-  - [ ] Test a simple box-based dynamic-lazy-import
-  - [ ] Add ability to parse TS files, using FS Access API and AST lib, into json format that JS can more easily understand.
-  - [ ] Add component templates, for example a pre-made box, or a slope/ramp. That can be dropped in and configured similar to individual primitives. Using dynamic, lazy imports
+  - [ ] ... Listing props,
+    - [ ] need to differentiate by type, like boolean etc
+    - [ ] NEED to fix MESH prop listings
+    - [ ] Finish all 3 working Intrinsic Elements
+    - [ ] Pretty-up listings
+- [ ] Add menu to Add more ONE more instrinsic element to the tree
+- [ ] Basic custom Geometry Nodes
+- [ ] Adding Basic Non-primitive components
+  - [ ] Test a simple box-based, dynamic-lazy-import?
+  - [ ] Add component templates, for example a pre-made box, or a slope/ramp. That can be dropped in and configured similar to individual primitives. Using dynamic, lazy imports... OR stairs
 - [ ] Slope/ramp
 - [ ] Add/edit cameras and canvases...
