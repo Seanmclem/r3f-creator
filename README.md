@@ -1,4 +1,4 @@
-# React Three Fiber (r3f) Builder
+# React Three Fiber (r3f) Creator
 
 The goal of this project is to create a visual editor for building scenes for React Three Fiber. You can add ThreeJs primitives provided by r3f, or custom components loaded into the editor. Add them to your scene and configure their props with a GUI. 
 
