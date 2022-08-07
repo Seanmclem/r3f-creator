@@ -90,7 +90,7 @@ export const IMesh = {
 };
 // layers?: Layers;
 
-interface PropArrayOption {
+export interface PropArrayOption {
   index: number;
   key: string;
   type: string[];

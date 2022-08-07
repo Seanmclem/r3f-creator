@@ -1,6 +1,10 @@
 import React, { useEffect, useState } from "react";
 import styled from "styled-components";
-import { TyperThing, whatAreTheseTYPES } from "../../../functions/type-utils";
+import {
+  PropArrayOption,
+  TyperThing,
+  whatAreTheseTYPES,
+} from "../../../functions/type-utils";
 import { useSendNodeUpdate } from "../../../hooks/useSendNodeUpdate";
 import { Space } from "../../../pages/_OLD_AstTools";
 import { useTemplateStore } from "../../../stores/templateStore";
@@ -21,28 +25,37 @@ export const PropsArray: React.FC<props> = ({
   const selectedNode = useTemplateStore((state) => state.selectedNode);
   const [hasMounted, setHasMounted] = useState(false);
 
-  const types = whatAreTheseTYPES(selectedNode!.tagName);
-  const propType = types[propKey]; // <- controlType
-  console.log("ARRAY-pio_controlType", { propType });
+  const intrinsicElements_AllPropTypes = whatAreTheseTYPES(
+    selectedNode!.tagName
+  );
+  const propType: PropArrayOption[] = intrinsicElements_AllPropTypes[propKey]; // <- controlType
+  console.log("ARRAY-pio_controlType", {
+    intrinsicElements_AllPropTypes,
+    myTypeNow,
+    propType,
+    propKey,
+    propValue,
+  });
 
+  /** Already populated values */
   const [arrayOfValues, setArrayOfValues] = useState(propValue);
   const handleUpdate = useSendNodeUpdate();
 
-  const updateArray = (val: string, idx: number) => {
+  const updateArray = (val: string, idx: number, isNumeric = false) => {
     const newArray = [...arrayOfValues];
-    newArray[idx] = val;
+    newArray[idx] = isNumeric ? parseInt(val as string) : val;
     setArrayOfValues(newArray);
   };
 
   const handleSaveClick = () => {
     console.log("PropsArray -> handleSaveClick -> ", {
       key: propKey,
-      value: arrayOfValues.map((val) => parseInt(val as string)), // PARSEiNT
+      value: arrayOfValues, // PARSEiNT
       orig: propValue,
     });
     handleUpdate({
       key: propKey,
-      value: arrayOfValues.map((val) => parseInt(val as string)),
+      value: arrayOfValues,
     });
   };
 
@@ -56,10 +69,34 @@ export const PropsArray: React.FC<props> = ({
     }
   }, [hasMounted, arrayOfValues]);
 
+  const getArrayItem = (typeData: PropArrayOption) => {
+    const result = arrayOfValues[typeData.index];
+  };
+
   return (
     <Container>
       <label>{propKey}</label>
-      {arrayOfValues.map((arrayItem, idx) => (
+      <ul>
+        {propType.map((typeData) => (
+          <li>
+            <Container key={typeData.index}>
+              {/* <label>{typeData.key}</label>
+              <Spacer height={10} />
+              <label>{arrayOfValues[typeData.index] as string}</label> */}
+              <ArrayItemTextBox
+                originalItem={propValue[typeData.index]}
+                arrayItemIdx={typeData.index}
+                arrayItemValue={arrayOfValues[typeData.index]}
+                updateArray={updateArray}
+                propKeyValue={{ key: propKey, value: propValue }}
+                typeData={typeData}
+              />
+            </Container>
+          </li>
+        ))}
+      </ul>
+      {/* {arrayOfValues.map((arrayItem, idx) => (
+        // Iterate over PROP TYPES here, instead of values, patch-n values
         <Container key={idx}>
           <Spacer height={10} />
           <ArrayItemTextBox
@@ -73,7 +110,7 @@ export const PropsArray: React.FC<props> = ({
             propType={propType}
           />
         </Container>
-      ))}
+      ))} */}
       {/* <Spacer height={20} /> */}
       {/* <button onClick={handleSaveClick}>Save</button> */}
     </Container>

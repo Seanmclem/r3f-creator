@@ -1,5 +1,6 @@
 import React, { useRef, useState } from "react";
 import styled from "styled-components";
+import { PropArrayOption } from "../../../functions/type-utils";
 import { KeyValueProp } from "../../../types/shared";
 import { Spacer } from "../../Spacer";
 
@@ -7,43 +8,42 @@ interface props {
   originalItem: any;
   arrayItemIdx: number;
   arrayItemValue: unknown;
-  name: string;
-  label?: string;
-  updateArray: (val: string, idx: number) => void;
+  updateArray: (val: string, idx: number, isNumeric?: boolean) => void;
   propKeyValue: KeyValueProp;
 
-  propType?: any;
+  typeData: PropArrayOption;
 }
 
 export const ArrayItemTextBox: React.FC<props> = ({
   originalItem,
   arrayItemIdx,
   arrayItemValue,
-  name,
-  label,
   updateArray,
   propKeyValue,
-  propType, // All possible values for the array, like all args
+  typeData, // All possible values for the array, like all args
 }) => {
   const [textValue, setTextValue] = useState(arrayItemValue as string);
   const [hasChanges, setHasChanges] = useState(false);
 
-  console.log("pooooooooo", { propKeyValue, propType });
+  const [isNumeric] = useState(typeData.type.includes("number"));
 
   const handleChange = (event: any) => {
+    // fill empties in array here, before saving
     const currentItem = arrayItemValue as string;
     const hasChanges =
       event.target.value.toString() !== originalItem.toString();
 
     console.log({
-      val: event.target.value.toString(),
+      new: event.target.value.toString(),
       curr: currentItem.toString(),
     });
 
-    setTextValue(event.target.value);
-    updateArray(event.target.value, arrayItemIdx);
+    setTextValue(event.target.value); // updates value in input
+    updateArray(event.target.value, arrayItemIdx, isNumeric);
     setHasChanges(hasChanges);
   };
+
+  const name = `${propKeyValue.key}-${typeData.index}`;
 
   return (
     <div>
@@ -51,16 +51,17 @@ export const ArrayItemTextBox: React.FC<props> = ({
         <label htmlFor={name}>
           {arrayItemIdx}
           {") "}
-          {propType?.[arrayItemIdx]?.key}
+          {typeData.key}
         </label>
         <Spacer width={5} height={5} />{" "}
       </>
 
       <input
+        id={name}
         name={name}
-        type={"number"}
+        type={isNumeric ? "number" : "text"}
         onChange={handleChange}
-        value={textValue}
+        value={textValue || ""}
       />
       {/* <span>{hasChanges ? "changes" : ""}</span> */}
       {/* ^^ Maybe change to like a revert?, since saved automatically.. nah, idk */}
