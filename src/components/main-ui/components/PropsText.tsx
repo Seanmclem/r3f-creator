@@ -1,17 +1,27 @@
 import { useState, useEffect } from "react";
 import styled from "styled-components";
+import { PropOption, TyperThing } from "../../../functions/type-utils";
 import { useSendNodeUpdate } from "../../../hooks/useSendNodeUpdate";
 import { KeyValueProp } from "../../../types/shared";
 
 interface props {
   propKey: string;
   propValue: string;
+  controlType: PropOption;
+  myTypeNow: TyperThing;
 }
 
-export const PropsText: React.FC<props> = ({ propKey, propValue }) => {
+export const PropsText: React.FC<props> = ({
+  propKey,
+  propValue,
+  controlType,
+  myTypeNow,
+}) => {
   const handleUpdate = useSendNodeUpdate();
   const [textValue, setTextValue] = useState(propValue);
   const [hasChanges, setHasChanges] = useState(false);
+
+  console.log(`${propKey}~~`, controlType);
 
   const handlePrepUpdate = () => {
     const update: KeyValueProp = { key: propKey, value: textValue };
@@ -47,9 +57,10 @@ export const PropsText: React.FC<props> = ({ propKey, propValue }) => {
       <BasicInputRow>
         <input
           name={propKey}
-          type={"text"}
+          type={myTypeNow === "number" ? "number" : "text"}
           onChange={handleChange}
           value={textValue}
+          step={0.25}
           // placeholder={placeholder}
         />
         <button onClick={handlePrepUpdate}>✔</button>

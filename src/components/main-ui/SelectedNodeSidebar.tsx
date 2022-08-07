@@ -34,6 +34,7 @@ export const SelectedNodeSidebar: React.FC<props> = () => {
 
   console.log("here");
   const selectedNode_IProps = whatAreTheseTYPES(selectedNode.tagName);
+  console.log("HEHA", selectedNode_IProps);
   const Iprop_keys =
     typeof selectedNode_IProps === "object"
       ? Object.keys(selectedNode_IProps)

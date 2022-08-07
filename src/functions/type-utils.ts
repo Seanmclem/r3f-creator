@@ -37,9 +37,22 @@ export const IBoxGeometry: { args: PropArrayOption[] } = {
   ],
 };
 
+export type TyperThing =
+  | "undefined"
+  | "null"
+  | "string"
+  | "number"
+  | "boolean"
+  | "args-array";
+
+export interface PropOption {
+  type: TyperThing[];
+  optional?: boolean;
+}
+
 /** Not really an Interface */
-export const IMeshBasicMaterial = {
-  color: { type: ["string", "number"], optional: true }, // ColorRepresentation = Color | string | number
+export const IMeshBasicMaterial: Record<string, PropOption> = {
+  color: { type: ["undefined", "string", "number"], optional: true }, // ColorRepresentation = Color | string | number
   opacity: { type: ["undefined", "number"], optional: true },
   map: { type: ["undefined", "null"], optional: true }, // | Texture
 

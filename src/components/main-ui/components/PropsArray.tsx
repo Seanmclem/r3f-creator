@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import styled from "styled-components";
-import { whatAreTheseTYPES } from "../../../functions/type-utils";
+import { TyperThing, whatAreTheseTYPES } from "../../../functions/type-utils";
 import { useSendNodeUpdate } from "../../../hooks/useSendNodeUpdate";
 import { Space } from "../../../pages/_OLD_AstTools";
 import { useTemplateStore } from "../../../stores/templateStore";
@@ -10,16 +10,20 @@ import { ArrayItemTextBox } from "./ArrayItemTextBox";
 interface props {
   propKey: string;
   propValue: unknown[];
+  myTypeNow: TyperThing;
 }
 
-export const PropsArray: React.FC<props> = ({ propKey, propValue }) => {
-  console.log("uno", { propKey, propValue });
+export const PropsArray: React.FC<props> = ({
+  propKey,
+  propValue,
+  myTypeNow,
+}) => {
   const selectedNode = useTemplateStore((state) => state.selectedNode);
   const [hasMounted, setHasMounted] = useState(false);
 
   const types = whatAreTheseTYPES(selectedNode!.tagName);
-  const [isArgs, setIsArgs] = useState(propKey === "args");
-  const propType = types[propKey];
+  const propType = types[propKey]; // <- controlType
+  console.log("ARRAY-pio_controlType", { propType });
 
   const [arrayOfValues, setArrayOfValues] = useState(propValue);
   const handleUpdate = useSendNodeUpdate();

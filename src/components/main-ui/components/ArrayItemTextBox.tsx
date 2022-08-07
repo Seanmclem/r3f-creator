@@ -23,9 +23,8 @@ export const ArrayItemTextBox: React.FC<props> = ({
   label,
   updateArray,
   propKeyValue,
-  propType,
+  propType, // All possible values for the array, like all args
 }) => {
-  const daType = useRef(typeof arrayItemValue);
   const [textValue, setTextValue] = useState(arrayItemValue as string);
   const [hasChanges, setHasChanges] = useState(false);
 
