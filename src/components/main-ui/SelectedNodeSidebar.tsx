@@ -85,4 +85,8 @@ const SidebarContainer = styled.div`
   /* height: 100%; */
   background-color: lightgray;
   border-left: 2px solid #80a9e299;
+
+  li {
+    margin-bottom: 10px;
+  }
 `;

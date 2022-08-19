@@ -54,18 +54,18 @@ export interface PropOption {
 export const IMeshBasicMaterial: Record<string, PropOption> = {
   color: { type: ["undefined", "string", "number"], optional: true }, // ColorRepresentation = Color | string | number
   opacity: { type: ["undefined", "number"], optional: true },
-  map: { type: ["undefined", "null"], optional: true }, // | Texture
+  // map: { type: ["undefined", "null"], optional: true }, // | Texture
 
-  lightMap: { type: ["null"], optional: true }, // | Texture
+  // lightMap: { type: ["null"], optional: true }, // | Texture
   lightMapIntensity: { type: ["undefined", "number"], optional: true },
-  aoMap: { type: ["undefined", "null"], optional: true }, // | Texture
+  // aoMap: { type: ["undefined", "null"], optional: true }, // | Texture
 
   aoMapIntensity: { type: ["undefined", "number"], optional: true },
-  specularMap: { type: ["undefined", "null"], optional: true }, // | Texture
-  alphaMap: { type: ["undefined", "null"], optional: true }, // | Texture
+  // specularMap: { type: ["undefined", "null"], optional: true }, // | Texture
+  // alphaMap: { type: ["undefined", "null"], optional: true }, // | Texture
 
-  envMap: { type: ["undefined", "null"], optional: true }, // | Texture
-  combine: { type: ["undefined"], optional: true }, // Combine?
+  // envMap: { type: ["undefined", "null"], optional: true }, // | Texture
+  // combine: { type: ["undefined"], optional: true }, // Combine?
   reflectivity: { type: ["undefined", "number"], optional: true },
 
   refractionRatio: { type: ["undefined", "number"], optional: true },

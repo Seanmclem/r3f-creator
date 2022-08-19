@@ -6,7 +6,6 @@ import {
   whatAreTheseTYPES,
 } from "../../../functions/type-utils";
 import { useSendNodeUpdate } from "../../../hooks/useSendNodeUpdate";
-import { Space } from "../../../pages/_OLD_AstTools";
 import { useTemplateStore } from "../../../stores/templateStore";
 import { Spacer } from "../../Spacer";
 import { ArrayItemTextBox } from "./ArrayItemTextBox";

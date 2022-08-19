@@ -30,7 +30,9 @@
   - [x] Big step, use TS to parse Types in frontend, to help define UI for adding primatives
   - [x] use custom thing instead
   - [ ] ... Listing props,
-    - [ ] need to differentiate by type, like boolean etc
+    - [x] need to differentiate by type, like boolean etc
+    - [x] add boolean
+    - [ ] boolean causes export error ... Fix
     - [ ] NEED to fix MESH prop listings
     - [ ] Finish all 3 working Intrinsic Elements
     - [ ] Pretty-up listings
