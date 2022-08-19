@@ -45,8 +45,8 @@ export const MainUI: React.VFC<{}> = () => {
 
           {/* <>
             <mesh>
-              <boxGeometry args={[5, 5, 5]} />
-              <meshBasicMaterial color={"pink"} />
+              <boxGeometry args={[5, 5, 5, 1]} />
+              <meshBasicMaterial color={"pink"} wireframe />
             </mesh>
           </> */}
 

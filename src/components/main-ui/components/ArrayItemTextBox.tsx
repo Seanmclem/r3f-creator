@@ -30,12 +30,16 @@ export const ArrayItemTextBox: React.FC<props> = ({
   const handleChange = (event: any) => {
     // fill empties in array here, before saving
     const currentItem = arrayItemValue as string;
+    console.log({
+      originalItem,
+      "event.target.value.toString": event.target.value,
+    });
     const hasChanges =
-      event.target.value.toString() !== originalItem.toString();
+      event.target.value.toString() !== originalItem?.toString();
 
     console.log({
       new: event.target.value.toString(),
-      curr: currentItem.toString(),
+      curr: currentItem?.toString(),
     });
 
     setTextValue(event.target.value); // updates value in input
