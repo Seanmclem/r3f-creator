@@ -62,6 +62,7 @@ export const renderChildren: any = (children: UIchild[]) => {
 };
 
 export const formatPropValue = (value: unknown) => {
+  // Magic happens
   if (typeof value === "string") {
     return types.stringLiteral(JSON.stringify(value));
   } else if (Array.isArray(value)) {
@@ -72,6 +73,8 @@ export const formatPropValue = (value: unknown) => {
           : types.numericLiteral(val)
       )
     );
+  } else if (typeof value === "boolean") {
+    return types.booleanLiteral(value);
   }
 };
 

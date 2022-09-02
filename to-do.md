@@ -32,7 +32,7 @@
   - [ ] ... Listing props,
     - [x] need to differentiate by type, like boolean etc
     - [x] add boolean
-    - [ ] boolean causes export error ... Fix
+    - [x] boolean causes export error ... Fix
     - [ ] NEED to fix MESH prop listings
     - [ ] Finish all 3 working Intrinsic Elements
     - [ ] Pretty-up listings
