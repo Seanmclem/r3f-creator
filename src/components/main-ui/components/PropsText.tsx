@@ -1,6 +1,6 @@
 import { useState, useEffect } from "react";
 import styled from "styled-components";
-import { PropOption, TyperThing } from "../../../functions/type-utils";
+import { PropOption, PrimitiveType } from "../../../functions/type-utils";
 import { useSendNodeUpdate } from "../../../hooks/useSendNodeUpdate";
 import { KeyValueProp } from "../../../types/shared";
 
@@ -8,7 +8,7 @@ interface props {
   propKey: string;
   propValue: string;
   controlType: PropOption;
-  myTypeNow: TyperThing;
+  myTypeNow: PrimitiveType;
 }
 
 export const PropsText: React.FC<props> = ({

@@ -1,5 +1,9 @@
 import React from "react";
-import { TyperThing } from "../../../functions/type-utils";
+import {
+  isSupportingType,
+  ISupportingTypes,
+  PrimitiveType,
+} from "../../../functions/type-utils";
 import { PropsArray } from "./PropsArray";
 import { PropsBool } from "./PropsBool";
 import { PropsText } from "./PropsText";
@@ -17,7 +21,7 @@ export const PropEditingSwitch: React.FC<props> = ({
 }) => {
   const controlType = selectedNode_IProps[propKey];
 
-  const myTypeNow = (): TyperThing => {
+  const myTypeNow = (): PrimitiveType => {
     if (propKey === "args") {
       return "args-array";
     } else if (controlType.type.includes("string")) {
@@ -26,8 +30,12 @@ export const PropEditingSwitch: React.FC<props> = ({
       return "number";
     } else if (controlType.type.includes("boolean")) {
       return "boolean";
+    } else if (isSupportingType(controlType.type)) {
+      //const theSupportingType = ISupportingTypes[controlType.type];
+      return "props-array";
     } else {
       // DEFAULT
+      console.log({ "controlType.type": controlType.type });
       return "string";
     }
   };
@@ -35,6 +43,7 @@ export const PropEditingSwitch: React.FC<props> = ({
   const isString = myTypeNow() === "string";
   const isArgs = myTypeNow() === "args-array";
   const isBool = myTypeNow() === "boolean";
+  const isPropsArray = myTypeNow() === "props-array";
 
   if (isString) {
     return (

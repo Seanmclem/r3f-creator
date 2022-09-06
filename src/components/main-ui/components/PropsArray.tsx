@@ -2,7 +2,7 @@ import React, { useEffect, useState } from "react";
 import styled from "styled-components";
 import {
   PropArrayOption,
-  TyperThing,
+  PrimitiveType,
   whatAreTheseTYPES,
 } from "../../../functions/type-utils";
 import { useSendNodeUpdate } from "../../../hooks/useSendNodeUpdate";
@@ -13,7 +13,7 @@ import { ArrayItemTextBox } from "./ArrayItemTextBox";
 interface props {
   propKey: string;
   propValue: unknown[];
-  myTypeNow: TyperThing;
+  myTypeNow: PrimitiveType;
 }
 
 export const PropsArray: React.FC<props> = ({
