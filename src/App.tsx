@@ -19,9 +19,9 @@ const App = () => {
         <Route path="/" exact>
           <MainUI />
         </Route>
-        <Route path="/ast1" exact>
+        {/* <Route path="/ast1" exact>
           <Exporter />
-        </Route>
+        </Route> */}
       </Switch>
     </Router>
   );

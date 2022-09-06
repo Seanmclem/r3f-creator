@@ -8,15 +8,8 @@ import { Sidebar } from "../components/main-ui/Sidebar";
 import { basicCanvas1 } from "../templates/canvas-templates";
 import { TemplateToComponents } from "../translators/TemplateToComponents";
 import { useTemplateStore } from "../stores/templateStore";
-import { useEffect } from "react";
+import { useEffect, lazy, Suspense } from "react";
 import { TopBar } from "../components/top-bar/TopBar";
-
-// const Box = () => (
-//   <mesh>
-//     <boxGeometry args={[5, 5, 5]} />
-//     <meshBasicMaterial color={"blue"} />
-//   </mesh>
-// );
 
 export const MainUI: React.VFC<{}> = () => {
   const [width, height] = useWindowSize();
@@ -28,6 +21,15 @@ export const MainUI: React.VFC<{}> = () => {
   useEffect(() => {
     updateMainTemplate(basicCanvas1); // added on first load
   }, []);
+
+  const hat = "Box";
+
+  const TheBox = hat as any;
+
+  const MyBox = lazy(() => import("../components/main-ui/components/TestBox"));
+  const MyBox2 = lazy(
+    () => import("../components/main-ui/components/TestBox2")
+  );
 
   return (
     <>
@@ -50,7 +52,14 @@ export const MainUI: React.VFC<{}> = () => {
             </mesh>
           </> */}
 
-          <TemplateToComponents template={mainTemplate} />
+          <Suspense fallback={null}>
+            <MyBox />
+            <MyBox2 position={[-10, 5, 10]} />
+          </Suspense>
+
+          {/* <TheBox /> */}
+
+          {/* <TemplateToComponents template={mainTemplate} /> */}
         </Canvas>
       </MainUiContainer>
     </>
