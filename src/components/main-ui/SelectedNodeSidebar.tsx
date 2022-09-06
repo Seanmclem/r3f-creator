@@ -55,7 +55,7 @@ export const SelectedNodeSidebar: React.FC<props> = () => {
             <li key={Iprop_key}>
               <PropEditingSwitch
                 propKey={Iprop_key}
-                propValue={selectedNode.props[Iprop_key] || ""}
+                propValue={selectedNode?.props?.[Iprop_key] || ""}
                 selectedNode_IProps={selectedNode_IProps}
               />
             </li>

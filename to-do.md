@@ -34,6 +34,8 @@
     - [x] add boolean
     - [x] boolean causes export error ... Fix
     - [ ] NEED to fix MESH prop listings
+      - [x] fixed crash
+      - [ ] fix mesh values editing.. Like, position should be an array
     - [ ] Finish all 3 working Intrinsic Elements
     - [ ] Pretty-up listings
 - [ ] Add menu to Add more ONE more instrinsic element to the tree
