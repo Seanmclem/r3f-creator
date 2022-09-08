@@ -27,21 +27,27 @@
 - [x] Simplify and fix/improve deep-nested multi dim array prop editing.. "DeepSplice"
 - [x] Pretty-up UI and sizing. for more props
 - [ ] Add ability/menu to add more props to an Intrinsic Element
+
   - [x] Big step, use TS to parse Types in frontend, to help define UI for adding primatives
   - [x] use custom thing instead
-  - [ ] ... Listing props,
-    - [x] need to differentiate by type, like boolean etc
-    - [x] add boolean
-    - [x] boolean causes export error ... Fix
-    - [ ] NEED to fix MESH prop listings
-      - [x] fixed crash
-      - [ ] fix mesh values editing.. Like, position should be an array
-    - [ ] Finish all 3 working Intrinsic Elements
-    - [ ] Pretty-up listings
-- [ ] Add menu to Add more ONE more instrinsic element to the tree
+
+  - [ ] Nuke lots of recent work, priorities too, by rewriting to be CUSTOM-COMPONENT-BASED
+  - [ ] Wrappers or custom only
+
+    <!-- - [ ] ... Listing props,
+      - [x] need to differentiate by type, like boolean etc
+      - [x] add boolean
+      - [x] boolean causes export error ... Fix
+      - [ ] NEED to fix MESH prop listings
+        - [x] fixed crash
+        - [ ] fix mesh values editing.. Like, position should be an array
+      - [ ] Finish all 3 working Intrinsic Elements
+      - [ ] Pretty-up listings-->
+  <!-- - [ ] Add menu to Add more ONE more instrinsic element to the tree
+
 - [ ] Basic custom Geometry Nodes
 - [ ] Adding Basic Non-primitive components
   - [ ] Test a simple box-based, dynamic-lazy-import?
   - [ ] Add component templates, for example a pre-made box, or a slope/ramp. That can be dropped in and configured similar to individual primitives. Using dynamic, lazy imports... OR stairs
 - [ ] Slope/ramp
-- [ ] Add/edit cameras and canvases...
+- [ ] Add/edit cameras and canvases... -->

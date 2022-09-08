@@ -1,6 +1,5 @@
 import React from "react";
 import styled from "styled-components";
-import { sendNodeUpdate } from "../../functions/editor-tree-functions";
 import { useTemplateStore } from "../../stores/templateStore";
 import { UIchild } from "../../translators/TemplateToComponents";
 

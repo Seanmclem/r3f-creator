@@ -3,13 +3,9 @@ import styled from "styled-components";
 import { Spacer } from "../Spacer";
 import { useTemplateStore } from "../../stores/templateStore";
 import { StandardContainer } from "../styled-components";
-import { sendNodeUpdate } from "../../functions/editor-tree-functions";
 import { useEffect, useRef, useState } from "react";
 import { PropEditingSwitch } from "./components/PropEditingSwitch";
-import { useSendNodeUpdate } from "../../hooks/useSendNodeUpdate";
 import { whatAreTheseTYPES } from "../../functions/type-utils";
-import { useElementBoundingRect } from "../../hooks/useElementBoundingRect";
-import { useWindowSizeStore } from "../../stores/WindowSizeStore";
 
 interface KeyValueProp {
   key: string;
