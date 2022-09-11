@@ -1,4 +1,4 @@
-import { Fragment } from "react";
+import { Fragment, lazy, Suspense } from "react";
 // import { basicCanvas1 } from "../templates/canvas-templates";
 
 export interface props {
@@ -22,17 +22,26 @@ export const TemplateToComponents: React.FC<props> = ({ template }) => {
       return null;
     }
     return children.map((mainChild) => {
-      const TheComponent = mainChild.tagName as any;
+      const TheComponent = lazy(
+        () =>
+          import(
+            `../components/main-ui/editor-gui-components/${mainChild.tagName}`
+          )
+      );
       const props = mainChild.props || [];
 
       return mainChild.tagName === "Fragment" ? (
-        <Fragment key={mainChild.id}>
-          {renderChildren(mainChild.children)}
-        </Fragment>
+        <Suspense fallback={null}>
+          <Fragment key={mainChild.id}>
+            {renderChildren(mainChild.children)}
+          </Fragment>
+        </Suspense>
       ) : (
-        <TheComponent key={mainChild.id} {...props}>
-          {renderChildren(mainChild.children)}
-        </TheComponent>
+        <Suspense fallback={null}>
+          <TheComponent key={mainChild.id} {...props}>
+            {renderChildren(mainChild.children)}
+          </TheComponent>
+        </Suspense>
       );
     });
   };

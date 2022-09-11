@@ -22,13 +22,11 @@ export const MainUI: React.VFC<{}> = () => {
     updateMainTemplate(basicCanvas1); // added on first load
   }, []);
 
-  const hat = "Box";
-
-  const TheBox = hat as any;
-
-  const MyBox = lazy(() => import("../components/main-ui/components/TestBox"));
+  const MyBox = lazy(
+    () => import("../components/main-ui/editor-gui-components/TestBox")
+  );
   const MyBox2 = lazy(
-    () => import("../components/main-ui/components/TestBox2")
+    () => import("../components/main-ui/editor-gui-components/TestBox2")
   );
 
   return (
@@ -42,7 +40,7 @@ export const MainUI: React.VFC<{}> = () => {
         >
           <CameraControls />
           <ambientLight intensity={0.5} />
-          <directionalLight position={[10, 15, 10]} color={"red"} />
+          <directionalLight position={[10, 15, 10]} />
           <gridHelper args={[100, 25]} />
 
           {/* <>
@@ -53,8 +51,9 @@ export const MainUI: React.VFC<{}> = () => {
           </> */}
 
           <Suspense fallback={null}>
-            <MyBox />
-            <MyBox2 position={[-10, 5, 10]} />
+            {/* <MyBox />
+            <MyBox2 position={[-10, 5, 10]} /> */}
+            <TemplateToComponents template={mainTemplate} />
           </Suspense>
 
           {/* <TheBox /> */}
