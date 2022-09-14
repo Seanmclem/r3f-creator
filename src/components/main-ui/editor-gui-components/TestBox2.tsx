@@ -11,7 +11,7 @@ export const runtimeInterfaces = [
     propName: "position",
     typeData: {
       type: "ARRAY",
-      values: positionTemplatesArray,
+      fieldDefinitions: positionTemplatesArray,
     },
     optional: true,
   },

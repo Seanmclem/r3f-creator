@@ -6,6 +6,7 @@ import { StandardContainer } from "../styled-components";
 import { useEffect, useRef, useState } from "react";
 import { PropEditingSwitch } from "./components/PropEditingSwitch";
 import { whatAreTheseTYPES } from "../../functions/type-utils";
+import { ArrayFieldTextInput } from "./components/new-hotness/prop-fields/ArrayFieldTextInput";
 
 interface KeyValueProp {
   key: string;
@@ -18,20 +19,26 @@ export const SelectedNodeSidebar: React.FC<props> = () => {
   const ref = useRef<HTMLDivElement | null>(null);
   const selectedNode = useTemplateStore((state) => state.selectedNode);
 
-  const [runtimeInterfaces, setruntimeInterfaces] = useState<any>();
+  const [runtimeInterfaces, setruntimeInterfaces] = useState<any>([]);
 
   const selectedNodeAddress = useTemplateStore(
     (state) => state.selectedNodeAddress
   );
 
   useEffect(() => {
+    if (selectedNode?.tagName === "Fragment") {
+      setruntimeInterfaces([]);
+      return;
+    }
     if (selectedNode && selectedNodeAddress) {
       import(`../main-ui/editor-gui-components/${selectedNode.tagName}`).then(
         ({ runtimeInterfaces }) => {
           if (runtimeInterfaces) {
-            setruntimeInterfaces(setruntimeInterfaces);
+            setruntimeInterfaces(runtimeInterfaces);
+          } else {
+            setruntimeInterfaces([]);
           }
-          console.log({ runtimeInterfaces });
+          console.log("runtimeInterfaces", runtimeInterfaces);
         }
       );
     }
@@ -47,12 +54,50 @@ export const SelectedNodeSidebar: React.FC<props> = () => {
       <StandardContainer>
         <div>{selectedNode.tagName}</div>
         <ul>
-          <li>{}</li>
+          {runtimeInterfaces?.map((runtimeInterface: RuntimeInterface) => (
+            <li>
+              <label>{runtimeInterface.propName}</label>
+              <ul>
+                {/* Switch statement here eventually */}
+                {runtimeInterface.typeData.type === "ARRAY"
+                  ? runtimeInterface.typeData.fieldDefinitions?.map(
+                      (fieldDefinition, idx) => {
+                        return (
+                          <li>
+                            <ArrayFieldTextInput
+                              idx={idx}
+                              existingValue={"5"}
+                              fieldDefinition={fieldDefinition}
+                            />
+                          </li>
+                        );
+                      }
+                    )
+                  : null}
+              </ul>
+            </li>
+          ))}
         </ul>
       </StandardContainer>
     </SidebarContainer>
   );
 };
+
+export interface FieldDefinition {
+  key: string;
+  type: "number" | "string";
+}
+
+export interface TypeData {
+  type: "ARRAY";
+  fieldDefinitions: FieldDefinition[];
+}
+
+interface RuntimeInterface {
+  propName: string;
+  option: boolean;
+  typeData: TypeData;
+}
 
 const SidebarContainer = styled.div`
   /* width: 300px; */
