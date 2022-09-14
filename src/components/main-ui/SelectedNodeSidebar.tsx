@@ -7,6 +7,7 @@ import { useEffect, useRef, useState } from "react";
 import { PropEditingSwitch } from "./components/PropEditingSwitch";
 import { whatAreTheseTYPES } from "../../functions/type-utils";
 import { ArrayFieldTextInput } from "./components/new-hotness/prop-fields/ArrayFieldTextInput";
+import { ArrayFieldContainer } from "./components/new-hotness/prop-fields/ArrayFieldContainer";
 
 interface KeyValueProp {
   key: string;
@@ -61,17 +62,13 @@ export const SelectedNodeSidebar: React.FC<props> = () => {
                 {/* Switch statement here eventually */}
                 {runtimeInterface.typeData.type === "ARRAY"
                   ? runtimeInterface.typeData.fieldDefinitions?.map(
-                      (fieldDefinition, idx) => {
-                        return (
-                          <li>
-                            <ArrayFieldTextInput
-                              idx={idx}
-                              existingValue={"5"}
-                              fieldDefinition={fieldDefinition}
-                            />
-                          </li>
-                        );
-                      }
+                      (fieldDefinition, idx) => (
+                        <ArrayFieldContainer
+                          fieldDefinition={fieldDefinition}
+                          arrayFieldIndex={idx}
+                          runtimeInterface={runtimeInterface}
+                        />
+                      )
                     )
                   : null}
               </ul>
@@ -93,7 +90,7 @@ export interface TypeData {
   fieldDefinitions: FieldDefinition[];
 }
 
-interface RuntimeInterface {
+export interface RuntimeInterface {
   propName: string;
   option: boolean;
   typeData: TypeData;
