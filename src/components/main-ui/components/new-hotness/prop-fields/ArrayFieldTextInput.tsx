@@ -7,12 +7,16 @@ interface props {
   idx: number;
   existingValue: string;
   fieldDefinition: FieldDefinition;
+
+  updateArray: (val: string, idx: number, isNumeric?: boolean) => void;
 }
 
 export const ArrayFieldTextInput: React.FC<props> = ({
   idx,
   existingValue,
   fieldDefinition,
+
+  updateArray,
 }) => {
   const [textValue, setTextValue] = useState(existingValue as string);
   const [isNumeric] = useState(fieldDefinition.type === "number");
@@ -20,6 +24,7 @@ export const ArrayFieldTextInput: React.FC<props> = ({
   const handleChange = (event: any) => {
     setTextValue(event.target.value); // updates value in input
     //   updateArray(event.target.value, arrayItemIdx, isNumeric); //// updates larger object
+    updateArray(event.target.value, idx, isNumeric);
   };
 
   const name = `${fieldDefinition.key}-${idx}`;

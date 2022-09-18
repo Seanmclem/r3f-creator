@@ -1,4 +1,5 @@
 import { Vector3 } from "@react-three/fiber";
+import { useMemo } from "react";
 
 const positionTemplatesArray = [
   { key: "x", type: "number" },
@@ -17,11 +18,17 @@ export const runtimeInterfaces = [
   },
 ];
 
-const TestBox2 = ({ position }: { position: number[] }) => (
-  <mesh position={position as Vector3}>
-    <boxGeometry args={[5, 5, 5]} />
-    <meshStandardMaterial color={"brown"} />
-  </mesh>
-);
+const TestBox2 = ({ position }: { position: number[] }) => {
+  return useMemo(
+    () => (
+      <mesh position={position as Vector3}>
+        <boxGeometry args={[5, 5, 5]} />
+        {/* TODO  HARD CODED */}
+        <meshStandardMaterial color={"brown"} />
+      </mesh>
+    ),
+    [position]
+  );
+};
 
 export default TestBox2;

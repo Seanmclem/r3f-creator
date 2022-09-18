@@ -22,12 +22,12 @@ export const MainUI: React.VFC<{}> = () => {
     updateMainTemplate(basicCanvas1); // added on first load
   }, []);
 
-  const MyBox = lazy(
-    () => import("../components/main-ui/editor-gui-components/TestBox")
-  );
-  const MyBox2 = lazy(
-    () => import("../components/main-ui/editor-gui-components/TestBox2")
-  );
+  // const MyBox = lazy(
+  //   () => import("../components/main-ui/editor-gui-components/TestBox")
+  // );
+  // const MyBox2 = lazy(
+  //   () => import("../components/main-ui/editor-gui-components/TestBox2")
+  // );
 
   return (
     <>
