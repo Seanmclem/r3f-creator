@@ -20,24 +20,31 @@ export interface UIchild {
 //   () => import("../components/main-ui/editor-gui-components/TestBox2")
 // );
 
-const myComponents: Record<string, any> = {};
-myComponents.TestBox2 = lazy(
-  () => import("../components/main-ui/editor-gui-components/TestBox2")
-);
-myComponents.TestBox = lazy(
-  () => import("../components/main-ui/editor-gui-components/TestBox")
-);
+const td2 = "TestBox2";
 
+const registered_Components: Record<string, any> = {};
+registered_Components.TestBox2 = lazy(
+  () => import(`../components/main-ui/editor-gui-components/${td2}`)
+);
+registered_Components.TestBox = lazy(
+  () => import(`../components/main-ui/editor-gui-components/${"TestBox"}`)
+);
+/** IDEA */
+/** Can have a script, on project start, that puts the list of tagNames into an object to loop over? */
+/** Later. v */
+/** or something better. Can also just do it syncronisly when new components are added? before the view is updated. Maye with useState? */
+
+/** EDITOR RENDERING */
 export const TemplateToComponents: React.FC<props> = ({ template }) => {
   const renderChildren: any = (children: UIchild[]) => {
     if (!children?.length) {
       return null;
     }
     return children.map((mainChild) => {
-      let TheComponent: any;
-      const componentPath = `components/main-ui/editor-gui-components/${mainChild.tagName}`;
-      const existingComponent = myComponents[componentPath] as any;
-      TheComponent = myComponents[mainChild.tagName];
+      // let TheComponent: any;
+      // const componentPath = `components/main-ui/editor-gui-components/${mainChild.tagName}`;
+      // const existingComponent = myComponents[componentPath] as any;
+      const TheComponent = registered_Components[mainChild.tagName];
 
       // if (existingComponent) {
       //   console.log("EXISTING");
