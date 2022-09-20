@@ -74,13 +74,13 @@ export const TemplateToComponents: React.FC<props> = ({ template }) => {
       const props = mainChild.props || [];
 
       return mainChild.tagName === "Fragment" ? (
-        <Suspense fallback={null}>
+        <Suspense fallback={null} key={mainChild.id}>
           <Fragment key={mainChild.id}>
             {renderChildren(mainChild.children)}
           </Fragment>
         </Suspense>
       ) : (
-        <Suspense fallback={null}>
+        <Suspense fallback={null} key={mainChild.id}>
           <TheComponent key={mainChild.id} {...props}>
             {renderChildren(mainChild.children)}
           </TheComponent>

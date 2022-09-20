@@ -5,20 +5,20 @@ import {
   useThree,
 } from "@react-three/fiber";
 import { useRef } from "react";
-import { OrbitControls } from "three/examples/jsm/controls/OrbitControls";
+import { OrbitControls } from "@react-three/drei";
 
-declare global {
-  namespace JSX {
-    interface IntrinsicElements {
-      orbitControls: ReactThreeFiber.Object3DNode<
-        OrbitControls,
-        typeof OrbitControls
-      >;
-    }
-  }
-}
+// declare global {
+//   namespace JSX {
+//     interface IntrinsicElements {
+//       orbitControls: ReactThreeFiber.Object3DNode<
+//         OrbitControls,
+//         typeof OrbitControls
+//       >;
+//     }
+//   }
+// }
 
-extend({ OrbitControls });
+// extend({ OrbitControls });
 
 export const CameraControls: React.VFC<{}> = () => {
   // Get a reference to the Three.js Camera, and the canvas html element.
@@ -40,10 +40,9 @@ export const CameraControls: React.VFC<{}> = () => {
 
   // camera.position = {}
   return (
-    <orbitControls
-      ref={controls}
-      args={[camera, domElement]}
-      enableZoom={true}
+    <OrbitControls
+      makeDefault
+
       // maxAzimuthAngle={Math.PI / 4}
       // maxPolarAngle={Math.PI}
       // minAzimuthAngle={-Math.PI / 4}
