@@ -9,8 +9,12 @@ export const box_template = {
     },
     {
       id: "894t58h945h89",
-      tagName: "TestBox2",
-      props: { position: [-10, 5, 10], args: [5, 5, 5] },
+      tagName: "GenericBox",
+      props: {
+        color: "lightblue",
+        position: [-10, 5, 10],
+        dimensions: [5, 5, 5],
+      },
       children: [],
     },
   ],

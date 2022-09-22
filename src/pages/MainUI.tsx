@@ -26,7 +26,7 @@ export const MainUI: React.VFC<{}> = () => {
   //   () => import("../components/main-ui/editor-gui-components/TestBox")
   // );
   // const MyBox2 = lazy(
-  //   () => import("../components/main-ui/editor-gui-components/TestBox2")
+  //   () => import("../components/main-ui/editor-gui-components/GenericBox")
   // );
 
   return (

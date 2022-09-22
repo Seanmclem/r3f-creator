@@ -1,14 +1,15 @@
 import { Vector3 } from "@react-three/fiber";
 import { useMemo } from "react";
 import { PivotControls } from "@react-three/drei";
+import { FieldDefinition, RuntimeInterface } from "../SelectedNodeSidebar";
 
-const xyz_TemplatesArray = [
+const xyz_TemplatesArray: FieldDefinition[] = [
   { key: "x", type: "number" },
   { key: "y", type: "number" },
   { key: "z", type: "number" },
 ];
 
-export const runtimeInterfaces = [
+export const runtimeInterfaces: RuntimeInterface[] = [
   {
     propName: "position",
     typeData: {
@@ -19,25 +20,38 @@ export const runtimeInterfaces = [
   },
 
   {
-    propName: "args",
+    propName: "dimensions",
     typeData: {
       type: "ARRAY",
       fieldDefinitions: xyz_TemplatesArray,
     },
     optional: true,
   },
+
+  {
+    propName: "color",
+    typeData: {
+      type: "STRING",
+      // fieldDefinitions: xyz_TemplatesArray,
+    },
+    optional: true,
+  },
 ];
 
-const TestBox2 = ({
+const GenericBox = ({
   position,
-  args,
+  dimensions,
+  color,
 }: {
   position: number[];
-  args: number[];
+  dimensions: number[];
+  color: string;
 }) => {
   return useMemo(
     () => (
       // has useMemo, useless?
+
+      // APPEARS RELATIVE TO THE ORIGIN? Not the thing
 
       // use on-drag-end, update position from ref
       // I think, I can use a global signal, containing an object, with keys that are ID of the node...
@@ -50,15 +64,15 @@ const TestBox2 = ({
 
       // A store would be good because, it could keep a history, for like, ctrl Z?
 
-      <PivotControls>
+      <PivotControls scale={3} anchor={[-0.25, 1.2, -0.25]}>
         <mesh position={position as Vector3}>
-          <boxGeometry args={args as any} />
-          {/* TODO  HARD CODED color */}
-          <meshStandardMaterial color={"brown"} />
+          <boxGeometry args={dimensions as any} />
+          {/* TODO pass in ROTATION, to array */}
+          <meshStandardMaterial color={color || "brown"} />
         </mesh>
       </PivotControls>
     ),
-    [position, args]
+    [position, dimensions, color] // <-- rotation needed
   );
 };
 
@@ -75,4 +89,4 @@ export const TextBox2LIVE = ({
   </mesh>
 );
 
-export default TestBox2;
+export default GenericBox;

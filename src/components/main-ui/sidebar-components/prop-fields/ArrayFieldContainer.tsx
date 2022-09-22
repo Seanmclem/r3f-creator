@@ -1,11 +1,8 @@
 import React, { useEffect, useState } from "react";
 import styled from "styled-components";
-import { useSendNodeUpdate } from "../../../../../hooks/useSendNodeUpdate";
-import { useTemplateStore } from "../../../../../stores/templateStore";
-import {
-  FieldDefinition,
-  RuntimeInterface,
-} from "../../../SelectedNodeSidebar";
+import { useSendNodeUpdate } from "../../../../hooks/useSendNodeUpdate";
+import { useTemplateStore } from "../../../../stores/templateStore";
+import { FieldDefinition, RuntimeInterface } from "../../SelectedNodeSidebar";
 import { ArrayFieldTextInput } from "./ArrayFieldTextInput";
 
 interface props {
@@ -19,27 +16,16 @@ export const ArrayFieldContainer: React.FC<props> = ({
   arrayFieldIndex,
   runtimeInterface,
 }) => {
-  const handleUpdate = useSendNodeUpdate();
+  const sendNodeUpdate = useSendNodeUpdate();
 
   const selectedNode = useTemplateStore((state) => state.selectedNode);
-  const mainTemplate = useTemplateStore((state) => state.mainTemplate);
-  //   useEffect(() => {
-  //     console.log("selectedNode!!", selectedNode);
-  //   }, [selectedNode]);
-
-  //   useEffect(() => {
-  //     console.log("mainTemplate!!", mainTemplate);
-  //   }, [mainTemplate]);
 
   console.log({ selectedNode });
-  // this component only shows in selectedNode anyway
+
+  // this component only shows in selectedNodeSidebar anyway
   const currentProps_AllArrayValues =
     selectedNode?.props?.[runtimeInterface?.propName];
-  console.log({ currentPropsAllArrayValues: currentProps_AllArrayValues });
 
-  //   const [arrayValue, setArrayValue] = useState(
-  //     currentProps_AllArrayValues?.[arrayFieldIndex]
-  //   );
   if (!currentProps_AllArrayValues) {
     return null;
   }
@@ -55,21 +41,26 @@ export const ArrayFieldContainer: React.FC<props> = ({
     });
 
     // setArrayValue(newArray);
-    handleUpdate({
+    sendNodeUpdate({
       key: runtimeInterface.propName,
       value: newArray,
     });
   };
 
   return (
-    <li>
-      <p>{mainTemplate.length}</p>
+    <Container>
+      {/* <p>{mainTemplate.length}</p> */}
       <ArrayFieldTextInput
         idx={arrayFieldIndex}
         existingValue={currentProp_SpecificArrayValue}
         fieldDefinition={fieldDefinition}
         updateArray={updateArray}
       />
-    </li>
+    </Container>
   );
 };
+
+const Container = styled.div`
+  width: 20%;
+  margin: 5%;
+`;

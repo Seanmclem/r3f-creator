@@ -6,8 +6,9 @@ import { StandardContainer } from "../styled-components";
 import { useEffect, useRef, useState } from "react";
 import { PropEditingSwitch } from "./components/PropEditingSwitch";
 import { whatAreTheseTYPES } from "../../functions/type-utils";
-import { ArrayFieldTextInput } from "./components/new-hotness/prop-fields/ArrayFieldTextInput";
-import { ArrayFieldContainer } from "./components/new-hotness/prop-fields/ArrayFieldContainer";
+import { ArrayFieldTextInput } from "./sidebar-components/prop-fields/ArrayFieldTextInput";
+import { ArrayFieldContainer } from "./sidebar-components/prop-fields/ArrayFieldContainer";
+import { PropInputsSwitch } from "./sidebar-components/PropInputsSwitch";
 
 interface KeyValueProp {
   key: string;
@@ -54,27 +55,7 @@ export const SelectedNodeSidebar: React.FC<props> = () => {
       <Spacer height={20} />
       <StandardContainer>
         <div>{selectedNode.tagName}</div>
-        <ul>
-          {runtimeInterfaces?.map((runtimeInterface: RuntimeInterface) => (
-            <li>
-              <label>{runtimeInterface.propName}</label>
-              <ul>
-                {/* Switch statement here eventually */}
-                {runtimeInterface.typeData.type === "ARRAY"
-                  ? runtimeInterface.typeData.fieldDefinitions?.map(
-                      (fieldDefinition, idx) => (
-                        <ArrayFieldContainer
-                          fieldDefinition={fieldDefinition}
-                          arrayFieldIndex={idx}
-                          runtimeInterface={runtimeInterface}
-                        />
-                      )
-                    )
-                  : null}
-              </ul>
-            </li>
-          ))}
-        </ul>
+        <PropInputsSwitch runtimeInterfaces={runtimeInterfaces} />
       </StandardContainer>
     </SidebarContainer>
   );
@@ -86,14 +67,14 @@ export interface FieldDefinition {
 }
 
 export interface TypeData {
-  type: "ARRAY";
-  fieldDefinitions: FieldDefinition[];
+  type: "ARRAY" | "STRING";
+  fieldDefinitions?: FieldDefinition[];
 }
 
 export interface RuntimeInterface {
   propName: string;
-  option: boolean;
   typeData: TypeData;
+  optional: boolean;
 }
 
 const SidebarContainer = styled.div`

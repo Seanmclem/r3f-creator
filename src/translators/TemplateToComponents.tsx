@@ -17,13 +17,13 @@ export interface UIchild {
 }
 
 // const MyBox2 = lazy(
-//   () => import("../components/main-ui/editor-gui-components/TestBox2")
+//   () => import("../components/main-ui/editor-gui-components/GenericBox")
 // );
 
-const td2 = "TestBox2";
+const td2 = "GenericBox";
 
 const registered_Components: Record<string, any> = {};
-registered_Components.TestBox2 = lazy(
+registered_Components.GenericBox = lazy(
   () => import(`../components/main-ui/editor-gui-components/${td2}`)
 );
 registered_Components.TestBox = lazy(
@@ -63,7 +63,7 @@ export const TemplateToComponents: React.FC<props> = ({ template }) => {
       //   // myComponents[componentPath] = await import(`../${componentPath}`);
       //   // return myComponents[componentPath];
 
-      //   return myComponents.TestBox2
+      //   return myComponents.GenericBox
 
       //   // return existingComponent || import(`../${componentPath}`);
       // });

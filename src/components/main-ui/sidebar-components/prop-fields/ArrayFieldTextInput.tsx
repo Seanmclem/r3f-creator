@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import styled from "styled-components";
-import { Spacer } from "../../../../Spacer";
-import { FieldDefinition } from "../../../SelectedNodeSidebar";
+import { Spacer } from "../../../Spacer";
+import { FieldDefinition } from "../../SelectedNodeSidebar";
 
 interface props {
   idx: number;
@@ -33,8 +33,8 @@ export const ArrayFieldTextInput: React.FC<props> = ({
     <Container>
       <>
         <label htmlFor={name}>
-          {idx}
-          {") "}
+          {/* {idx}
+          {") "} */}
           {fieldDefinition.key}
         </label>
         <Spacer width={5} height={5} />{" "}
@@ -46,9 +46,12 @@ export const ArrayFieldTextInput: React.FC<props> = ({
         type={isNumeric ? "number" : "text"}
         onChange={handleChange}
         value={textValue || ""}
+        style={{ width: "100%" }}
       />
     </Container>
   );
 };
 
-const Container = styled.div``;
+const Container = styled.div`
+  /* width: 30%; */
+`;
