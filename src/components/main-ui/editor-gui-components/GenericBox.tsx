@@ -1,7 +1,8 @@
 import { Vector3 } from "@react-three/fiber";
-import { useMemo } from "react";
+import { useMemo, useRef } from "react";
 import { PivotControls } from "@react-three/drei";
 import { FieldDefinition, RuntimeInterface } from "../SelectedNodeSidebar";
+import { Euler, Matrix4, Object3D } from "three";
 
 const xyz_TemplatesArray: FieldDefinition[] = [
   { key: "x", type: "number" },
@@ -47,30 +48,41 @@ const GenericBox = ({
   dimensions: number[];
   color: string;
 }) => {
+  const meshRef = useRef<Object3D>(null);
+  const handle_onDragEnd = () => {
+    // can't render separately.. Will need to call useSendNodeUpdate directly from here
+    // apply transforms directly, as below.
+    // Then, onDragEnd, update actual object via useSendNodeUpdate
+    // need to control hide/show of Gizmo
+    // LATER.. could keep a history, for like, ctrl Z?
+  };
+
+  const handle_onDrag = (matrix: Matrix4) => {
+    meshRef?.current?.rotation.setFromRotationMatrix(matrix);
+    // need to get other controls also, position, mostly.
+
+    // matrix.decompose(poo, hat, fork)
+    // meshRef?.current?.position.decompo
+  };
+
   return useMemo(
     () => (
-      // has useMemo, useless?
-
-      // APPEARS RELATIVE TO THE ORIGIN? Not the thing
-
-      // use on-drag-end, update position from ref
-      // I think, I can use a global signal, containing an object, with keys that are ID of the node...
-      // declare ref here, on first useEffect, set it to global signal,
-      // selectedNode Sidebar imports ref lazy/dynamically, get updates from the ref ...
-
-      // OR just use signal/ZUSTAND for the actual position data,
-      // OR store refs in zustand, on an object based on the uuid of component, onDragEnd, do last updated.
-      // Abstract to pivot controls component, takes "updatedProps" array, conpares to pros on ref
-
-      // A store would be good because, it could keep a history, for like, ctrl Z?
-
-      <PivotControls scale={3} anchor={[-0.25, 1.2, -0.25]}>
-        <mesh position={position as Vector3}>
-          <boxGeometry args={dimensions as any} />
-          {/* TODO pass in ROTATION, to array */}
-          <meshStandardMaterial color={color || "brown"} />
-        </mesh>
-      </PivotControls>
+      <>
+        <PivotControls
+          depthTest={false}
+          autoTransform={false}
+          scale={3}
+          anchor={[-0.25, 1.2, -0.25]}
+          onDragEnd={handle_onDragEnd}
+          onDrag={handle_onDrag}
+        >
+          <mesh ref={meshRef} position={position as Vector3}>
+            <boxGeometry args={dimensions as any} />
+            {/* TODO pass in ROTATION, to array */}
+            <meshStandardMaterial color={color || "brown"} />
+          </mesh>
+        </PivotControls>
+      </>
     ),
     [position, dimensions, color] // <-- rotation needed
   );
