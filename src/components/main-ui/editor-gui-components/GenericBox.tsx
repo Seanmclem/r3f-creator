@@ -1,8 +1,25 @@
 import { Vector3 } from "@react-three/fiber";
-import { useMemo, useRef } from "react";
+import { useCallback, useEffect, useMemo, useRef, useState } from "react";
 import { PivotControls } from "@react-three/drei";
 import { FieldDefinition, RuntimeInterface } from "../SelectedNodeSidebar";
-import { Euler, Matrix4, Object3D } from "three";
+import { Euler, Matrix4, Object3D, Vector3 as Vec3 } from "three";
+import { useSnapshot } from "valtio";
+import { editorNodeState } from "../../../stores/editorNodeProxy";
+import { useSendNodeUpdate } from "../../../hooks/useSendNodeUpdate";
+
+const detect_MoveOnly = ({ x, y, z }: { x: number; y: number; z: number }) => {
+  let count = 0;
+  if (x !== 0) {
+    count++;
+  }
+  if (y !== 0) {
+    count++;
+  }
+  if (z !== 0) {
+    count++;
+  }
+  return count === 1;
+};
 
 const xyz_TemplatesArray: FieldDefinition[] = [
   { key: "x", type: "number" },
@@ -30,6 +47,15 @@ export const runtimeInterfaces: RuntimeInterface[] = [
   },
 
   {
+    propName: "rotation",
+    typeData: {
+      type: "ARRAY",
+      fieldDefinitions: xyz_TemplatesArray,
+    },
+    optional: true,
+  },
+
+  {
     propName: "color",
     typeData: {
       type: "STRING",
@@ -40,30 +66,97 @@ export const runtimeInterfaces: RuntimeInterface[] = [
 ];
 
 const GenericBox = ({
+  uid,
   position,
   dimensions,
   color,
+  rotation,
 }: {
+  uid: string;
   position: number[];
   dimensions: number[];
+  rotation: number[];
   color: string;
 }) => {
   const meshRef = useRef<Object3D>(null);
-  const handle_onDragEnd = () => {
-    // can't render separately.. Will need to call useSendNodeUpdate directly from here
+  const [newPosition, setNewPosition] = useState<Vector3>();
+  const [newRotation, setNewRotation] = useState<number[]>();
+  const editorNodeStateObject = useSnapshot(editorNodeState);
+  const specificNode = editorNodeStateObject[uid];
+
+  const sendNodeUpdate = useSendNodeUpdate();
+
+  useEffect(() => {
+    // onDragEnd, position will get updated, newPosition-override will be cleared
+    setNewPosition(undefined);
+  }, [position]);
+
+  useEffect(() => {
+    // onDragEnd, rotation will get updated, newRotation-override will be cleared
+    setNewRotation(undefined);
+  }, [rotation]);
+
+  const handle_onDragEnd = useCallback(() => {
+    // Will need to call useSendNodeUpdate directly from here
     // apply transforms directly, as below.
     // Then, onDragEnd, update actual object via useSendNodeUpdate
-    // need to control hide/show of Gizmo
-    // LATER.. could keep a history, for like, ctrl Z?
-  };
+    // maybe check if position different -and apply it, else rotation
+    // LATER.. could keep a history in-store, for like, ctrl Z?
 
-  const handle_onDrag = (matrix: Matrix4) => {
-    meshRef?.current?.rotation.setFromRotationMatrix(matrix);
-    // need to get other controls also, position, mostly.
+    if (newPosition) {
+      sendNodeUpdate({
+        key: "position",
+        value: newPosition,
+      });
+    }
 
-    // matrix.decompose(poo, hat, fork)
-    // meshRef?.current?.position.decompo
-  };
+    if (newRotation) {
+      sendNodeUpdate({
+        key: "rotation",
+        value: newRotation,
+      });
+    }
+  }, [newPosition, newRotation, sendNodeUpdate]);
+
+  const handle_onDrag = useCallback(
+    (matrix: Matrix4) => {
+      // create empty vector
+      const vec = new Vec3();
+
+      // set vector to data from matrix
+      vec.setFromMatrixPosition(matrix);
+
+      // apply positions from vector, to actual position prop
+      if (detect_MoveOnly(vec)) {
+        let x = position[0] + vec.x;
+        let y = position[1] + vec.y;
+        let z = position[2] + vec.z;
+        setNewPosition([x, y, z]);
+      } else {
+        // else apply rotations from matrix
+        console.log("meshRef?.current?.rotation", meshRef?.current?.rotation);
+        const euler = new Euler();
+        euler.setFromRotationMatrix(matrix);
+        if (meshRef.current) {
+          // onDragStart => maybe grab, set, and add INITIAL-rotation on each onDrag. Won't compound it.
+          setNewRotation([
+            euler.x || meshRef?.current?.rotation.x,
+            euler.y || meshRef?.current?.rotation.y,
+            euler.z || meshRef?.current?.rotation.z,
+          ]);
+        }
+
+        console.log("meshRef?.current?.rotation", meshRef?.current?.rotation);
+      }
+
+      // ^WORKS! ... need to persist ALL changes on onDragEnd, via useSendNodeUpdate, read from ref, probably.
+    },
+    [position]
+  );
+
+  const handle_onDragStart = useCallback(() => {
+    // onDragStart => maybe grab, set, and add INITIAL-rotation/position on each onDrag. Won't compound it.
+  }, []);
 
   return useMemo(
     () => (
@@ -73,10 +166,16 @@ const GenericBox = ({
           autoTransform={false}
           scale={3}
           anchor={[-0.25, 1.2, -0.25]}
+          onDragStart={handle_onDragStart} //, maybe grab, set, and apply initial rotation on each onDrag. Won't compound it.
           onDragEnd={handle_onDragEnd}
           onDrag={handle_onDrag}
+          visible={!!specificNode?.showPivotControls}
         >
-          <mesh ref={meshRef} position={position as Vector3}>
+          <mesh
+            ref={meshRef}
+            rotation={newRotation || rotation}
+            position={newPosition || (position as Vector3)}
+          >
             <boxGeometry args={dimensions as any} />
             {/* TODO pass in ROTATION, to array */}
             <meshStandardMaterial color={color || "brown"} />
@@ -84,11 +183,22 @@ const GenericBox = ({
         </PivotControls>
       </>
     ),
-    [position, dimensions, color] // <-- rotation needed
+    [
+      position,
+      newPosition,
+      rotation,
+      newRotation,
+      dimensions,
+      color,
+      handle_onDragStart,
+      handle_onDrag,
+      handle_onDragEnd,
+      specificNode?.showPivotControls,
+    ] // <-- rotation needed
   );
 };
 
-export const TextBox2LIVE = ({
+export const GenericBoxLIVE = ({
   position,
   args,
 }: {

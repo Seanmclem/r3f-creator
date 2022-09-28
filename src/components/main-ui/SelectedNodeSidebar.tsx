@@ -4,11 +4,10 @@ import { Spacer } from "../Spacer";
 import { useTemplateStore } from "../../stores/templateStore";
 import { StandardContainer } from "../styled-components";
 import { useEffect, useRef, useState } from "react";
-import { PropEditingSwitch } from "./components/PropEditingSwitch";
-import { whatAreTheseTYPES } from "../../functions/type-utils";
-import { ArrayFieldTextInput } from "./sidebar-components/prop-fields/ArrayFieldTextInput";
-import { ArrayFieldContainer } from "./sidebar-components/prop-fields/ArrayFieldContainer";
 import { PropInputsSwitch } from "./sidebar-components/PropInputsSwitch";
+import { editorNodeState } from "../../stores/editorNodeProxy";
+import { useSnapshot } from "valtio";
+import { idText } from "typescript";
 
 interface KeyValueProp {
   key: string;
@@ -20,6 +19,8 @@ interface props {}
 export const SelectedNodeSidebar: React.FC<props> = () => {
   const ref = useRef<HTMLDivElement | null>(null);
   const selectedNode = useTemplateStore((state) => state.selectedNode);
+  const selectedRef = useRef<any>(null);
+  // const editorNodeStateObject = useSnapshot(editorNodeState);
 
   const [runtimeInterfaces, setruntimeInterfaces] = useState<any>([]);
 
@@ -33,6 +34,7 @@ export const SelectedNodeSidebar: React.FC<props> = () => {
       return;
     }
     if (selectedNode && selectedNodeAddress) {
+      selectedRef.current = selectedNode;
       import(`../main-ui/editor-gui-components/${selectedNode.tagName}`).then(
         ({ runtimeInterfaces }) => {
           if (runtimeInterfaces) {
@@ -43,7 +45,25 @@ export const SelectedNodeSidebar: React.FC<props> = () => {
           console.log("runtimeInterfaces", runtimeInterfaces);
         }
       );
+
+      if (!editorNodeState[selectedNode.id]) {
+        editorNodeState[selectedNode.id] = {
+          uid: selectedNode.id,
+          isSelected: true,
+          showPivotControls: true,
+        };
+      } else {
+        editorNodeState[selectedNode.id].isSelected = true;
+        editorNodeState[selectedNode.id].showPivotControls = true;
+      }
     }
+
+    return () => {
+      if (selectedRef.current?.id) {
+        editorNodeState[selectedRef.current.id].isSelected = false;
+        editorNodeState[selectedRef.current.id].showPivotControls = false;
+      }
+    };
   }, [selectedNode, selectedNodeAddress]);
 
   if (!selectedNode || !selectedNodeAddress) {

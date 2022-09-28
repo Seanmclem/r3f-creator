@@ -11,18 +11,15 @@ export const PropInputsSwitch: React.FC<props> = ({ runtimeInterfaces }) => {
   return (
     <>
       {runtimeInterfaces?.map((runtimeInterface: RuntimeInterface) => (
-        <div>
-          {/* <label>{runtimeInterface.propName}</label> */}
-          <div>
-            {/* Switch statement here eventually */}
-            {runtimeInterface.typeData.type === "ARRAY" ? (
-              <ArrayFieldsGroup runtimeInterface={runtimeInterface} />
-            ) : null}
+        <div key={runtimeInterface.propName}>
+          {/* Switch statement here eventually */}
+          {runtimeInterface.typeData.type === "ARRAY" ? (
+            <ArrayFieldsGroup runtimeInterface={runtimeInterface} />
+          ) : null}
 
-            {runtimeInterface.typeData.type === "STRING" ? (
-              <StringFieldTextInput runtimeInterface={runtimeInterface} />
-            ) : null}
-          </div>
+          {runtimeInterface.typeData.type === "STRING" ? (
+            <StringFieldTextInput runtimeInterface={runtimeInterface} />
+          ) : null}
         </div>
       ))}
     </>

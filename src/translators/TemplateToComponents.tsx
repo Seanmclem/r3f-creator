@@ -81,7 +81,7 @@ export const TemplateToComponents: React.FC<props> = ({ template }) => {
         </Suspense>
       ) : (
         <Suspense fallback={null} key={mainChild.id}>
-          <TheComponent key={mainChild.id} {...props}>
+          <TheComponent key={mainChild.id} uid={mainChild.id} {...props}>
             {renderChildren(mainChild.children)}
           </TheComponent>
         </Suspense>

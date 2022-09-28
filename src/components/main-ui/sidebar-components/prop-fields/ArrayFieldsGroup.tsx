@@ -1,6 +1,6 @@
 import React from "react";
 import styled from "styled-components";
-import { FieldDefinition, RuntimeInterface } from "../../SelectedNodeSidebar";
+import { RuntimeInterface } from "../../SelectedNodeSidebar";
 import { ArrayFieldContainer } from "./ArrayFieldContainer";
 
 interface props {
@@ -15,7 +15,8 @@ export const ArrayFieldsGroup: React.FC<props> = ({ runtimeInterface }) => {
       <Body>
         {runtimeInterface.typeData.fieldDefinitions?.map(
           (fieldDefinition, idx) => (
-            <ArrayFieldContainer // <- Make pretty, code and UI
+            <ArrayFieldContainer
+              key={fieldDefinition.key}
               fieldDefinition={fieldDefinition}
               arrayFieldIndex={idx}
               runtimeInterface={runtimeInterface}

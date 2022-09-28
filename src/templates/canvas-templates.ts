@@ -14,6 +14,7 @@ export const box_template = {
         color: "lightblue",
         position: [-10, 5, 10],
         dimensions: [5, 5, 5],
+        rotation: [7, 9, 4],
       },
       children: [],
     },

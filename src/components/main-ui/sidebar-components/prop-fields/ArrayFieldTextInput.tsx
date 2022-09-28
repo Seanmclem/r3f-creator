@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import styled from "styled-components";
 import { Spacer } from "../../../Spacer";
 import { FieldDefinition } from "../../SelectedNodeSidebar";
@@ -23,9 +23,13 @@ export const ArrayFieldTextInput: React.FC<props> = ({
 
   const handleChange = (event: any) => {
     setTextValue(event.target.value); // updates value in input
-    //   updateArray(event.target.value, arrayItemIdx, isNumeric); //// updates larger object
     updateArray(event.target.value, idx, isNumeric);
   };
+
+  useEffect(() => {
+    // keeps input in-sync if value updated from gizmo
+    setTextValue(existingValue);
+  }, [existingValue]);
 
   const name = `${fieldDefinition.key}-${idx}`;
 
