@@ -1,6 +1,17 @@
 import styled from "styled-components/macro";
 import { UIchild } from "../../translators/TemplateToComponents";
 import { TreeItemLabelBox } from "./TreeItem";
+import { AddNew, TreeItem } from "./TreeItemStyled";
+
+const AddNewButton: React.FC<{ mainChild: UIchild }> = ({ mainChild }) => {
+  return mainChild.tagName === "Fragment" ? (
+    <PrimitivesList>
+      <AddNew onClick={() => null} selected={false}>
+        Add Component
+      </AddNew>
+    </PrimitivesList>
+  ) : null;
+};
 
 interface props {
   children: UIchild[];
@@ -25,6 +36,7 @@ export const TreeListChildren: React.FC<props> = ({ children, parentName }) => {
               children={mainChild.children}
               parentName={nodeAddress}
             />
+            <AddNewButton mainChild={mainChild} />
           </PrimitivesList>
         );
       })}

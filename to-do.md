@@ -1,53 +1,9 @@
 # To Do
 
-- [x] Add a home page component
-- [x] Add a basic R3f Canvas
-- [x] add left side hud
-- [x] Use JSON as parent-child recipe for all components in DOM
-  - [x] In-progress
-  - [x] setup data-template to later generate basic canvas content
-  - [x] setup recursice loop to render children ( renderChildren() in TemplateToComponents.tsx )
-    - [x] in-progress
-- [x] Use recipe to add canvas
-- [x] Add basic Cube
-- [x] Add directory stucture component to left-side for component tree
-- [x] In order to select and update deeply nested primitives, and their references. I'll need to have loops leave trail of breadcrumbs on children, to indicate which child they are, and in what position
-- [x] Selected Sidebar components
-- [x] Modularize code for updating nodes to separate utils file
-- [x] Move actual trigger of node update to secondary-sidebar prop-listing
-- [x] Make props manually editable, instead of just changing color onClick
-- [x] Add basic menus to update props
-- [x] Add/Refine, convert to AST, and export...
-  - [x] Test exporting to string, then file, from existing "basicCanvas1" import
-  - [x] imporve import-adding
-  - [x] Get "basicCanvas1" from global stores json object
-    - [x] Currently populating on first load, once Exported is embedded in modal or something, just use pre-populated mainTemplate
-- [x] Next, Revisit scene-exporting. Refine, cleanup, make univeral to more prop types.
-- [x] Success editing Array-Prop values
-- [x] Simplify and fix/improve deep-nested multi dim array prop editing.. "DeepSplice"
-- [x] Pretty-up UI and sizing. for more props
-- [ ] Add ability/menu to add more props to an Intrinsic Element
-
-  - [x] Big step, use TS to parse Types in frontend, to help define UI for adding primatives
-  - [x] use custom thing instead
-
-  - [ ] Nuke lots of recent work, priorities too, by rewriting to be CUSTOM-COMPONENT-BASED
-  - [ ] Wrappers or custom only
-
-    <!-- - [ ] ... Listing props,
-      - [x] need to differentiate by type, like boolean etc
-      - [x] add boolean
-      - [x] boolean causes export error ... Fix
-      - [ ] NEED to fix MESH prop listings
-        - [x] fixed crash
-        - [ ] fix mesh values editing.. Like, position should be an array
-      - [ ] Finish all 3 working Intrinsic Elements
-      - [ ] Pretty-up listings-->
-  <!-- - [ ] Add menu to Add more ONE more instrinsic element to the tree
-
+- [x] Nuke lots of recent work, priorities too, by rewriting to be CUSTOM-COMPONENT-BASED
+- [x] Wrappers or custom only
 - [ ] Basic custom Geometry Nodes
-- [ ] Adding Basic Non-primitive components
-  - [ ] Test a simple box-based, dynamic-lazy-import?
-  - [ ] Add component templates, for example a pre-made box, or a slope/ramp. That can be dropped in and configured similar to individual primitives. Using dynamic, lazy imports... OR stairs
-- [ ] Slope/ramp
-- [ ] Add/edit cameras and canvases... -->
+  - [x] Box
+  - [ ] Slope/ramp
+- [ ] Add-new button for adding another generic box
+  - [ ] DO IT

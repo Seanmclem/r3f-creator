@@ -36,11 +36,7 @@ export const ArrayFieldTextInput: React.FC<props> = ({
   return (
     <Container>
       <>
-        <label htmlFor={name}>
-          {/* {idx}
-          {") "} */}
-          {fieldDefinition.key}
-        </label>
+        <label htmlFor={name}>{fieldDefinition.key}</label>
         <Spacer width={5} height={5} />{" "}
       </>
 

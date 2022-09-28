@@ -1,7 +1,7 @@
 import React from "react";
-import styled from "styled-components";
 import { useTemplateStore } from "../../stores/templateStore";
 import { UIchild } from "../../translators/TemplateToComponents";
+import { TreeItem } from "./TreeItemStyled";
 
 interface props {
   item: UIchild;
@@ -52,12 +52,3 @@ export const TreeItemLabelBox: React.FC<props> = ({ item, nodeAddress }) => {
     </TreeItem>
   );
 };
-
-const TreeItem = styled.div<{ selected?: boolean }>`
-  margin: 5px;
-  padding: 10px;
-  background-color: ${({ selected }) => (selected ? "#80a9e244" : "white")};
-  border: ${({ selected }) => (selected ? "1px solid black" : "none")};
-  border-radius: 10px;
-  cursor: pointer;
-`;

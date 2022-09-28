@@ -97,10 +97,6 @@ const GenericBox = ({
   }, [rotation]);
 
   const handle_onDragEnd = useCallback(() => {
-    // Will need to call useSendNodeUpdate directly from here
-    // apply transforms directly, as below.
-    // Then, onDragEnd, update actual object via useSendNodeUpdate
-    // maybe check if position different -and apply it, else rotation
     // LATER.. could keep a history in-store, for like, ctrl Z?
 
     if (newPosition) {
@@ -134,7 +130,6 @@ const GenericBox = ({
         setNewPosition([x, y, z]);
       } else {
         // else apply rotations from matrix
-        console.log("meshRef?.current?.rotation", meshRef?.current?.rotation);
         const euler = new Euler();
         euler.setFromRotationMatrix(matrix);
         if (meshRef.current) {
@@ -145,17 +140,13 @@ const GenericBox = ({
             euler.z || meshRef?.current?.rotation.z,
           ]);
         }
-
-        console.log("meshRef?.current?.rotation", meshRef?.current?.rotation);
       }
-
-      // ^WORKS! ... need to persist ALL changes on onDragEnd, via useSendNodeUpdate, read from ref, probably.
     },
     [position]
   );
 
   const handle_onDragStart = useCallback(() => {
-    // onDragStart => maybe grab, set, and add INITIAL-rotation/position on each onDrag. Won't compound it.
+    // onDragStart => maybe grab, set, and add INITIAL/PRIOR-rotation on each onDrag. Won't compound it.
   }, []);
 
   return useMemo(

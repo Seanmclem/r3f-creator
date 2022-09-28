@@ -4,8 +4,6 @@ import { Spacer } from "../Spacer";
 import { UIchild } from "../../translators/TemplateToComponents";
 
 import { SelectedNodeSidebar } from "./SelectedNodeSidebar";
-// import { useRef } from "react";
-// import { useElementBoundingRect } from "../../hooks/useElementBoundingRect";
 
 interface props {
   mainTemplate: UIchild[];
