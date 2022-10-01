@@ -40,7 +40,7 @@ export const TemplateToComponents: React.FC<props> = ({ template }) => {
     if (!children?.length) {
       return null;
     }
-    return children.map((mainChild) => {
+    return children.map((mainChild, idx) => {
       // let TheComponent: any;
       // const componentPath = `components/main-ui/editor-gui-components/${mainChild.tagName}`;
       // const existingComponent = myComponents[componentPath] as any;
@@ -81,7 +81,13 @@ export const TemplateToComponents: React.FC<props> = ({ template }) => {
         </Suspense>
       ) : (
         <Suspense fallback={null} key={mainChild.id}>
-          <TheComponent key={mainChild.id} uid={mainChild.id} {...props}>
+          <TheComponent
+            key={mainChild.id}
+            uid={mainChild.id}
+            nodeItem={mainChild}
+            idx={idx}
+            {...props}
+          >
             {renderChildren(mainChild.children)}
           </TheComponent>
         </Suspense>

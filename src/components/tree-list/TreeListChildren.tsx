@@ -1,12 +1,33 @@
+import { useState } from "react";
 import styled from "styled-components/macro";
+import { useAddNewNode } from "../../hooks/useAddNewNode";
 import { UIchild } from "../../translators/TemplateToComponents";
 import { TreeItemLabelBox } from "./TreeItem";
-import { AddNew, TreeItem } from "./TreeItemStyled";
+import { AddNew } from "./TreeItemStyled";
 
 const AddNewButton: React.FC<{ mainChild: UIchild }> = ({ mainChild }) => {
+  const [fade, setFade] = useState(false);
+  const { handleAddNode } = useAddNewNode();
+
+  const handleClick = () => {
+    setFade(true);
+    handleAddNode();
+  };
+
+  const triggerFade = () => {
+    setFade((prevState) => {
+      return !prevState;
+    });
+  };
+
   return mainChild.tagName === "Fragment" ? (
     <PrimitivesList>
-      <AddNew onClick={() => null} selected={false}>
+      <AddNew
+        className={` ${fade ? " fade" : ""}`}
+        onClick={handleClick}
+        selected={false}
+        onAnimationEnd={triggerFade}
+      >
         Add Component
       </AddNew>
     </PrimitivesList>

@@ -13,4 +13,23 @@ export const AddNew = styled(TreeItem)`
   background-color: transparent;
   border: 1px dotted black;
   text-align: center;
+
+  &.fade {
+    animation: fade 0.5s;
+  }
+  @keyframes fade {
+    25% {
+      opacity: 0.3;
+    }
+    50% {
+      opacity: 0.4;
+      background-color: #e7e7e7;
+    }
+    75% {
+      opacity: 0.6;
+    }
+    100% {
+      opacity: 1;
+    }
+  }
 `;

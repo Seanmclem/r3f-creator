@@ -6,6 +6,7 @@ import { Euler, Matrix4, Object3D, Vector3 as Vec3 } from "three";
 import { useSnapshot } from "valtio";
 import { editorNodeState } from "../../../stores/editorNodeProxy";
 import { useSendNodeUpdate } from "../../../hooks/useSendNodeUpdate";
+import { useTemplateStore } from "../../../stores/templateStore";
 
 const detect_MoveOnly = ({ x, y, z }: { x: number; y: number; z: number }) => {
   let count = 0;
@@ -66,13 +67,19 @@ export const runtimeInterfaces: RuntimeInterface[] = [
 ];
 
 const GenericBox = ({
-  uid,
+  idx, //custom
+  uid, // custom
+  nodeItem, // custom
+  //
   position,
   dimensions,
   color,
   rotation,
 }: {
-  uid: string;
+  idx: number; // custome
+  uid: string; // custom
+  nodeItem: any; // custom
+  //
   position: number[];
   dimensions: number[];
   rotation: number[];
@@ -83,6 +90,14 @@ const GenericBox = ({
   const [newRotation, setNewRotation] = useState<number[]>();
   const editorNodeStateObject = useSnapshot(editorNodeState);
   const specificNode = editorNodeStateObject[uid];
+
+  const updateSelectedNode = useTemplateStore(
+    (state) => state.updateSelectedNode
+  );
+
+  const updateSelectedNodeAddress = useTemplateStore(
+    (state) => state.updateSelectedNodeAddress
+  );
 
   const sendNodeUpdate = useSendNodeUpdate();
 
@@ -149,6 +164,11 @@ const GenericBox = ({
     // onDragStart => maybe grab, set, and add INITIAL/PRIOR-rotation on each onDrag. Won't compound it.
   }, []);
 
+  const handleClick = useCallback(() => {
+    updateSelectedNode(nodeItem); // UIChild
+    updateSelectedNodeAddress(`0.${idx}`);
+  }, []);
+
   return useMemo(
     () => (
       <>
@@ -166,6 +186,7 @@ const GenericBox = ({
             ref={meshRef}
             rotation={newRotation || rotation}
             position={newPosition || (position as Vector3)}
+            onClick={handleClick}
           >
             <boxGeometry args={dimensions as any} />
             {/* TODO pass in ROTATION, to array */}
@@ -185,6 +206,7 @@ const GenericBox = ({
       handle_onDrag,
       handle_onDragEnd,
       specificNode?.showPivotControls,
+      handleClick,
     ] // <-- rotation needed
   );
 };

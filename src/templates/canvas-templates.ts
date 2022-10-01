@@ -3,11 +3,6 @@ export const box_template = {
   tagName: "Fragment",
   children: [
     {
-      id: "j9h8u7ygft6rd5",
-      tagName: "TestBox",
-      children: [],
-    },
-    {
       id: "894t58h945h89",
       tagName: "GenericBox",
       props: {
