@@ -15,4 +15,6 @@
   - [ ] Make use LIVE component
   - [ ] Make sure it only externally references and adds component.
   - [ ] Process adds import oof component
-  - [ ] export includes all files imported by components
+  - [ ] export includes all files imported by components, literally, the files are copied too.
+- [ ] Later
+  - [ ] add Nick-name field for components/tree
