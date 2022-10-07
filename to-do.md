@@ -11,7 +11,7 @@
   - [x] click shape to selct
 - [ ] Fix exporting again
   - [x] Generate component-tree works
-  - [ ] Needs exported-components import(s) generated, in ExportedTree
+  - [x] Needs exported-components import(s) generated, in ExportedTree
   - [ ] Need exported tree to go into a file `exported/src/components/ExportedTree.tsx`
   - [ ] need to put component files into like, `exported/src/components/GenericBox.tsx`
 - [ ] Later
