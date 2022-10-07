@@ -1,12 +1,12 @@
 import { Vector3 } from "@react-three/fiber";
 import { useCallback, useEffect, useMemo, useRef, useState } from "react";
 import { PivotControls } from "@react-three/drei";
-import { FieldDefinition, RuntimeInterface } from "../SelectedNodeSidebar";
+import { FieldDefinition, RuntimeInterface } from "../../SelectedNodeSidebar";
 import { Euler, Matrix4, Object3D, Vector3 as Vec3 } from "three";
 import { useSnapshot } from "valtio";
-import { editorNodeState } from "../../../stores/editorNodeProxy";
-import { useSendNodeUpdate } from "../../../hooks/useSendNodeUpdate";
-import { useTemplateStore } from "../../../stores/templateStore";
+import { editorNodeState } from "../../../../stores/editorNodeProxy";
+import { useSendNodeUpdate } from "../../../../hooks/useSendNodeUpdate";
+import { useTemplateStore } from "../../../../stores/templateStore";
 
 const detect_MoveOnly = ({ x, y, z }: { x: number; y: number; z: number }) => {
   let count = 0;
@@ -210,18 +210,5 @@ const GenericBox = ({
     ] // <-- rotation needed
   );
 };
-
-export const GenericBoxLIVE = ({
-  position,
-  args,
-}: {
-  position: number[];
-  args: number[];
-}) => (
-  <mesh position={position as Vector3}>
-    <boxGeometry args={args as any} />
-    <meshStandardMaterial color={"brown"} />
-  </mesh>
-);
 
 export default GenericBox;

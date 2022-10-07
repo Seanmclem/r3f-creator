@@ -2,7 +2,6 @@ import { useWindowSize } from "@react-hook/window-size";
 import styled from "styled-components";
 
 import { Canvas } from "@react-three/fiber";
-import { CameraControls } from "../components/CameraControls1";
 import { Sidebar } from "../components/main-ui/Sidebar";
 
 import { basicCanvas1 } from "../templates/canvas-templates";
@@ -10,7 +9,7 @@ import { TemplateToComponents } from "../translators/TemplateToComponents";
 import { useTemplateStore } from "../stores/templateStore";
 import { useEffect, lazy, Suspense, useRef } from "react";
 import { TopBar } from "../components/top-bar/TopBar";
-import { OrbitControls, TransformControls } from "@react-three/drei";
+import { OrbitControls } from "@react-three/drei";
 import { Object3D } from "three";
 
 export const MainUI: React.VFC<{}> = () => {
@@ -23,14 +22,6 @@ export const MainUI: React.VFC<{}> = () => {
   useEffect(() => {
     updateMainTemplate(basicCanvas1); // added on first load
   }, []);
-
-  // const MyBox = lazy(
-  //   () => import("../components/main-ui/editor-gui-components/TestBox")
-  // );
-  // const MyBox2 = lazy(
-  //   () => import("../components/main-ui/editor-gui-components/GenericBox")
-  // );
-  const meshRef = useRef<Object3D>(null);
 
   return (
     <>

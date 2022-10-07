@@ -1,7 +1,5 @@
-import { sendNodeUpdate } from "../functions/editor-tree-functions";
 import { randomString } from "../functions/generic_utils";
 import { useTemplateStore } from "../stores/templateStore";
-import { KeyValueProp } from "../types/shared";
 
 const get_New_Thing = () => ({
   id: randomString(),
@@ -20,9 +18,6 @@ export const useAddNewNode = () => {
   const updateMainTemplate = useTemplateStore(
     (state) => state.updateMainTemplate
   );
-  // const selectedNodeAddress = useTemplateStore(
-  //   (state) => state.selectedNodeAddress
-  // );
 
   const handleAddNode = () => {
     const updatedTemplate = [...mainTemplate];

@@ -16,15 +16,16 @@ export interface UIchild {
   children: UIchild[];
 }
 
-// const MyBox2 = lazy(
-//   () => import("../components/main-ui/editor-gui-components/GenericBox")
-// );
-
 const td2 = "GenericBox";
 
 const registered_Components: Record<string, any> = {};
+//
+/// Going to need to pre-emptively load all the component?
+/// Can probably use FSA-API to list filenames in 'editor' folder
+/// At startup, and pre-register them all.
+//
 registered_Components.GenericBox = lazy(
-  () => import(`../components/main-ui/editor-gui-components/${td2}`)
+  () => import(`../components/main-ui/editor-gui-components/editor/${td2}`)
 );
 registered_Components.TestBox = lazy(
   () => import(`../components/main-ui/editor-gui-components/${"TestBox"}`)
@@ -32,7 +33,7 @@ registered_Components.TestBox = lazy(
 /** IDEA */
 /** Can have a script, on project start, that puts the list of tagNames into an object to loop over? */
 /** Later. v */
-/** or something better. Can also just do it syncronisly when new components are added? before the view is updated. Maye with useState? */
+/** or something better. Can also just do it synchronisly when new components are added? before the view is updated. Maybe with useState? */
 
 /** EDITOR RENDERING */
 export const TemplateToComponents: React.FC<props> = ({ template }) => {
