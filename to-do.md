@@ -10,11 +10,9 @@
   - [x] Make it -add another GenericBox. Just that for now. Keep-it-simple-for-now
   - [x] click shape to selct
 - [ ] Fix exporting again
-  - [ ] Test again
-  - [ ] Fix again
-  - [ ] Make use LIVE component
-  - [ ] Make sure it only externally references and adds component.
-  - [ ] Process adds import oof component
-  - [ ] export includes all files imported by components, literally, the files are copied too.
+  - [x] Generate component-tree works
+  - [ ] Needs exported-components import(s) generated, in ExportedTree
+  - [ ] Need exported tree to go into a file `exported/src/components/ExportedTree.tsx`
+  - [ ] need to put component files into like, `exported/src/components/GenericBox.tsx`
 - [ ] Later
   - [ ] add Nick-name field for components/tree
