@@ -1,6 +1,7 @@
 import { Canvas } from "@react-three/fiber";
 import { OrbitControls } from "@react-three/drei";
 import "./App.css";
+import { ExportedTree } from "./components/ExportedTree";
 
 const App = () => {
   return (
@@ -11,10 +12,7 @@ const App = () => {
       <OrbitControls makeDefault />
       {/* <ambientLight intensity={0.5} /> */}
       <directionalLight position={[10, 15, 10]} />
-      <mesh>
-        <boxGeometry args={[5, 5, 5]} />
-        <meshStandardMaterial color={"pink"} />
-      </mesh>
+      <ExportedTree />
     </Canvas>
   );
 };

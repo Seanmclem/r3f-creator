@@ -1,6 +1,7 @@
 import React from "react";
 import { GenericBox } from "./GenericBox";
-export const CustomComponent: React.FC<{}> = () => {
+
+export const ExportedTree: React.FC<{}> = () => {
   return (
     <>
       <>
