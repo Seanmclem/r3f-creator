@@ -27,13 +27,6 @@ const registered_Components: Record<string, any> = {};
 registered_Components.GenericBox = lazy(
   () => import(`../components/main-ui/editor-gui-components/editor/${td2}`)
 );
-registered_Components.TestBox = lazy(
-  () => import(`../components/main-ui/editor-gui-components/${"TestBox"}`)
-);
-/** IDEA */
-/** Can have a script, on project start, that puts the list of tagNames into an object to loop over? */
-/** Later. v */
-/** or something better. Can also just do it synchronisly when new components are added? before the view is updated. Maybe with useState? */
 
 /** EDITOR RENDERING */
 export const TemplateToComponents: React.FC<props> = ({ template }) => {
@@ -42,9 +35,6 @@ export const TemplateToComponents: React.FC<props> = ({ template }) => {
       return null;
     }
     return children.map((mainChild, idx) => {
-      // let TheComponent: any;
-      // const componentPath = `components/main-ui/editor-gui-components/${mainChild.tagName}`;
-      // const existingComponent = myComponents[componentPath] as any;
       const TheComponent = registered_Components[mainChild.tagName];
 
       // if (existingComponent) {

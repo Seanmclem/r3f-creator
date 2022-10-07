@@ -106,7 +106,7 @@ export interface NamedImport {
 
 export interface Imported {
   default?: string;
-  namedImports?: NamedImport[];
+  named?: NamedImport[];
   from: string;
 }
 
@@ -122,8 +122,8 @@ export const addImports_ToBody = (
         types.importDefaultSpecifier(types.identifier(imported.default))
       );
     }
-    if (imported.namedImports?.length) {
-      imported.namedImports.forEach((namedImport) => {
+    if (imported.named?.length) {
+      imported.named.forEach((namedImport) => {
         arrayToAdd.push(
           types.importSpecifier(
             types.identifier(namedImport.name),

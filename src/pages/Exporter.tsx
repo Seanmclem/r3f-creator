@@ -26,11 +26,6 @@ import { saveFile } from "../functions/file-system-utils";
 import { useTemplateStore } from "../stores/templateStore";
 import { UIchild } from "../translators/TemplateToComponents";
 
-const addImports = (path: NodePath<types.Program>) => {
-  const imported: Imported = { default: "React", from: "react" };
-  addImports_ToBody(path, [imported]);
-};
-
 const addExport = ({
   path,
   mainTemplate,
@@ -132,6 +127,26 @@ export const Exporter: React.FC<{}> = () => {
   useEffect(() => {
     updateMainTemplate(basicCanvas1); // added on first load ... Needs to not do this, after Exporter is implemented as modal
   }, []);
+
+  const addImports = (path: NodePath<types.Program>) => {
+    const reactImport: Imported = { default: "React", from: "react" };
+    console.log({ "mainTemplate[0].children": mainTemplate[0].children });
+
+    const importsMapped = mainTemplate[0].children.map(
+      (usedComponents) => usedComponents.tagName
+    );
+
+    const uniqueImportsMapped = [...new Set(importsMapped)];
+
+    const uniqueImportsFormatted = uniqueImportsMapped.map((tagName) => ({
+      default: tagName,
+      from: `./${tagName}`,
+    }));
+
+    const imported = [reactImport, ...uniqueImportsFormatted];
+
+    addImports_ToBody(path, imported);
+  };
 
   const handleJsonTemplate_to_AST = () => {
     /** BabelFileResult contains the dot-ast object */

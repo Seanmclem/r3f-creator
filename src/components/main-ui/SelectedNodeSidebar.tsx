@@ -6,13 +6,6 @@ import { StandardContainer } from "../styled-components";
 import { useEffect, useRef, useState } from "react";
 import { PropInputsSwitch } from "./sidebar-components/PropInputsSwitch";
 import { editorNodeState } from "../../stores/editorNodeProxy";
-import { useSnapshot } from "valtio";
-import { idText } from "typescript";
-
-interface KeyValueProp {
-  key: string;
-  value: string;
-}
 
 interface props {}
 
@@ -35,16 +28,16 @@ export const SelectedNodeSidebar: React.FC<props> = () => {
     }
     if (selectedNode && selectedNodeAddress) {
       selectedRef.current = selectedNode;
-      import(`../main-ui/editor-gui-components/${selectedNode.tagName}`).then(
-        ({ runtimeInterfaces }) => {
-          if (runtimeInterfaces) {
-            setruntimeInterfaces(runtimeInterfaces);
-          } else {
-            setruntimeInterfaces([]);
-          }
-          console.log("runtimeInterfaces", runtimeInterfaces);
+      import(
+        `../main-ui/editor-gui-components/editor/${selectedNode.tagName}`
+      ).then(({ runtimeInterfaces }) => {
+        if (runtimeInterfaces) {
+          setruntimeInterfaces(runtimeInterfaces);
+        } else {
+          setruntimeInterfaces([]);
         }
-      );
+        console.log("runtimeInterfaces", runtimeInterfaces);
+      });
 
       if (!editorNodeState[selectedNode.id]) {
         editorNodeState[selectedNode.id] = {
