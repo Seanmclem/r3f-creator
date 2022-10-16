@@ -11,6 +11,7 @@ import { useEffect, lazy, Suspense, useRef } from "react";
 import { TopBar } from "../components/top-bar/TopBar";
 import { OrbitControls } from "@react-three/drei";
 import { Object3D } from "three";
+import { Physics } from "@react-three/rapier";
 
 export const MainUI: React.VFC<{}> = () => {
   const [width, height] = useWindowSize();
@@ -46,7 +47,9 @@ export const MainUI: React.VFC<{}> = () => {
           <Suspense fallback={null}>
             {/* <MyBox />
             <MyBox2 position={[-10, 5, 10]} /> */}
-            <TemplateToComponents template={mainTemplate} />
+            <Physics>
+              <TemplateToComponents template={mainTemplate} />
+            </Physics>
           </Suspense>
 
           {/* <TheBox /> */}

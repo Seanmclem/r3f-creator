@@ -8,6 +8,9 @@ import { editorNodeState } from "../../../../stores/editorNodeProxy";
 import { useSendNodeUpdate } from "../../../../hooks/useSendNodeUpdate";
 import { useTemplateStore } from "../../../../stores/templateStore";
 
+import { Box } from "@react-three/drei";
+import { RigidBody } from "@react-three/rapier";
+
 const detect_MoveOnly = ({ x, y, z }: { x: number; y: number; z: number }) => {
   let count = 0;
   if (x !== 0) {
@@ -87,7 +90,7 @@ const GenericBox = ({
 }) => {
   const meshRef = useRef<Object3D>(null);
   const [newPosition, setNewPosition] = useState<Vector3>();
-  const [newRotation, setNewRotation] = useState<number[]>();
+  const [newRotation, setNewRotation] = useState<Vector3>();
   const editorNodeStateObject = useSnapshot(editorNodeState);
   const specificNode = editorNodeStateObject[uid];
 
@@ -149,6 +152,7 @@ const GenericBox = ({
         euler.setFromRotationMatrix(matrix);
         if (meshRef.current) {
           // onDragStart => maybe grab, set, and add INITIAL-rotation on each onDrag. Won't compound it.
+
           setNewRotation([
             euler.x || meshRef?.current?.rotation.x,
             euler.y || meshRef?.current?.rotation.y,
@@ -182,16 +186,15 @@ const GenericBox = ({
           onDrag={handle_onDrag}
           visible={!!specificNode?.showPivotControls}
         >
-          <mesh
-            ref={meshRef}
-            rotation={newRotation || rotation}
+          <RigidBody
+            rotation={newRotation || (rotation as any)}
             position={newPosition || (position as Vector3)}
-            onClick={handleClick}
+            type="fixed"
           >
-            <boxGeometry args={dimensions as any} />
-            {/* TODO pass in ROTATION, to array */}
-            <meshStandardMaterial color={color || "brown"} />
-          </mesh>
+            <Box ref={meshRef} args={dimensions as any} onClick={handleClick}>
+              <meshStandardMaterial color={color || "brown"} />
+            </Box>
+          </RigidBody>
         </PivotControls>
       </>
     ),
