@@ -3,6 +3,7 @@ import styled from "styled-components";
 import { Space } from "../../pages/_OLD_AstTools";
 import Modal from "react-modal";
 import { Exporter } from "../../pages/Exporter";
+import { ExporterTwo } from "../exporter-two/ExporterTwo";
 
 Modal.setAppElement("#root");
 
@@ -46,8 +47,8 @@ export const TopBar: React.FC<props> = () => {
           },
         }}
       >
-        <button onClick={toggleModal}>Close modal</button>
-        <Exporter />
+        <button onClick={toggleModal}>Close</button>
+        {isOpen && <ExporterTwo />}
       </Modal>
       <Container>
         <Space />

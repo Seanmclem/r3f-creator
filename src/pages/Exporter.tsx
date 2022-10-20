@@ -124,9 +124,9 @@ export const Exporter: React.FC<{}> = () => {
   const updateMainTemplate = useTemplateStore(
     (state) => state.updateMainTemplate
   );
-  useEffect(() => {
-    updateMainTemplate(basicCanvas1); // added on first load ... Needs to not do this, after Exporter is implemented as modal
-  }, []);
+  // useEffect(() => {
+  //   updateMainTemplate(basicCanvas1); // added on first load ... Needs to not do this, after Exporter is implemented as modal
+  // }, []);
 
   const addImports = (path: NodePath<types.Program>) => {
     const reactImport: Imported = { default: "React", from: "react" };
