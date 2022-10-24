@@ -8,8 +8,8 @@ export const ExporterTwo = () => {
   const handleClick_PreviewOutput = () => {
     const built_ast = get_PreviewOutput({ mainTemplate });
     if (built_ast) {
-      const string_ast = changeAstToCode(built_ast);
-      console.log({ string_ast });
+      const string_code = changeAstToCode(built_ast);
+      console.log({ string_code });
       // ^^TEST me/all
     }
   };
