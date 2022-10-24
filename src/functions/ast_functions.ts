@@ -236,6 +236,7 @@ export const changeAstToCode = (
   babelFileResult: BabelFileResult | null
 ) => {
   if ((!babelFileResult?.code && babelFileResult?.code !== "") || !newAST) {
+    // babelFileResult?.code should be empty
     return undefined;
   } else {
     const backToCode = generate(

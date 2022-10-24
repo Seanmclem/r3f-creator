@@ -1,12 +1,19 @@
 import styled from "styled-components";
 import { useTemplateStore } from "../../stores/templateStore";
-import { get_PreviewOutput } from "./export-utils";
+import { changeAstToCode, get_PreviewOutput } from "./export-utils";
+import * as types from "@babel/types";
 
 export const ExporterTwo = () => {
   const mainTemplate = useTemplateStore((state) => state.mainTemplate);
 
   const handleClick_PreviewOutput = () => {
-    const loaded_ast = get_PreviewOutput({ mainTemplate });
+    const result = get_PreviewOutput({ mainTemplate });
+    // if(result?.new_Ast && result.new_BabelFileResult){
+    if (result) {
+      const string_ast = changeAstToCode(result);
+      console.log({ string_ast });
+      // TEST me/all
+    }
   };
 
   // generate

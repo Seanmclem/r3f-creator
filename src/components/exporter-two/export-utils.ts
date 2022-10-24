@@ -45,7 +45,7 @@ export const get_PreviewOutput = ({
       },
     });
 
-    return ast; // fully loaded, next - magic happens
+    return { new_Ast: ast, new_BabelFileResult }; // fully loaded, next - magic happens
   }
 };
 
@@ -146,7 +146,7 @@ const addExport = ({
           types.variableDeclarator(
             // typeAnnotation on identifier -> https://github.com/babel/babel/issues/12895
             Object.assign(
-              types.identifier(parentComponentName || "FormCreatorInner"),
+              types.identifier(parentComponentName || "GameCreatorInner"),
               {
                 typeAnnotation: types.typeAnnotation(
                   types.genericTypeAnnotation(
@@ -248,5 +248,32 @@ export const formatPropValue = (value: unknown) => {
     );
   } else if (typeof value === "boolean") {
     return types.booleanLiteral(value);
+  }
+};
+
+export const changeAstToCode = ({
+  new_Ast,
+  new_BabelFileResult,
+}: {
+  new_Ast: types.File;
+  new_BabelFileResult: BabelFileResult;
+}) => {
+  if (
+    (!new_BabelFileResult?.code && new_BabelFileResult?.code !== "") ||
+    !new_Ast
+  ) {
+    // babelFileResult?.code should be empty. what about after?
+    return;
+  } else {
+    const backToCode = generate(
+      new_Ast,
+      {
+        sourceFileName: "change_me_maybe.tsx",
+        filename: "change_me_maybe.tsx",
+      },
+      new_BabelFileResult.code
+    );
+    console.log("new_BabelFileResult?.code", new_BabelFileResult?.code);
+    return backToCode;
   }
 };
