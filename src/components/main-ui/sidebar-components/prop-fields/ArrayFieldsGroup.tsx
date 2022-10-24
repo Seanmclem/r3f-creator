@@ -30,22 +30,24 @@ export const ArrayFieldsGroup: React.FC<props> = ({ runtimeInterface }) => {
 const Heading = styled.div`
   background-color: lightblue;
 
-  border-top-left-radius: 15px;
-  border-top-right-radius: 15px;
-  padding: 5px;
-  padding-left: 10px;
+  border-top-left-radius: 10px;
+  border-top-right-radius: 10px;
+  padding: 8px;
+  padding-left: 8px;
   /* font-weight: bold; */
   font-size: 110%;
+  letter-spacing: 0.5px;
 `;
 
 const Container = styled.div`
   background-color: white;
-  border-radius: 15px;
+  border-radius: 10px;
   margin: 5px;
   margin-bottom: 10px;
 `;
 
 const Body = styled.div`
   padding: 5px;
+  padding-top: 0;
   display: flex;
 `;
