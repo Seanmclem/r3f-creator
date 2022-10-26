@@ -4,7 +4,27 @@ import generate from "@babel/generator";
 import traverse from "@babel/traverse";
 import * as types from "@babel/types";
 import { UIchild } from "../../translators/TemplateToComponents";
-import { Imported } from "../../functions/ast_functions";
+import {
+  EntryType,
+  getTextFileContents,
+} from "../../functions/file-system-utils";
+
+export interface NamedImport {
+  name: string;
+  nameOverride?: string;
+}
+
+export interface Imported {
+  default?: string;
+  named?: NamedImport[];
+  from: string;
+}
+
+export interface FilePreview {
+  path: string;
+  file_name: string;
+  file_contents: string;
+}
 
 export const changeCode_to_BabelFileResult = (code: string) => {
   return transform(code, {
@@ -37,7 +57,7 @@ export const get_PreviewOutput = ({
 
   if (new_BabelFileResult?.ast) {
     const ast = new_BabelFileResult.ast;
-    const parentComponentName = "CustomComponent"; // WTF for?
+    const parentComponentName = "ExportedTree"; // Name of top-level component in file
     traverse(ast, {
       Program(path) {
         addImports({ path, mainTemplate });
@@ -276,4 +296,68 @@ export const changeAstToCode = ({
     console.log("new_BabelFileResult?.code", new_BabelFileResult?.code);
     return backToCode;
   }
+};
+
+export const generate_files = async ({
+  mainTemplate,
+  setFilePreviews,
+  live_folder_contents,
+}: {
+  mainTemplate: UIchild[];
+  setFilePreviews: React.Dispatch<React.SetStateAction<FilePreview[]>>;
+  live_folder_contents: EntryType[];
+}) => {
+  const built_ast = get_PreviewOutput({ mainTemplate });
+  if (built_ast) {
+    const string_code = changeAstToCode(built_ast);
+    console.log({ string_code });
+
+    const exportedTree_file: FilePreview = {
+      path: "components",
+      file_name: "ExportedTree.tsx",
+      file_contents: string_code?.code || "no output, woops.",
+    };
+
+    const imported_main_componants = get_imported_components({ mainTemplate });
+
+    // from parsed directory
+    const components_to_copy = live_folder_contents.filter((file) => {
+      const componen_name_from_file = file[0].split(".tsx")[0];
+      return imported_main_componants.includes(componen_name_from_file);
+    });
+
+    const other_imported_files = await get_all_files_as_FilePreview(
+      components_to_copy
+    );
+
+    setFilePreviews([exportedTree_file, ...other_imported_files]);
+  }
+};
+
+export const get_all_files_as_FilePreview = async (
+  components_to_copy: EntryType[]
+) => {
+  const promises = components_to_copy.map(async (component_file) => {
+    return {
+      path: "/",
+      file_name: component_file[0],
+      file_contents: await getTextFileContents(
+        component_file[1] as FileSystemFileHandle
+      ),
+    };
+  });
+  return Promise.all(promises);
+};
+
+const get_imported_components = ({
+  mainTemplate,
+}: {
+  mainTemplate: UIchild[];
+}) => {
+  const imports_mapped = mainTemplate[0].children.map(
+    (usedComponents) => usedComponents.tagName
+  );
+  console.log({ imports_mapped });
+
+  return imports_mapped;
 };

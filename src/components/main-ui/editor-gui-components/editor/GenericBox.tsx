@@ -185,6 +185,7 @@ const GenericBox = ({
           onDragEnd={handle_onDragEnd}
           onDrag={handle_onDrag}
           visible={!!specificNode?.showPivotControls}
+          disableSliders
         >
           <RigidBody
             rotation={newRotation || (rotation as any)}

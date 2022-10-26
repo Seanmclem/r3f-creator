@@ -21,7 +21,7 @@ import {
   changeCodetoAST,
   addImports_ToBody,
   Imported,
-} from "../functions/ast_functions";
+} from "../functions/ast_functions_DEPRECATED";
 import { saveFile } from "../functions/file-system-utils";
 import { useTemplateStore } from "../stores/templateStore";
 import { UIchild } from "../translators/TemplateToComponents";
@@ -113,7 +113,7 @@ export const FormCreatorInner: React.FC<{}> = () => {
         </>
     )
 }`;
-export const Exporter: React.FC<{}> = () => {
+export const ExporterDEPRECATED: React.FC<{}> = () => {
   /** BabelFileResult contains the dot-ast object */
   const [babelFileResult, setBabelFileResult] =
     useState<BabelFileResult | null>(null);

@@ -122,3 +122,13 @@ export const getVideoData = async (
   };
   return data;
 };
+
+export const setup_opened_directory = async (
+  handle: FileSystemDirectoryHandle
+) => {
+  const contents = await getDirectoryContents(handle);
+  // setRootHandle(handle);
+  console.log({ contents, handle });
+
+  return contents;
+};
