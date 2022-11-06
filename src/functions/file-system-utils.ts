@@ -34,26 +34,46 @@ function comparator(a: string, b: string) {
 }
 // https://stackoverflow.com/questions/5435228/sort-an-array-with-arrays-in-it-by-string/5435341
 
-export const createFileInDirectory = async (
+export const saveFilesToDirectory = async (
   directoryHandle: FileSystemDirectoryHandle,
-  filename: string
+  fileHandles: FileSystemFileHandle[]
 ) => {
+  const poo = await directoryHandle.getFileHandle("name", {});
+  // const fileHandle = await directoryHandle.getFileHandle(filename, {
+  //   create: true,
+  // });
+  // await writeFile(fileHandle, " ");
+  // return fileHandle;
+}; // Can only save with a space
+
+export const createFileInDirectory = async ({
+  directoryHandle,
+  filename,
+}: {
+  directoryHandle: FileSystemDirectoryHandle;
+  filename: string;
+}) => {
   const fileHandle = await directoryHandle.getFileHandle(filename, {
     create: true,
   });
-  await writeFile(fileHandle, " ");
+  await writeFile({ fileHandle, contents: " " });
   return fileHandle;
 }; // Can only save with a space
 
-export const createDirectory = async (
-  directoryHandle: FileSystemDirectoryHandle,
-  directoryName: string
-) => await directoryHandle.getDirectoryHandle(directoryName, { create: true }); // UNverified
+export const createDirectory = async ({
+  directoryHandle,
+  directoryName,
+}: {
+  directoryHandle: FileSystemDirectoryHandle;
+  directoryName: string;
+}) => await directoryHandle.getDirectoryHandle(directoryName, { create: true }); // UNverified
 
 // UNverified
 export const writeFile = async (
-  fileHandle: FileSystemFileHandle,
-  contents: FileSystemWriteChunkType // is it? Dafuq is that
+  {
+    fileHandle,
+    contents,
+  }: { fileHandle: FileSystemFileHandle; contents: FileSystemWriteChunkType } // is it? Dafuq is that
 ) => {
   const writer = await fileHandle.createWritable();
   await writer.truncate(0); // Make sure we start with an empty file

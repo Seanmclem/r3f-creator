@@ -1,24 +1,24 @@
 import { useState } from "react";
 import styled from "styled-components";
-import { setup_opened_directory } from "../../functions/file-system-utils";
-import { useTemplateStore } from "../../stores/templateStore";
 import {
-  changeAstToCode,
-  FilePreview,
-  generate_files,
-  get_PreviewOutput,
-} from "./export-utils";
+  createFileInDirectory,
+  setup_opened_directory,
+  writeFile,
+} from "../../functions/file-system-utils";
+import { useTemplateStore } from "../../stores/templateStore";
+import { FilePreview, generate_files } from "./export-utils";
 
 export const ExporterTwo = () => {
   const mainTemplate = useTemplateStore((state) => state.mainTemplate);
   const [filePreviews, setFilePreviews] = useState<FilePreview[]>([]);
-  const [selected_preview_text, set_Selected_preview_text] = useState("");
+  const [selected_preview, set_Selected_preview] = useState<
+    FilePreview | undefined
+  >();
 
   const selectPreview = (idx: number) =>
-    set_Selected_preview_text(filePreviews[idx].file_contents);
+    set_Selected_preview(filePreviews[idx]);
 
   const handleClick_PreviewOutput = async () => {
-    // const showFolderPicker = async () => {
     const handle = await window.showDirectoryPicker();
 
     if (handle.name !== "live") {
@@ -27,9 +27,53 @@ export const ExporterTwo = () => {
     }
 
     const live_folder_contents = await setup_opened_directory(handle);
-    // };
 
-    generate_files({ mainTemplate, setFilePreviews, live_folder_contents });
+    const new_file_previews = await generate_files({
+      mainTemplate,
+      live_folder_contents,
+    });
+
+    //need to convert to file-handles
+
+    if (new_file_previews) {
+      setFilePreviews(new_file_previews);
+    }
+  };
+
+  const handleClick_Export_previews_to_final_folder = async () => {
+    // opens directory for 'exported'
+    const directoryHandle = await window.showDirectoryPicker();
+    console.log("got directory"); // 1
+
+    const fileHandle_inside_directoryHandle = await createFileInDirectory({
+      directoryHandle,
+      filename: "file_test.txt",
+    });
+    console.log("got file handle"); // 2
+
+    await writeFile({
+      fileHandle: fileHandle_inside_directoryHandle,
+      contents: "Look at all this FILE",
+    });
+    console.log("wrote file"); // 3
+    //
+    /// ^^ Test steps work great.
+    /// Need to build a loop for them
+    /// And, just bite the bullet, use one shared directory handle
+    /// instead of 2
+    //
+
+    //open exported/src/components ... everything can be written there
+    // ...
+    // hold directory-handle
+    // iterate over file_previews, use createFileInDirectory for each to save each file to that directory
+    // done?
+    /// OR
+    // get main project directory_handle
+    // hold it
+    // save to it here
+    // turn file_previews into file_handles/entry
+    // save file_handles into directory_handle
   };
 
   // generate
@@ -42,17 +86,25 @@ export const ExporterTwo = () => {
         <ButtonPretty onClick={handleClick_PreviewOutput}>
           Preview output
         </ButtonPretty>
+        {filePreviews.length ? (
+          <ButtonPretty onClick={handleClick_Export_previews_to_final_folder}>
+            Do Export
+          </ButtonPretty>
+        ) : null}
       </TopBar>
       <FileArea>
         <FileList>
           {filePreviews.map((filePreview, idx) => (
-            <div onClick={() => selectPreview(idx)}>
+            <FilenameItem
+              selected={selected_preview?.file_name === filePreview.file_name}
+              onClick={() => selectPreview(idx)}
+            >
               {filePreview.file_name}
-            </div>
+            </FilenameItem>
           ))}
         </FileList>
         <FileContentsPreview>
-          {selected_preview_text || "none"}
+          {selected_preview?.file_contents || "none"}
         </FileContentsPreview>
       </FileArea>
     </Container>
@@ -88,7 +140,7 @@ const FileArea = styled.div`
   width: 100%;
   height: 95%;
   display: grid;
-  grid-template-columns: 1fr 2fr;
+  grid-template-columns: 1fr 2.5fr;
 `;
 
 const FileList = styled.div`
@@ -106,4 +158,14 @@ const FileContentsPreview = styled.div`
   margin-left: 10px;
   white-space: pre-wrap;
   overflow-x: auto;
+`;
+
+const FilenameItem = styled.div<{ selected?: boolean }>`
+  background-color: ${({ selected }) => (selected ? "blue" : "transparent")};
+  cursor: pointer;
+  margin: 0px 5px 5px 0px;
+  padding: 5px;
+  padding-left: 10px;
+  border-radius: 10px;
+  color: ${({ selected }) => (selected ? "white" : "black")};
 `;

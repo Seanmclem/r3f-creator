@@ -300,11 +300,11 @@ export const changeAstToCode = ({
 
 export const generate_files = async ({
   mainTemplate,
-  setFilePreviews,
+  // setFilePreviews,
   live_folder_contents,
 }: {
   mainTemplate: UIchild[];
-  setFilePreviews: React.Dispatch<React.SetStateAction<FilePreview[]>>;
+  // setFilePreviews: React.Dispatch<React.SetStateAction<FilePreview[]>>;
   live_folder_contents: EntryType[];
 }) => {
   const built_ast = get_PreviewOutput({ mainTemplate });
@@ -330,7 +330,7 @@ export const generate_files = async ({
       components_to_copy
     );
 
-    setFilePreviews([exportedTree_file, ...other_imported_files]);
+    return [exportedTree_file, ...other_imported_files];
   }
 };
 
