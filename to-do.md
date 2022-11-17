@@ -15,6 +15,10 @@
   - [x] Need exported tree to go into a file `exported/src/components/ExportedTree.tsx`
   - [x] need to put component files into like, `exported/src/components/GenericBox.tsx`
   - [x] generate file previews, display previews, functiion exports
+  - [ ] Fix Rotation issue(s) for GenericBox
+    - [ ] stop resetting on try-again
+      - [ ] be able to compine diff axis rotations
+    - [ ] Remove whole numbers. Decimals of >1 are all that's needed?
   - [ ] Add a `Plane` component type
   - [ ] Add a `Lighting` component
   - [ ] Add a `Character-Controller` component type..
