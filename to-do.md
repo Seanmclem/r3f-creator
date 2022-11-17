@@ -22,6 +22,7 @@
   - [ ] Add component-picker
   - [ ] Add a `Plane` component type
   - [ ] Add a `Lighting` component
+    - [ ] Nice docs, reword type-descriptions
   - [ ] Add a `Character-Controller` component type..
     - [ ] First-person/no-thing
     - [ ] Third-Person
