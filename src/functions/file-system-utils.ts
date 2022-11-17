@@ -100,10 +100,13 @@ export const openTextFile = async () => {
 };
 
 // Verified
-export const getDirectoryContents = async (
-  directoryHandle: FileSystemDirectoryHandle,
-  sort = true
-): Promise<EntryType[]> => {
+export const getDirectoryContents = async ({
+  directoryHandle,
+  sort = true,
+}: {
+  directoryHandle: FileSystemDirectoryHandle;
+  sort?: boolean;
+}): Promise<EntryType[]> => {
   const handlesEntriesIterator = directoryHandle.entries();
   return asyncIteratorToArray(handlesEntriesIterator, sort);
 };
@@ -144,11 +147,78 @@ export const getVideoData = async (
 };
 
 export const setup_opened_directory = async (
-  handle: FileSystemDirectoryHandle
+  directoryHandle: FileSystemDirectoryHandle
 ) => {
-  const contents = await getDirectoryContents(handle);
+  const contents = await getDirectoryContents({ directoryHandle });
   // setRootHandle(handle);
-  console.log({ contents, handle });
+  console.log({ contents, directoryHandle });
 
   return contents;
+};
+
+// awesome
+const loop_paths = async ({
+  folder_contents,
+  paths,
+  current_path,
+}: {
+  folder_contents: EntryType[];
+  paths: string[];
+  current_path: string;
+}): Promise<EntryType | undefined> => {
+  if (paths.length === 1) {
+    return folder_contents.find((entry) => entry[0] === current_path);
+  }
+
+  const next_folder = folder_contents.find(
+    (entry) => entry[0] === current_path
+  );
+  if (!next_folder) {
+    console.error("Failed to find path", {
+      folder_contents,
+      paths,
+      current_path,
+    });
+    return undefined;
+  }
+
+  const next_folder_handle = next_folder[1];
+
+  if (next_folder_handle.kind !== "directory") {
+    console.error("Entry handle is not a directory", {
+      folder_contents,
+      paths,
+      current_path,
+    });
+  }
+
+  const next_folder_handle_contents = await getDirectoryContents({
+    directoryHandle: next_folder_handle as FileSystemDirectoryHandle,
+  });
+
+  const next_paths = paths.splice(1);
+  const next_current_path = next_paths[0];
+
+  return await loop_paths({
+    folder_contents: next_folder_handle_contents,
+    paths: next_paths,
+    current_path: next_current_path,
+  });
+};
+
+/** Takes a folder's contnets, and array of nested paths, and returns the EntryType[name][contents] at the final path */
+export const traverse_folder_paths = async ({
+  folder_contents,
+  paths,
+}: {
+  folder_contents: EntryType[];
+  paths: string[];
+}) => {
+  const result = await loop_paths({
+    folder_contents,
+    paths,
+    current_path: paths[0],
+  });
+
+  return result;
 };

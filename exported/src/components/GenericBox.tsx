@@ -1,4 +1,6 @@
+import { Box } from "@react-three/drei";
 import { Euler, Vector3 } from "@react-three/fiber";
+import { RigidBody } from "@react-three/rapier";
 
 export const GenericBox = ({
   position,
@@ -11,8 +13,9 @@ export const GenericBox = ({
   rotation: number[];
   color: string;
 }) => (
-  <mesh position={position as Vector3} rotation={rotation as Euler}>
-    <boxGeometry args={dimensions as any} />
-    <meshStandardMaterial color={color} />
-  </mesh>
+  <RigidBody position={position as Vector3} rotation={rotation as Euler}>
+    <Box args={dimensions as any}>
+      <meshStandardMaterial color={color} />
+    </Box>
+  </RigidBody>
 );

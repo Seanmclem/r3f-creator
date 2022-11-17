@@ -79,18 +79,30 @@ const addImports = ({
   const reactImport: Imported = { default: "React", from: "react" };
   console.log({ "mainTemplate[0].children": mainTemplate[0].children });
 
+  const physics_Rapier_Import: Imported = {
+    named: [{ name: "Physics" }],
+    from: "@react-three/rapier",
+  };
+
   const importsMapped = mainTemplate[0].children.map(
     (usedComponents) => usedComponents.tagName
   );
 
   const uniqueImportsMapped = [...new Set(importsMapped)];
 
-  const uniqueImportsFormatted = uniqueImportsMapped.map((tagName) => ({
-    default: tagName,
-    from: `./${tagName}`,
-  }));
+  const uniqueImportsFormatted = uniqueImportsMapped.map((tagName) => {
+    const the_import: Imported = {
+      named: [{ name: tagName }],
+      from: `./${tagName}`,
+    };
+    return the_import;
+  });
 
-  const imports = [reactImport, ...uniqueImportsFormatted];
+  const imports = [
+    reactImport,
+    physics_Rapier_Import,
+    ...uniqueImportsFormatted,
+  ];
 
   addImports_ToBody({ path, imports });
 };
@@ -188,10 +200,10 @@ const addExport = ({
               // blockStatement body, is just an array of the function statements...
               types.blockStatement([
                 types.returnStatement(
-                  types.jsxFragment(
+                  types.jsxElement(
                     // double fragment
-                    types.jsxOpeningFragment(),
-                    types.jsxClosingFragment(),
+                    types.jsxOpeningElement(types.jsxIdentifier("Physics"), []),
+                    types.jsxClosingElement(types.jsxIdentifier("Physics")),
                     renderChildren(mainTemplate) // not equiv to mainTemplate
                   )
                 ),
@@ -210,10 +222,7 @@ export const renderChildren: any = (children: UIchild[]) => {
     return [types.jsxText("\n")];
   }
 
-  const result = children.map((mainChild, idx) => {
-    const TheComponent = mainChild.tagName as any;
-    const props = mainChild.props || [];
-
+  const child_ast = children.map((mainChild) => {
     return mainChild.tagName === "Fragment"
       ? types.jsxFragment(
           types.jsxOpeningFragment(),
@@ -226,11 +235,20 @@ export const renderChildren: any = (children: UIchild[]) => {
             renderAttributes(mainChild.props)
           ),
           types.jsxClosingElement(types.jsxIdentifier(mainChild.tagName)),
-          renderChildren(mainChild.children)
+          mainChild.children.length === 0
+            ? []
+            : renderChildren(mainChild.children) // fixes "/n" in children, errors
         );
   });
-  //   console.log(children);
-  return [...result, types.jsxText("\n")];
+
+  const jsx_newLines_array: types.JSX[] = [];
+
+  child_ast.forEach((child_item) => {
+    jsx_newLines_array.push(child_item);
+    jsx_newLines_array.push(types.jsxText("\n"));
+  });
+
+  return [...jsx_newLines_array];
 };
 
 export const renderAttributes: any = (props: any) => {
@@ -257,7 +275,7 @@ export const renderAttributes: any = (props: any) => {
 export const formatPropValue = (value: unknown) => {
   // Magic happens
   if (typeof value === "string") {
-    return types.stringLiteral(JSON.stringify(value));
+    return types.stringLiteral(value);
   } else if (Array.isArray(value)) {
     return types.arrayExpression(
       value.map((val) =>
@@ -300,11 +318,9 @@ export const changeAstToCode = ({
 
 export const generate_files = async ({
   mainTemplate,
-  // setFilePreviews,
   live_folder_contents,
 }: {
   mainTemplate: UIchild[];
-  // setFilePreviews: React.Dispatch<React.SetStateAction<FilePreview[]>>;
   live_folder_contents: EntryType[];
 }) => {
   const built_ast = get_PreviewOutput({ mainTemplate });

@@ -2,7 +2,10 @@ import { useState } from "react";
 import styled from "styled-components";
 import {
   createFileInDirectory,
+  EntryType,
+  getDirectoryContents,
   setup_opened_directory,
+  traverse_folder_paths,
   writeFile,
 } from "../../functions/file-system-utils";
 import { useTemplateStore } from "../../stores/templateStore";
@@ -15,18 +18,37 @@ export const ExporterTwo = () => {
     FilePreview | undefined
   >();
 
+  const [_selected_folder, set_selected_folder] = useState<
+    FileSystemDirectoryHandle | undefined
+  >();
+
+  const [selected_folder_contents, set_folder_contents] = useState<
+    EntryType[] | undefined
+  >();
+
   const selectPreview = (idx: number) =>
     set_Selected_preview(filePreviews[idx]);
 
   const handleClick_PreviewOutput = async () => {
-    const handle = await window.showDirectoryPicker();
+    const directoryHandle = await window.showDirectoryPicker();
+    set_selected_folder(directoryHandle);
 
-    if (handle.name !== "live") {
-      alert(`Select the 'live' folder`);
+    const folder_contents = await getDirectoryContents({ directoryHandle });
+    set_folder_contents(folder_contents);
+
+    const live_folder_handle = await traverse_folder_paths({
+      folder_contents,
+      paths: ["src", "components", "main-ui", "editor-gui-components", "live"],
+    });
+
+    if (live_folder_handle?.[0] !== "live") {
+      alert(`"live" folder not found`);
       return;
     }
 
-    const live_folder_contents = await setup_opened_directory(handle);
+    const live_folder_contents = await setup_opened_directory(
+      live_folder_handle[1] as FileSystemDirectoryHandle
+    );
 
     const new_file_previews = await generate_files({
       mainTemplate,
@@ -42,20 +64,62 @@ export const ExporterTwo = () => {
 
   const handleClick_Export_previews_to_final_folder = async () => {
     // opens directory for 'exported'
-    const directoryHandle = await window.showDirectoryPicker();
-    console.log("got directory"); // 1
+    if (!selected_folder_contents) {
+      console.error("No selected_folder_contents found");
+      return false;
+    }
 
-    const fileHandle_inside_directoryHandle = await createFileInDirectory({
-      directoryHandle,
-      filename: "file_test.txt",
+    const directory_entry = await traverse_folder_paths({
+      folder_contents: selected_folder_contents,
+      paths: ["exported", "src", "components"],
     });
-    console.log("got file handle"); // 2
 
-    await writeFile({
-      fileHandle: fileHandle_inside_directoryHandle,
-      contents: "Look at all this FILE",
-    });
-    console.log("wrote file"); // 3
+    if (!directory_entry?.[1]) {
+      console.error("No directory_entry[1] found");
+      return false;
+    }
+
+    const directoryHandle = directory_entry[1] as FileSystemDirectoryHandle;
+
+    const fileFolder_create_promises: Promise<FileSystemFileHandle>[] = [];
+
+    filePreviews.forEach((file_preview) =>
+      fileFolder_create_promises.push(
+        createFileInDirectory({
+          directoryHandle,
+          filename: file_preview.file_name,
+        })
+      )
+    );
+
+    const fileFolder_create_results = await Promise.all(
+      fileFolder_create_promises
+    );
+
+    // const fileHandle_inside_directoryHandle = await createFileInDirectory({
+    //   directoryHandle,
+    //   filename: "file_test.txt",
+    // });
+    // console.log("got file handle"); // 2
+
+    const write_files_results: any[] = [];
+
+    fileFolder_create_results.forEach((fileFolder_create, idx) =>
+      write_files_results.push(
+        writeFile({
+          fileHandle: fileFolder_create,
+          contents: filePreviews[idx].file_contents,
+        })
+      )
+    );
+
+    await Promise.all(write_files_results);
+
+    // await writeFile({
+    //   fileHandle: fileHandle_inside_directoryHandle,
+    //   contents: "Look at all this FILE",
+    // });
+    console.log("wrote files?"); // 3
     //
     /// ^^ Test steps work great.
     /// Need to build a loop for them
