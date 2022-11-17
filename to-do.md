@@ -19,6 +19,7 @@
     - [ ] stop resetting on try-again
       - [ ] be able to compine diff axis rotations
     - [ ] Remove whole numbers. Decimals of >1 are all that's needed?
+  - [ ] Add component-picker
   - [ ] Add a `Plane` component type
   - [ ] Add a `Lighting` component
   - [ ] Add a `Character-Controller` component type..
