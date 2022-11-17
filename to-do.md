@@ -12,7 +12,13 @@
 - [ ] Fix exporting again
   - [x] Generate component-tree works
   - [x] Needs exported-components import(s) generated, in ExportedTree
-  - [ ] Need exported tree to go into a file `exported/src/components/ExportedTree.tsx`
-  - [ ] need to put component files into like, `exported/src/components/GenericBox.tsx`
+  - [x] Need exported tree to go into a file `exported/src/components/ExportedTree.tsx`
+  - [x] need to put component files into like, `exported/src/components/GenericBox.tsx`
+  - [x] generate file previews, display previews, functiion exports
+  - [ ] Add a `Plane` component type
+  - [ ] Add a `Lighting` component
+  - [ ] Add a `Character-Controller` component type..
+    - [ ] First-person/no-thing
+    - [ ] Third-Person
 - [ ] Later
   - [ ] add Nick-name field for components/tree
