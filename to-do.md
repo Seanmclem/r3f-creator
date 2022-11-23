@@ -4,7 +4,7 @@
 - [x] Wrappers or custom only
 - [ ] Basic custom Geometry Nodes
   - [x] Box
-  - [ ] Slope/ramp/"3D Triangle"
+  - [ ] Slope/ramp/"3D Triangle"/prism
 - [ ] Add-new button for adding another generic box
   - [x] stubbed button
   - [x] Make it -add another GenericBox. Just that for now. Keep-it-simple-for-now
