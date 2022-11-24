@@ -4,27 +4,27 @@
 - [x] Wrappers or custom only
 - [ ] Basic custom Geometry Nodes
   - [x] Box
-  - [ ] Slope/ramp/"3D Triangle"
 - [ ] Add-new button for adding another generic box
   - [x] stubbed button
   - [x] Make it -add another GenericBox. Just that for now. Keep-it-simple-for-now
   - [x] click shape to selct
-- [ ] Fix exporting again
+- [x] Fix exporting again
   - [x] Generate component-tree works
   - [x] Needs exported-components import(s) generated, in ExportedTree
   - [x] Need exported tree to go into a file `exported/src/components/ExportedTree.tsx`
   - [x] need to put component files into like, `exported/src/components/GenericBox.tsx`
   - [x] generate file previews, display previews, functiion exports
-  - [ ] Fix Rotation issue(s) for GenericBox
-    - [ ] stop resetting on try-again
-      - [ ] be able to compine diff axis rotations
-    - [ ] Remove whole numbers. Decimals of >1 are all that's needed?
-  - [ ] Add component-picker
-  - [ ] Add a `Plane` component type
-  - [ ] Add a `Lighting` component
-    - [ ] Nice docs, reword type-descriptions
-  - [ ] Add a `Character-Controller` component type..
-    - [ ] First-person/no-thing
-    - [ ] Third-Person
+- [x] Fix Rotation issue(s) for GenericBox
+  - [x] stop resetting on try-again
+    - [x] be able to compine diff axis rotations
+  - [x] Remove whole numbers. Decimals of >1 are all that's needed?
+- [ ] Add component-picker
+- [ ] Add a `Plane` component type
+- [ ] Add a `Lighting` component
+- [ ] Add Slope/ramp/"3D Triangle"
+  - [ ] Nice docs, reword type-descriptions
+- [ ] Add a `Character-Controller` component type..
+  - [ ] First-person/no-thing
+  - [ ] Third-Person
 - [ ] Later
   - [ ] add Nick-name field for components/tree

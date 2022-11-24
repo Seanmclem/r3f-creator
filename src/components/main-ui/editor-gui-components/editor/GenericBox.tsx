@@ -127,10 +127,17 @@ const GenericBox = ({
     if (newRotation) {
       sendNodeUpdate({
         key: "rotation",
-        value: newRotation,
+        value: newRotation as number[], // not using `remove_whole_numbers`, are whole numbers necessaru? Seems like maybe
       });
     }
   }, [newPosition, newRotation, sendNodeUpdate]);
+
+  // const remove_whole_numbers = (numbers: number[]) =>
+  //   numbers.map((numbah) => {
+  //     const no_decimal = Math.trunc(numbah);
+  //     const without_wholenumber = numbah + -no_decimal;
+  //     return without_wholenumber;
+  //   });
 
   const handle_onDrag = useCallback(
     (matrix: Matrix4) => {
@@ -154,14 +161,14 @@ const GenericBox = ({
           // onDragStart => maybe grab, set, and add INITIAL-rotation on each onDrag. Won't compound it.
 
           setNewRotation([
-            euler.x || meshRef?.current?.rotation.x,
-            euler.y || meshRef?.current?.rotation.y,
-            euler.z || meshRef?.current?.rotation.z,
+            (euler.x || meshRef?.current?.rotation.x) + rotation[0],
+            (euler.y || meshRef?.current?.rotation.y) + rotation[1],
+            (euler.z || meshRef?.current?.rotation.z) + rotation[2],
           ]);
         }
       }
     },
-    [position]
+    [position, rotation]
   );
 
   const handle_onDragStart = useCallback(() => {
