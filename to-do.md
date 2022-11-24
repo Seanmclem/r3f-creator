@@ -25,6 +25,8 @@
   - [ ] Nice docs, reword type-descriptions
 - [ ] Add a `Character-Controller` component type..
   - [ ] First-person/no-thing
+  - [ ] First-person, twin stick style
   - [ ] Third-Person
 - [ ] Later
   - [ ] add Nick-name field for components/tree
+  - [ ] add welcome screen, for granting permissions, basic instructions, shown when you first launch
