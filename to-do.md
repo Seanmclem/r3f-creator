@@ -24,7 +24,7 @@
 - [ ] Add Slope/ramp/"3D Triangle"
   - [ ] Nice docs, reword type-descriptions
 - [ ] Add a `Character-Controller` component type..
-  - [ ] First-person/no-thing
+  - [ ] First-person, no-thing clone style
   - [ ] First-person, twin stick style
   - [ ] Third-Person
 - [ ] Later
