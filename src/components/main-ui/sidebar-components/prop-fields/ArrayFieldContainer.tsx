@@ -20,7 +20,7 @@ export const ArrayFieldContainer: React.FC<props> = ({
 
   const selectedNode = useTemplateStore((state) => state.selectedNode);
 
-  console.log({ selectedNode });
+  // console.log({ selectedNode });
 
   // this component only shows in selectedNodeSidebar anyway
   const currentProps_AllArrayValues =

@@ -54,7 +54,7 @@ export const deepSplice = ({
   if (action === "UPDATE") {
     changingItem.props[update.key] = update.value;
   }
-  console.log({ finalItems });
+  // console.log({ finalItems });
   finalItems.splice(last, deleteCount, changingItem);
   return array;
 };

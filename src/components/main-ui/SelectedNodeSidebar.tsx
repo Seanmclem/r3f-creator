@@ -36,7 +36,7 @@ export const SelectedNodeSidebar: React.FC<props> = () => {
         } else {
           setruntimeInterfaces([]);
         }
-        console.log("runtimeInterfaces", runtimeInterfaces);
+        // console.log("runtimeInterfaces", runtimeInterfaces);
       });
 
       if (!editorNodeState[selectedNode.id]) {
