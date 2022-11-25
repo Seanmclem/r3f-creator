@@ -19,6 +19,7 @@
     - [x] be able to compine diff axis rotations
   - [x] Remove whole numbers. Decimals of >1 are all that's needed?
 - [ ] Add component-picker
+  - mantine for ui, try it, https://mantine.dev/core/modal/?t=styles-api
 - [ ] Add a `Plane` component type
 - [ ] Add a `Lighting` component
 - [ ] Add Slope/ramp/"3D Triangle"
@@ -30,5 +31,5 @@
 - [ ] Later
   - [ ] add Nick-name field for components/tree
   - [ ] add welcome screen, for granting permissions, basic instructions, shown when you first launch
-    - add model uploader
-      - https://docs.pmnd.rs/react-three-fiber/tutorials/loading-models
+  - add model uploader
+    - https://docs.pmnd.rs/react-three-fiber/tutorials/loading-models
