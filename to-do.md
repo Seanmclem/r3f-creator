@@ -31,5 +31,5 @@
 - [ ] Later
   - [ ] add Nick-name field for components/tree
   - [ ] add welcome screen, for granting permissions, basic instructions, shown when you first launch
-  - add model uploader
+  - [ ] add model uploader
     - https://docs.pmnd.rs/react-three-fiber/tutorials/loading-models
