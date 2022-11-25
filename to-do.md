@@ -23,7 +23,7 @@
   - mantine for ui, try it, https://mantine.dev/core/modal/?t=styles-api
 - [ ] Add a `Plane` component type
 - [ ] Add a `Lighting` component
-- [ ] Add Slope/ramp/"3D Triangle"
+- [ ] Add Slope/ramp/"3D Triangle"/prism
   - [ ] Nice docs, reword type-descriptions
 - [ ] Add a `Character-Controller` component type..
   - [ ] First-person, no-thing clone style
