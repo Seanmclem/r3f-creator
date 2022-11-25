@@ -19,6 +19,7 @@
     - [x] be able to compine diff axis rotations
   - [x] Remove whole numbers. Decimals of >1 are all that's needed?
 - [ ] Add component-picker
+  - simple list of the below option stubs. 
   - mantine for ui, try it, https://mantine.dev/core/modal/?t=styles-api
 - [ ] Add a `Plane` component type
 - [ ] Add a `Lighting` component
