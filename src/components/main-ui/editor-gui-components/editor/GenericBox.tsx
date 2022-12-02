@@ -69,6 +69,7 @@ export const runtimeInterfaces: RuntimeInterface[] = [
   },
 ];
 
+// v NEEDs to be DEFAULT export, for Lazy import
 const GenericBox = ({
   idx, //custom
   uid, // custom

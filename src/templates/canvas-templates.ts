@@ -13,6 +13,17 @@ export const box_template = {
       },
       children: [],
     },
+    {
+      id: "s435d6f7g8s45d6f",
+      tagName: "PlaneGeneric",
+      props: {
+        color: "red",
+        position: [0, -10, 0],
+        dimensions: [25, 20],
+        // rotation: [0, 0, 0],
+      },
+      children: [],
+    },
   ],
 };
 

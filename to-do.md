@@ -21,7 +21,8 @@
 - [x] Add component-picker
 - [ ] Add a `Plane` component type
   - [ ] Plane-component works from basic-starter-template
-  - [ ] update `handleAddNode`/`useAddNewNode` to be dynamic
+    - [ ] half way there, need to make hooks or something for controls and Gizmos
+  - [x] update `handleAddNode`/`useAddNewNode` to be dynamic
   - [ ] add saving-changes for template-json
   - [ ] add revert template-json to a generic, new starter-template
 - [ ] Add a `Lighting` component
@@ -36,3 +37,5 @@
   - [ ] add welcome screen, for granting permissions, basic instructions, shown when you first launch
   - [ ] add model uploader
     - https://docs.pmnd.rs/react-three-fiber/tutorials/loading-models
+  - Issues
+    - [ ] fix?

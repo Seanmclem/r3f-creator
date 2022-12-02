@@ -7,10 +7,9 @@ import { Sidebar } from "../components/main-ui/Sidebar";
 import { basicCanvas1 } from "../templates/canvas-templates";
 import { TemplateToComponents } from "../translators/TemplateToComponents";
 import { useTemplateStore } from "../stores/templateStore";
-import { useEffect, lazy, Suspense, useRef } from "react";
+import { useEffect, Suspense } from "react";
 import { TopBar } from "../components/top-bar/TopBar";
 import { OrbitControls } from "@react-three/drei";
-import { Object3D } from "three";
 import { Physics } from "@react-three/rapier";
 
 export const MainUI: React.VFC<{}> = () => {

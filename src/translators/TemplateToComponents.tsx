@@ -27,6 +27,13 @@ const registered_Components: Record<string, any> = {};
 registered_Components.GenericBox = lazy(
   () => import(`../components/main-ui/editor-gui-components/editor/${td2}`)
 );
+//  ^v NEED to be DEFAULT exports
+registered_Components.PlaneGeneric = lazy(
+  () =>
+    import(
+      `../components/main-ui/editor-gui-components/editor/${"PlaneGeneric"}`
+    )
+);
 
 /** EDITOR RENDERING */
 export const TemplateToComponents: React.FC<props> = ({ template }) => {
