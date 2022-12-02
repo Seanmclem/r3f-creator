@@ -18,10 +18,12 @@
   - [x] stop resetting on try-again
     - [x] be able to compine diff axis rotations
   - [x] Remove whole numbers. Decimals of >1 are all that's needed?
-- [ ] Add component-picker
-  - simple list of the below option stubs. 
-  - mantine for ui, try it, https://mantine.dev/core/modal/?t=styles-api
+- [x] Add component-picker
 - [ ] Add a `Plane` component type
+  - [ ] Plane-component works from basic-starter-template
+  - [ ] update `handleAddNode`/`useAddNewNode` to be dynamic
+  - [ ] add saving-changes for template-json
+  - [ ] add revert template-json to a generic, new starter-template
 - [ ] Add a `Lighting` component
 - [ ] Add Slope/ramp/"3D Triangle"/prism
   - [ ] Nice docs, reword type-descriptions
