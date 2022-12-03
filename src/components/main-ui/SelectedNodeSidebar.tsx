@@ -68,6 +68,7 @@ export const SelectedNodeSidebar: React.FC<props> = () => {
       <Spacer height={20} />
       <StandardContainer>
         <div>{selectedNode.tagName}</div>
+        {/* V where the magic happens V */}
         <PropInputsSwitch runtimeInterfaces={runtimeInterfaces} />
       </StandardContainer>
     </SidebarContainer>

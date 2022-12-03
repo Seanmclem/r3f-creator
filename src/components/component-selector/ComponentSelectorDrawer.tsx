@@ -30,7 +30,7 @@ const mock_components: Component_ListItem[] = [
     template_props: {
       color: "lightblue",
       position: [0, 0, 0],
-      dimensions: [5, 5, 5],
+      dimensions: [5, 5],
       rotation: [0, 0, 0],
     },
   },

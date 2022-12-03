@@ -20,8 +20,9 @@
   - [x] Remove whole numbers. Decimals of >1 are all that's needed?
 - [x] Add component-picker
 - [ ] Add a `Plane` component type
-  - [ ] Plane-component works from basic-starter-template
+  - [x] Plane-component works from basic-starter-template
     - [ ] half way there, need to make hooks or something for controls and Gizmos
+      - [ ] Need to select-on-click
   - [x] update `handleAddNode`/`useAddNewNode` to be dynamic
   - [ ] add saving-changes for template-json
   - [ ] add revert template-json to a generic, new starter-template

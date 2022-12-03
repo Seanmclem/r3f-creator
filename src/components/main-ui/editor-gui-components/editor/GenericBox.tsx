@@ -6,10 +6,10 @@ import { Euler, Matrix4, Object3D, Vector3 as Vec3 } from "three";
 import { useSnapshot } from "valtio";
 import { editorNodeState } from "../../../../stores/editorNodeProxy";
 import { useSendNodeUpdate } from "../../../../hooks/useSendNodeUpdate";
-import { useTemplateStore } from "../../../../stores/templateStore";
 
 import { Box } from "@react-three/drei";
 import { RigidBody } from "@react-three/rapier";
+import { useSelectComponent } from "../../../../hooks/useSelectComponent";
 
 const detect_MoveOnly = ({ x, y, z }: { x: number; y: number; z: number }) => {
   let count = 0;
@@ -95,13 +95,7 @@ const GenericBox = ({
   const editorNodeStateObject = useSnapshot(editorNodeState);
   const specificNode = editorNodeStateObject[uid];
 
-  const updateSelectedNode = useTemplateStore(
-    (state) => state.updateSelectedNode
-  );
-
-  const updateSelectedNodeAddress = useTemplateStore(
-    (state) => state.updateSelectedNodeAddress
-  );
+  const { handle_select_component } = useSelectComponent({ idx, nodeItem });
 
   const sendNodeUpdate = useSendNodeUpdate();
 
@@ -176,11 +170,6 @@ const GenericBox = ({
     // onDragStart => maybe grab, set, and add INITIAL/PRIOR-rotation on each onDrag. Won't compound it.
   }, []);
 
-  const handleClick = useCallback(() => {
-    updateSelectedNode(nodeItem); // UIChild
-    updateSelectedNodeAddress(`0.${idx}`);
-  }, []);
-
   return useMemo(
     () => (
       <>
@@ -200,7 +189,11 @@ const GenericBox = ({
             position={newPosition || (position as Vector3)}
             type="fixed"
           >
-            <Box ref={meshRef} args={dimensions as any} onClick={handleClick}>
+            <Box
+              ref={meshRef}
+              args={dimensions as any}
+              onClick={handle_select_component}
+            >
               <meshStandardMaterial color={color || "brown"} />
             </Box>
           </RigidBody>
@@ -218,7 +211,7 @@ const GenericBox = ({
       handle_onDrag,
       handle_onDragEnd,
       specificNode?.showPivotControls,
-      handleClick,
+      handle_select_component,
     ] // <-- rotation needed
   );
 };
