@@ -95,7 +95,7 @@ const PrismTriangle = ({
   bottomFront_depthHeight,
   topBack_depthHeight,
 }: {
-  idx: number; // custome
+  idx: number; // custom
   uid: string; // custom
   nodeItem: any; // custom
   //

@@ -30,7 +30,7 @@ const DirectionalLight = ({
   position,
   rotation,
 }: {
-  idx: number; // custome
+  idx: number; // custom
   uid: string; // custom
   nodeItem: any; // custom
   //
