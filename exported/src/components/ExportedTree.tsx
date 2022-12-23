@@ -1,6 +1,10 @@
 import React from "react";
-import { Physics, RigidBody } from "@react-three/rapier";
+import { Physics } from "@react-three/rapier";
 import { GenericBox } from "./GenericBox";
+import { PlaneGeneric } from "./PlaneGeneric";
+import { DirectionalLight } from "./DirectionalLight";
+import { PrismTriangle } from "./PrismTriangle";
+
 export const ExportedTree: React.FC<{}> = () => {
   return (
     <Physics>
@@ -11,25 +15,13 @@ export const ExportedTree: React.FC<{}> = () => {
           dimensions={[5, 5, 5]}
           rotation={[0, 0, 0]}
         ></GenericBox>
-        <GenericBox
-          color={"lightblue"}
-          position={[0, 0, 0]}
-          dimensions={[5, 5, 5]}
-          rotation={[0, 0, 0]}
-        ></GenericBox>
-
-        {/* <ambientLight /> */}
-
-        <RigidBody>
-          <mesh
-            position={[0, -10, 0]}
-            rotation={[-Math.PI / 2, 0, 0]}
-            // scale={[1, 1, 1]}
-          >
-            <planeBufferGeometry attach="geometry" args={[25, 20]} />
-            <meshPhongMaterial attach="material" color="green" />
-          </mesh>
-        </RigidBody>
+        <PlaneGeneric
+          color={"red"}
+          position={[0, -10, 0]}
+          dimensions={[25, 20]}
+        ></PlaneGeneric>
+        <PrismTriangle />
+        <DirectionalLight position={[10, 15, 10]}></DirectionalLight>
       </>
     </Physics>
   );

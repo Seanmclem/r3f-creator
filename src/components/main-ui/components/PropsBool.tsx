@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import styled from "styled-components";
-import { PropOption, PrimitiveType } from "../../../functions/type-utils";
+import { PropOption, PrimitiveType } from "../../../utils/type-utils";
 import { useSendNodeUpdate } from "../../../hooks/useSendNodeUpdate";
 import { KeyValueProp } from "../../../types/shared";
 

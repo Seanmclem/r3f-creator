@@ -4,10 +4,7 @@ import generate from "@babel/generator";
 import traverse from "@babel/traverse";
 import * as types from "@babel/types";
 import { UIchild } from "../../translators/TemplateToComponents";
-import {
-  EntryType,
-  getTextFileContents,
-} from "../../functions/file-system-utils";
+import { EntryType, getTextFileContents } from "../../utils/file-system-utils";
 
 export interface NamedImport {
   name: string;

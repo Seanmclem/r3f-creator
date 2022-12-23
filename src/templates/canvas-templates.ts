@@ -24,6 +24,14 @@ export const box_template = {
       },
       children: [],
     },
+    {
+      id: "ZDMUqKOuo8Ms",
+      tagName: "DirectionalLight",
+      props: {
+        position: [10, 15, 10],
+      },
+      children: [],
+    },
   ],
 };
 

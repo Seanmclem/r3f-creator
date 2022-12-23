@@ -35,6 +35,20 @@ registered_Components.PlaneGeneric = lazy(
     )
 );
 
+registered_Components.DirectionalLight = lazy(
+  () =>
+    import(
+      `../components/main-ui/editor-gui-components/editor/${"DirectionalLight"}`
+    )
+);
+
+registered_Components.PrismTriangle = lazy(
+  () =>
+    import(
+      `../components/main-ui/editor-gui-components/editor/${"PrismTriangle"}`
+    )
+);
+
 /** EDITOR RENDERING */
 export const TemplateToComponents: React.FC<props> = ({ template }) => {
   const renderChildren: any = (children: UIchild[]) => {

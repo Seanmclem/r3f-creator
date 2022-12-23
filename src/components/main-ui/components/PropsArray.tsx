@@ -4,7 +4,7 @@ import {
   PropArrayOption,
   PrimitiveType,
   whatAreTheseTYPES,
-} from "../../../functions/type-utils";
+} from "../../../utils/type-utils";
 import { useSendNodeUpdate } from "../../../hooks/useSendNodeUpdate";
 import { useTemplateStore } from "../../../stores/templateStore";
 import { Spacer } from "../../Spacer";

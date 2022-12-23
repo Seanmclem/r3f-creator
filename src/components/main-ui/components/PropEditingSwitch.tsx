@@ -3,7 +3,7 @@ import {
   isSupportingType,
   ISupportingTypes,
   PrimitiveType,
-} from "../../../functions/type-utils";
+} from "../../../utils/type-utils";
 import { PropsArray } from "./PropsArray";
 import { PropsBool } from "./PropsBool";
 import { PropsText } from "./PropsText";

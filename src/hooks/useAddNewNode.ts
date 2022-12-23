@@ -1,4 +1,4 @@
-import { randomString } from "../functions/generic_utils";
+import { randomString } from "../utils/generic_utils";
 import { useTemplateStore } from "../stores/templateStore";
 
 export interface New_Node_Starter {

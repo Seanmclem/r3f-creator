@@ -7,7 +7,7 @@ import {
   setup_opened_directory,
   traverse_folder_paths,
   writeFile,
-} from "../../functions/file-system-utils";
+} from "../../utils/file-system-utils";
 import { useTemplateStore } from "../../stores/templateStore";
 import { FilePreview, generate_files } from "./export-utils";
 

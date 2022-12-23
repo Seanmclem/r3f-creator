@@ -21,8 +21,8 @@ import {
   changeCodetoAST,
   addImports_ToBody,
   Imported,
-} from "../functions/ast_functions_DEPRECATED";
-import { saveFile } from "../functions/file-system-utils";
+} from "../utils/ast_functions_DEPRECATED";
+import { saveFile } from "../utils/file-system-utils";
 import { useTemplateStore } from "../stores/templateStore";
 import { UIchild } from "../translators/TemplateToComponents";
 

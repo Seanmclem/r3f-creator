@@ -1,6 +1,6 @@
 import React, { useRef, useState } from "react";
 import styled from "styled-components";
-import { PropArrayOption } from "../../../functions/type-utils";
+import { PropArrayOption } from "../../../utils/type-utils";
 import { KeyValueProp } from "../../../types/shared";
 import { Spacer } from "../../Spacer";
 

@@ -1,4 +1,4 @@
-import { sendNodeUpdate } from "../functions/editor-tree-functions";
+import { sendNodeUpdate } from "../utils/editor-tree-functions";
 import { useTemplateStore } from "../stores/templateStore";
 import { KeyValueProp } from "../types/shared";
 

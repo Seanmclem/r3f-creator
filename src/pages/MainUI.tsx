@@ -33,8 +33,8 @@ export const MainUI: React.VFC<{}> = () => {
           camera={{ fov: 75, position: [10, 8, 10] }}
         >
           <OrbitControls makeDefault />
-          <ambientLight intensity={0.5} />
-          <directionalLight position={[10, 15, 10]} />
+          {/* <ambientLight intensity={0.5} /> */}
+          {/* <directionalLight position={[10, 15, 10]} /> */}
           <gridHelper args={[100, 25]} />
           {/* <>
             <mesh>

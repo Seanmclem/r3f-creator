@@ -21,12 +21,18 @@
 - [x] Add component-picker
 - [ ] Add a `Plane` component type
   - [x] Plane-component works from basic-starter-template
-    - [ ] half way there, need to make hooks or something for controls and Gizmos
-      - [ ] Need to select-on-click
+    - [x] half way there, need to make hooks or something for controls and Gizmos
+      - [x] Need to select-on-click
   - [x] update `handleAddNode`/`useAddNewNode` to be dynamic
   - [ ] add saving-changes for template-json
   - [ ] add revert template-json to a generic, new starter-template
 - [ ] Add a `Lighting` component
+  - [x] Add directionalLight component.
+  - [ ] Add pointLight?
+  - [ ] Add ambientLight?
+  - [ ] HemishphereLight?
+  - [ ] Add global editor-settings, Add one for like, `show_ambient_light`, add the global toggle to each light-component side-bar
+- [ ] Add optional rotation to position-hook. Test in Generic Cube
 - [ ] Add Slope/ramp/"3D Triangle"/prism
   - [ ] Nice docs, reword type-descriptions
 - [ ] Add a `Character-Controller` component type..
