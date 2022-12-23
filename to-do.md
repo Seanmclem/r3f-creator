@@ -32,11 +32,12 @@
   - [ ] Add ambientLight?
   - [ ] HemishphereLight?
   - [ ] Add global editor-settings, Add one for like, `show_ambient_light`, add the global toggle to each light-component side-bar
-- [ ] Add optional rotation to position-hook. Test in Generic Cube
-- [ ] Add Slope/ramp/"3D Triangle"/prism
-  - [ ] Nice docs, reword type-descriptions
+- [x] Add optional rotation to position-hook. Test in Generic Cube
+- [x] Add Slope/ramp/"3D Triangle"/prism
 - [ ] Add a `Character-Controller` component type..
   - [ ] First-person, no-thing clone style
+    - [ ] add character_service
+    - [ ] add "characters" folder for character-controller stuff. like "components"
   - [ ] First-person, twin stick style
   - [ ] Third-Person
 - [ ] Later
