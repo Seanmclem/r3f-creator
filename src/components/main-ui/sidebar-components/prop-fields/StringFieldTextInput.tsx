@@ -14,6 +14,12 @@ export const StringFieldTextInput: React.FC<props> = ({ runtimeInterface }) => {
 
   const currentProps_Value = selectedNode?.props?.[runtimeInterface?.propName];
 
+  useEffect(() => {
+    setTextValue(currentProps_Value);
+    // This lets the field-value change if selectedNode changes
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [selectedNode?.id]);
+
   const [textValue, setTextValue] = useState(currentProps_Value);
   const [hasChanges, setHasChanges] = useState(false);
 
@@ -35,6 +41,7 @@ export const StringFieldTextInput: React.FC<props> = ({ runtimeInterface }) => {
     hasChanges,
     textValue,
     selectedNode?.props?.[runtimeInterface?.propName],
+    currentProps_Value,
   ]);
 
   const handlePrepUpdate = () => {
