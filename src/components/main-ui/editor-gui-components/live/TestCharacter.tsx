@@ -1,8 +1,7 @@
 import { Vector3, Euler, useFrame } from "@react-three/fiber";
-import { RigidBody } from "@react-three/rapier";
+import { RigidBody, RigidBodyApi } from "@react-three/rapier";
 import { bindKey } from "@rwh/keystrokes";
 import { useEffect, useRef, useState } from "react";
-import { BufferGeometry, Material, Mesh } from "three";
 
 export const TestCharacter = ({
   position,
@@ -11,9 +10,7 @@ export const TestCharacter = ({
   position: number[];
   rotation: number[];
 }) => {
-  const meshRef = useRef<Mesh<BufferGeometry, Material | Material[]> | null>(
-    null
-  );
+  const meshRef = useRef<RigidBodyApi>(null);
 
   const [moving_up, set_moving_up] = useState(false);
   const [moving_left, set_moving_left] = useState(false);
@@ -71,27 +68,33 @@ export const TestCharacter = ({
   }, []);
 
   useFrame(() => {
+    let x = 0;
+    let z = 0;
     if (moving_up && meshRef.current) {
-      meshRef.current.position.x = meshRef.current.position.x + 0.3;
+      // meshRef.current.setAngvel
+      x = x + 5;
     }
     if (moving_left && meshRef.current) {
-      meshRef.current.position.z = meshRef.current.position.z - 0.3;
+      z = z - 5;
     }
     if (moving_down && meshRef.current) {
-      meshRef.current.position.x = meshRef.current.position.x - 0.3;
+      x = x - 5;
     }
     if (moving_right && meshRef.current) {
-      meshRef.current.position.z = meshRef.current.position.z + 0.3;
+      z = z + 5;
+    }
+    if (meshRef?.current) {
+      const currentVel = meshRef.current.linvel;
+      meshRef.current.lockRotations(true);
+
+      console.log({ currentVel: currentVel().y });
+      meshRef.current.setLinvel({ x, y: currentVel().y, z });
     }
   });
 
   return (
-    <RigidBody>
-      <mesh
-        ref={meshRef}
-        position={position as Vector3}
-        rotation={rotation as Euler}
-      >
+    <RigidBody ref={meshRef}>
+      <mesh position={position as Vector3} rotation={rotation as Euler}>
         <capsuleGeometry attach="geometry" args={[2, 4, 4, 8]} />
         <meshBasicMaterial attach="material" color={"lightblue"} />
       </mesh>
