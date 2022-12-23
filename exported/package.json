@@ -12,6 +12,7 @@
     "@react-three/drei": "^9.34.1",
     "@react-three/fiber": "^8.8.9",
     "@react-three/rapier": "^0.8.2",
+    "@rwh/keystrokes": "^1.0.0-alpha.9",
     "react": "^18.2.0",
     "react-dom": "^18.2.0",
     "three": "^0.145.0"

@@ -404,7 +404,7 @@
   resolved "https://registry.yarnpkg.com/@babel/helper-module-imports/-/helper-module-imports-7.16.0.tgz#90538e60b672ecf1b448f5f4f5433d37e79a3ec3"
   integrity sha512-kkH7sWzKPq0xt3H1n+ghb4xEMP8k0U7XV3kkB+ZGy69kDk2ySFW1qPi06sjKzFY3t1j6XbJSqr4mF9L7CYVyhg==
   dependencies:
-    "@babel/types" "^7.16.0" 
+    "@babel/types" "^7.16.0"
 
 "@babel/helper-module-imports@^7.16.7", "@babel/helper-module-imports@^7.18.6":
   version "7.18.6"
@@ -3025,6 +3025,11 @@
     "@types/estree" "0.0.39"
     estree-walker "^1.0.1"
     picomatch "^2.2.2"
+
+"@rwh/keystrokes@^1.0.0-alpha.9":
+  version "1.0.0-alpha.9"
+  resolved "https://registry.yarnpkg.com/@rwh/keystrokes/-/keystrokes-1.0.0-alpha.9.tgz#6a2fa566f9f7458c6975598ef22b7cfabd8dd988"
+  integrity sha512-0c0g8p4UOWwLerFhIECTh+qxldrKsMWPpYGSzrjAP1zip6oLT1RvtyJJiI0g1fBUC/HTOcUWNUhWBBw+xd6zJA==
 
 "@sinonjs/commons@^1.7.0":
   version "1.8.2"

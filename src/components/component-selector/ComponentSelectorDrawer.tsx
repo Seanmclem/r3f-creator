@@ -51,6 +51,13 @@ const mock_components: Component_ListItem[] = [
       rotation: [0, 0, 0],
     },
   },
+  {
+    name: "TestCharacter",
+    template_props: {
+      position: [0, 0, 0],
+      rotation: [0, 0, 0],
+    },
+  },
 ];
 
 /////

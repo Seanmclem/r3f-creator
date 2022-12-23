@@ -49,6 +49,13 @@ registered_Components.PrismTriangle = lazy(
     )
 );
 
+registered_Components.TestCharacter = lazy(
+  () =>
+    import(
+      `../components/main-ui/editor-gui-components/editor/${"TestCharacter"}`
+    )
+);
+
 /** EDITOR RENDERING */
 export const TemplateToComponents: React.FC<props> = ({ template }) => {
   const renderChildren: any = (children: UIchild[]) => {
