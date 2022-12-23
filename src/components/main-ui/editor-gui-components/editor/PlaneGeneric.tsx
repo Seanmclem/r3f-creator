@@ -4,19 +4,11 @@ import { useSnapshot } from "valtio";
 import { usePositionGizmo } from "../../../../hooks/usePositionGizmo";
 import { useSelectComponent } from "../../../../hooks/useSelectComponent";
 import { editorNodeState } from "../../../../stores/editorNodeProxy";
-import { FieldDefinition, RuntimeInterface } from "../../SelectedNodeSidebar";
-
-const xyz_TemplatesArray: FieldDefinition[] = [
-  { key: "x", type: "number" },
-  { key: "y", type: "number" },
-  { key: "z", type: "number" },
-];
-
-const xy_TemplatesArray: FieldDefinition[] = [
-  { key: "x", type: "number" },
-  { key: "y", type: "number" },
-  //   { key: "z", type: "number" },
-];
+import {
+  xyz_TemplatesArray,
+  xy_TemplatesArray,
+} from "../../../../utils/generic_utils";
+import { RuntimeInterface } from "../../SelectedNodeSidebar";
 
 export const runtimeInterfaces: RuntimeInterface[] = [
   {

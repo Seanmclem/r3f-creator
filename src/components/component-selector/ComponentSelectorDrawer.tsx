@@ -8,6 +8,7 @@ import {
 } from "@mantine/core";
 import styled from "@emotion/styled";
 import { New_Node_Starter } from "../../hooks/useAddNewNode";
+import { Fragment } from "react";
 interface Component_ListItem {
   name: string;
   short_description?: string;
@@ -31,11 +32,25 @@ const mock_components: Component_ListItem[] = [
       color: "lightblue",
       position: [0, 0, 0],
       dimensions: [5, 5],
-      rotation: [0, 0, 0],
+      // rotation: [0, 0, 0],
     },
   },
   //   { name: "PrismTriangle" },
-  //   { name: "LightGeneric" },
+  {
+    name: "DirectionalLight",
+    template_props: { position: [10, 15, 10] },
+  },
+  {
+    name: "PrismTriangle",
+    template_props: {
+      color: "orange",
+      position: [0, 0, 0],
+      bottomBack_depthHeight: [0, 0],
+      bottomFront_depthHeight: [5, 0],
+      topBack_depthHeight: [0, 5],
+      rotation: [0, 0, 0],
+    },
+  },
 ];
 
 /////
@@ -75,12 +90,12 @@ export const ComponentSelectorDrawer = ({
       onClose={() => set_component_drawer_open(false)}
     >
       {mock_components.map((component) => (
-        <>
+        <Fragment key={component.name}>
           <ListButton onClick={() => handle_click_component(component)}>
             {component.name}
           </ListButton>
           <Space h="sm" />
-        </>
+        </Fragment>
       ))}
     </DrawerContainer>
   );
