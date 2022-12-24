@@ -1,8 +1,7 @@
 import { Vector3, Euler, useFrame } from "@react-three/fiber";
-import { RigidBody, RigidBodyApi } from "@react-three/rapier";
+import { MeshCollider, RigidBody, RigidBodyApi } from "@react-three/rapier";
 import { bindKey } from "@rwh/keystrokes";
-import { Ref, useEffect, useRef, useState } from "react";
-import { BufferGeometry, Material, Mesh } from "three";
+import { useEffect, useRef, useState } from "react";
 
 export const TestCharacter = ({
   position,
@@ -11,7 +10,7 @@ export const TestCharacter = ({
   position: number[];
   rotation: number[];
 }) => {
-  const meshRef = useRef<RigidBodyApi>(null);
+  const rigidBody_Ref = useRef<RigidBodyApi>(null);
 
   const [moving_up, set_moving_up] = useState(false);
   const [moving_left, set_moving_left] = useState(false);
@@ -71,34 +70,43 @@ export const TestCharacter = ({
   useFrame(() => {
     let x = 0;
     let z = 0;
-    if (moving_up && meshRef.current) {
-      // meshRef.current.setAngvel
+    if (moving_up && rigidBody_Ref.current) {
+      // rigidBody_Ref.current.setAngvel
       x = x + 5;
     }
-    if (moving_left && meshRef.current) {
+    if (moving_left && rigidBody_Ref.current) {
       z = z - 5;
     }
-    if (moving_down && meshRef.current) {
+    if (moving_down && rigidBody_Ref.current) {
       x = x - 5;
     }
-    if (moving_right && meshRef.current) {
+    if (moving_right && rigidBody_Ref.current) {
       z = z + 5;
     }
-    if (meshRef?.current) {
-      const currentVel = meshRef.current.linvel;
-      meshRef.current.lockRotations(true);
 
-      console.log({ currentVel: currentVel().y });
-      meshRef.current.setLinvel({ x, y: currentVel().y, z });
+    if (rigidBody_Ref?.current) {
+      const currentVel = rigidBody_Ref.current.linvel;
+      rigidBody_Ref.current.lockRotations(true);
+
+      rigidBody_Ref.current.setLinvel({ x, y: currentVel().y, z });
     }
   });
 
   return (
-    <RigidBody ref={meshRef}>
-      <mesh position={position as Vector3} rotation={rotation as Euler}>
-        <capsuleGeometry attach="geometry" args={[2, 4, 4, 8]} />
-        <meshBasicMaterial attach="material" color={"lightblue"} />
-      </mesh>
-    </RigidBody>
+    <>
+      <RigidBody ref={rigidBody_Ref} colliders={false}>
+        <mesh position={[10, 5, -1]}>
+          <boxGeometry />
+          <meshStandardMaterial color={"hotpink"} />
+        </mesh>
+
+        <MeshCollider type="hull">
+          <mesh position={position as Vector3} rotation={rotation as Euler}>
+            <capsuleGeometry attach="geometry" args={[2, 4, 4, 8]} />
+            <meshBasicMaterial attach="material" color={"lightblue"} />
+          </mesh>
+        </MeshCollider>
+      </RigidBody>
+    </>
   );
 };
