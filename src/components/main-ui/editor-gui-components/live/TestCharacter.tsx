@@ -108,7 +108,7 @@ export const TestCharacter = ({
   useEffect(() => {
     if (!has_mounted && cameraRef.current) {
       // cameraRef.current.lookAt(0, 1, 0);
-      console.log({ rot: cameraRef.current });
+      // console.log({ rot: cameraRef.current });
       set_has_mounted(true);
       // cameraRef.current?.rotateY(-14);
     }
@@ -126,7 +126,10 @@ export const TestCharacter = ({
         <PerspectiveCamera
           ref={cameraRef}
           position={[-30, 6, 2]}
-          rotation={[-1.190289949682533, 0, -1.1847906197962894]}
+          rotation={[byDegree(0), byDegree(-91), byDegree(0)]}
+          // rotation={[
+          //   -1.190289949682533, -1.093182417070003, -1.1847906197962894,
+          // ]}
           // local space / world space
           // makeDefault
         />
