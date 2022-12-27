@@ -14,8 +14,8 @@ export const GenericBox = ({
   color: string;
 }) => (
   <RigidBody position={position as Vector3} rotation={rotation as Euler}>
-    <Box args={dimensions as any}>
-      <meshStandardMaterial color={color} />
+    <Box args={dimensions as any} castShadow>
+      <meshPhongMaterial color={color} />
     </Box>
   </RigidBody>
 );

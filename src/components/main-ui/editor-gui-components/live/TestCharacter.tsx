@@ -1,7 +1,11 @@
+import { PerspectiveCamera, useHelper } from "@react-three/drei";
 import { Vector3, Euler, useFrame } from "@react-three/fiber";
-import { RigidBody, RigidBodyApi } from "@react-three/rapier";
+import { MeshCollider, RigidBody, RigidBodyApi } from "@react-three/rapier";
 import { bindKey } from "@rwh/keystrokes";
 import { useEffect, useRef, useState } from "react";
+import { CameraHelper } from "three";
+
+const byDegree = (degree: number) => (Math.PI / 180) * degree;
 
 export const TestCharacter = ({
   position,
@@ -10,7 +14,9 @@ export const TestCharacter = ({
   position: number[];
   rotation: number[];
 }) => {
-  const meshRef = useRef<RigidBodyApi>(null);
+  const rigidBody_Ref = useRef<RigidBodyApi>(null);
+
+  const ref1 = useRef<any>(null);
 
   const [moving_up, set_moving_up] = useState(false);
   const [moving_left, set_moving_left] = useState(false);
@@ -70,34 +76,72 @@ export const TestCharacter = ({
   useFrame(() => {
     let x = 0;
     let z = 0;
-    if (moving_up && meshRef.current) {
-      // meshRef.current.setAngvel
-      x = x + 5;
-    }
-    if (moving_left && meshRef.current) {
-      z = z - 5;
-    }
-    if (moving_down && meshRef.current) {
-      x = x - 5;
-    }
-    if (moving_right && meshRef.current) {
-      z = z + 5;
-    }
-    if (meshRef?.current) {
-      const currentVel = meshRef.current.linvel;
-      meshRef.current.lockRotations(true);
+    const speed = 10;
 
-      console.log({ currentVel: currentVel().y });
-      meshRef.current.setLinvel({ x, y: currentVel().y, z });
+    if (moving_up && rigidBody_Ref.current) {
+      // rigidBody_Ref.current.setAngvel
+      x = x + speed;
+    }
+    if (moving_left && rigidBody_Ref.current) {
+      z = z - speed;
+    }
+    if (moving_down && rigidBody_Ref.current) {
+      x = x - speed;
+    }
+    if (moving_right && rigidBody_Ref.current) {
+      z = z + speed;
+    }
+
+    // console.log({ pos: ref1.current?.position });
+
+    if (rigidBody_Ref?.current) {
+      const currentVel = rigidBody_Ref.current.linvel;
+      rigidBody_Ref.current.lockRotations(true);
+
+      rigidBody_Ref.current.setLinvel({ x, y: currentVel().y, z });
     }
   });
+  const cameraRef = useRef<any>(null);
 
+  const [has_mounted, set_has_mounted] = useState(false);
+
+  useEffect(() => {
+    if (!has_mounted && cameraRef.current) {
+      // cameraRef.current.lookAt(0, 1, 0);
+      console.log({ rot: cameraRef.current });
+      set_has_mounted(true);
+      // cameraRef.current?.rotateY(-14);
+    }
+  }, [has_mounted, set_has_mounted]);
+
+  useHelper(cameraRef, CameraHelper);
+  // poo.current
   return (
-    <RigidBody ref={meshRef}>
-      <mesh position={position as Vector3} rotation={rotation as Euler}>
-        <capsuleGeometry attach="geometry" args={[2, 4, 4, 8]} />
-        <meshBasicMaterial attach="material" color={"lightblue"} />
-      </mesh>
-    </RigidBody>
+    <>
+      <RigidBody ref={rigidBody_Ref} colliders={false}>
+        {/* <mesh position={[-10, 5, 2]} ref={ref1}>
+          <boxGeometry />
+          <meshStandardMaterial color={"hotpink"} />
+        </mesh> */}
+        <PerspectiveCamera
+          ref={cameraRef}
+          position={[-30, 6, 2]}
+          rotation={[-1.190289949682533, 0, -1.1847906197962894]}
+          // local space / world space
+          // makeDefault
+        />
+
+        <MeshCollider type="hull">
+          <mesh
+            position={position as Vector3}
+            rotation={rotation as Euler}
+            castShadow
+          >
+            <capsuleGeometry attach="geometry" args={[2, 4, 4, 8]} />
+            <meshPhongMaterial attach="material" color={"lightblue"} />
+          </mesh>
+        </MeshCollider>
+      </RigidBody>
+    </>
   );
 };

@@ -1,3 +1,4 @@
+import { Vector3 } from "@react-three/fiber";
 import { RigidBody } from "@react-three/rapier";
 
 export const PlaneGeneric = ({
@@ -13,15 +14,18 @@ export const PlaneGeneric = ({
 }) => (
   <RigidBody>
     <mesh
-      position={position}
+      position={position as Vector3}
       rotation={[-Math.PI / 2, 0, 0]}
+      // castShadow
+      receiveShadow
+
       //   scale={[1, 1, 1]}
     >
       <planeBufferGeometry
         attach="geometry"
         args={dimensions as [number, number]}
       />
-      <meshPhongMaterial attach="material" color={color} />
+      <meshStandardMaterial attach="material" color={color} />
     </mesh>
   </RigidBody>
 );
