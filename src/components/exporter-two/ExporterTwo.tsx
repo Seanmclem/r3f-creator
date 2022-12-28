@@ -63,6 +63,7 @@ export const ExporterTwo = () => {
   };
 
   const handleClick_Export_previews_to_final_folder = async () => {
+    console.log({ mainTemplate });
     // opens directory for 'exported'
     if (!selected_folder_contents) {
       console.error("No selected_folder_contents found");

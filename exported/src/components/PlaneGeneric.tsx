@@ -16,9 +16,7 @@ export const PlaneGeneric = ({
     <mesh
       position={position as Vector3}
       rotation={[-Math.PI / 2, 0, 0]}
-      // castShadow
       receiveShadow
-
       //   scale={[1, 1, 1]}
     >
       <planeBufferGeometry

@@ -114,6 +114,21 @@ export const TestCharacter = ({
     }
   }, [has_mounted, set_has_mounted]);
 
+  // middle value controls the pointed height, after left/right basically match
+  const third_person_camera_rotation = useRef([
+    byDegree(-90),
+    byDegree(-80),
+    byDegree(-90),
+  ]);
+
+  const third_person_camera_position = useRef([-30, 6, 2]);
+
+  //// FPS
+
+  const fps_camera_position = useRef([0, 6, 0]);
+
+  const fps_camera_rotation = useRef([byDegree(0), byDegree(-90), byDegree(0)]);
+
   useHelper(cameraRef, CameraHelper);
   // poo.current
   return (
@@ -125,8 +140,8 @@ export const TestCharacter = ({
         </mesh> */}
         <PerspectiveCamera
           ref={cameraRef}
-          position={[-30, 6, 2]}
-          rotation={[byDegree(0), byDegree(-91), byDegree(0)]}
+          position={fps_camera_position.current as any}
+          rotation={fps_camera_rotation.current as any}
           // rotation={[
           //   -1.190289949682533, -1.093182417070003, -1.1847906197962894,
           // ]}

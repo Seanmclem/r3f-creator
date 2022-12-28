@@ -19,8 +19,8 @@ export const DirectionalLight = ({ position }: { position: number[] }) => {
       position={position as Vector3}
       intensity={1}
       castShadow
-      shadow-mapSize-height={5512}
-      shadow-mapSize-width={5512}
+      shadow-mapSize-height={2512}
+      shadow-mapSize-width={2512}
     />
   );
 };

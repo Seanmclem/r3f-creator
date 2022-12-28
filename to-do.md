@@ -35,9 +35,15 @@
 - [x] Add optional rotation to position-hook. Test in Generic Cube
 - [x] Add Slope/ramp/"3D Triangle"/prism
 - [ ] Add a `Character-Controller` component type..
+  - [x] tests with 3rd-person camera
   - [ ] First-person, no-thing clone style
-    - [ ] add character_service
-    - [ ] add "characters" folder for character-controller stuff. like "components"
+    - [ ] bug? camera position s are relative to world, not local to character, rigid body
+    - [ ] add `fixed` option to shape opject-types
+    - [ ] add floating platforms
+    - [ ] fork TestCharacter fo no-thing-clone
+      - [ ] add ba sic no-thing movine, turns
+  - [ ] add character_service
+  - [ ] add "characters" folder for character-controller stuff. like "components"
   - [ ] First-person, twin stick style
   - [ ] Third-Person
 - [ ] Later
