@@ -14,7 +14,7 @@ export const DirectionalLight = ({ position }: { position: number[] }) => {
 
   // or just use point light
   return (
-    <directionalLight
+    <pointLight
       ref={reffy}
       position={position as Vector3}
       intensity={1}
