@@ -1,4 +1,10 @@
 import { PerspectiveCamera, useHelper } from "@react-three/drei";
+import {
+  BufferGeometry,
+  Material,
+  Mesh,
+  PerspectiveCamera as PerspectiveCameraType,
+} from "three";
 import { Vector3, Euler, useFrame } from "@react-three/fiber";
 import { MeshCollider, RigidBody, RigidBodyApi } from "@react-three/rapier";
 import { bindKey } from "@rwh/keystrokes";
@@ -96,25 +102,36 @@ export const TestCharacter = ({
 
     if (rigidBody_Ref?.current) {
       const currentVel = rigidBody_Ref.current.linvel;
-      rigidBody_Ref.current.lockRotations(true);
+      // rigidBody_Ref.current.lockRotations(true);
+      // rigidBody_Ref.current.rotation().set(0, 0, 0, 0);
 
+      //y static because no jumping yet, defaults to "just gravity", automatic
       rigidBody_Ref.current.setLinvel({ x, y: currentVel().y, z });
     }
   });
-  const cameraRef = useRef<any>(null);
+
+  const cameraRef = useRef<PerspectiveCameraType>(null);
 
   const [has_mounted, set_has_mounted] = useState(false);
 
   useEffect(() => {
-    if (!has_mounted && cameraRef.current) {
+    if (!has_mounted) {
       // cameraRef.current.lookAt(0, 1, 0);
       // console.log({ rot: cameraRef.current });
       set_has_mounted(true);
-      // cameraRef.current?.rotateY(-14);
+
+      setTimeout(() => {
+        if (rigidBody_Ref.current) {
+          console.log("trying");
+          console.log("trying", rigidBody_Ref.current.rotation());
+          // rigidBody_Ref.current.rotation().set(5, 25, 60, 100);
+          console.log("trying", rigidBody_Ref.current.rotation());
+        }
+      }, 3000);
     }
   }, [has_mounted, set_has_mounted]);
 
-  // middle value controls the pointed height, after left/right basically match
+  // middle value controls the pointed height, after left/right basically match..
   const third_person_camera_rotation = useRef([
     byDegree(-90),
     byDegree(-80),
@@ -125,15 +142,27 @@ export const TestCharacter = ({
 
   //// FPS
 
-  const fps_camera_position = useRef([0, 6, 0]);
+  const fps_camera_position = useRef([
+    position[0] + 0,
+    position[1] + 3,
+    position[2] + 0,
+  ]);
+  // since offsets are directly to the character-position, the offsets are no longer world-based
 
   const fps_camera_rotation = useRef([byDegree(0), byDegree(-90), byDegree(0)]);
 
+  const mesh_ref = useRef<Mesh<BufferGeometry, Material | Material[]>>(null);
+
   useHelper(cameraRef, CameraHelper);
-  // poo.current
+
   return (
     <>
-      <RigidBody ref={rigidBody_Ref} colliders={false}>
+      <RigidBody
+        ref={rigidBody_Ref}
+        colliders={false}
+        rotation={[0, byDegree(0), 0]}
+        enabledRotations={[false, true, false]} // <-------- works, middle value is the desired horizontal rotation. update a stateful value for rotation, would a ref work? would be faster? Easily animatated?, yeah try useFrame animations
+      >
         {/* <mesh position={[-10, 5, 2]} ref={ref1}>
           <boxGeometry />
           <meshStandardMaterial color={"hotpink"} />
@@ -151,6 +180,7 @@ export const TestCharacter = ({
 
         <MeshCollider type="hull">
           <mesh
+            ref={mesh_ref}
             position={position as Vector3}
             rotation={rotation as Euler}
             castShadow

@@ -2,7 +2,7 @@
 
 - [x] Nuke lots of recent work, priorities too, by rewriting to be CUSTOM-COMPONENT-BASED
 - [x] Wrappers or custom only
-- [ ] Basic custom Geometry Nodes
+- [x] Basic custom Geometry Nodes
   - [x] Box
 - [x] Add-new button for adding another generic box
   - [x] stubbed button
@@ -19,7 +19,7 @@
     - [x] be able to compine diff axis rotations
   - [x] Remove whole numbers. Decimals of >1 are all that's needed?
 - [x] Add component-picker
-- [ ] Add a `Plane` component type
+- [x] Add a `Plane` component type
   - [x] Plane-component works from basic-starter-template
     - [x] half way there, need to make hooks or something for controls and Gizmos
       - [x] Need to select-on-click
@@ -35,13 +35,14 @@
 - [x] Add optional rotation to position-hook. Test in Generic Cube
 - [x] Add Slope/ramp/"3D Triangle"/prism
 - [ ] Add a `Character-Controller` component type..
+  - [x] bug?/need-improvement, camera positions are relative to world, not local to character/rigid-body ... so original camera pos needs to be zero-based. no good
   - [x] tests with 3rd-person camera
   - [ ] First-person, no-thing clone style
-    - [ ] bug? camera position s are relative to world, not local to character, rigid body
-    - [ ] add `fixed` option to shape opject-types
+    - [ ] NEXT ...> add `fixed` option to shape opject-types
     - [ ] add floating platforms
-    - [ ] fork TestCharacter fo no-thing-clone
-      - [ ] add ba sic no-thing movine, turns
+    - [ ] Fork TestCharacter for no-thing-clone, generic 3rd person
+      - [ ] control random rotation
+      - [ ] add basic no-thing moving, turns, momentum
   - [ ] add character_service
   - [ ] add "characters" folder for character-controller stuff. like "components"
   - [ ] First-person, twin stick style
@@ -52,4 +53,6 @@
   - [ ] add model uploader
     - https://docs.pmnd.rs/react-three-fiber/tutorials/loading-models
   - Issues
-    - [ ] fix?
+    - [ ] Gizmo can't stopPropagation?
+- [ ] Derps?
+  - [ ] floors at right-angles appear/replace after 2 seconds of standing still

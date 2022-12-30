@@ -1,3 +1,4 @@
+import { ThreeEvent } from "@react-three/fiber";
 import { useCallback } from "react";
 import { useTemplateStore } from "../stores/templateStore";
 
@@ -16,10 +17,14 @@ export const useSelectComponent = ({
     (state) => state.updateSelectedNodeAddress
   );
 
-  const handle_select_component = useCallback(() => {
-    updateSelectedNode(nodeItem); // UIChild
-    updateSelectedNodeAddress(`0.${idx}`);
-  }, [nodeItem, idx, updateSelectedNode, updateSelectedNodeAddress]);
+  const handle_select_component = useCallback(
+    (event?: ThreeEvent<MouseEvent>) => {
+      event?.stopPropagation?.();
+      updateSelectedNode(nodeItem); // UIChild
+      updateSelectedNodeAddress(`0.${idx}`);
+    },
+    [nodeItem, idx, updateSelectedNode, updateSelectedNodeAddress]
+  );
 
   return { handle_select_component };
 };
