@@ -1,8 +1,11 @@
 import React, { useState } from "react";
 import styled from "styled-components";
-import { Space } from "../../pages/_OLD_AstTools";
 import Modal from "react-modal";
 import { ExporterTwo } from "../exporter-two/ExporterTwo";
+
+import { Button } from "@mantine/core";
+import { Spacer } from "../Spacer";
+import { SaveToTemplateBtn } from "./SaveToTemplateBtn";
 
 Modal.setAppElement("#root");
 
@@ -11,9 +14,9 @@ interface props {}
 export const TopBar: React.FC<props> = () => {
   const [isOpen, setIsOpen] = useState(false);
 
-  function toggleModal() {
+  const toggleModal = () => {
     setIsOpen(!isOpen);
-  }
+  };
 
   return (
     <>
@@ -50,8 +53,16 @@ export const TopBar: React.FC<props> = () => {
         {isOpen && <ExporterTwo />}
       </Modal>
       <Container>
-        <Space />
-        <Button onClick={toggleModal}>Export</Button>
+        <Spacer width={20} />
+        <Button
+          size="xs"
+          onClick={toggleModal}
+          style={{ height: "75%", marginTop: 3 }}
+        >
+          Export
+        </Button>
+        <Spacer width={20} />
+        <SaveToTemplateBtn />
       </Container>
     </>
   );
@@ -64,10 +75,10 @@ const Container = styled.div`
   background-color: gray;
 `;
 
-const Button = styled.button`
-  margin-top: 5px;
-  margin-bottom: 5px;
-`;
+// const Button = styled.button`
+//   margin-top: 5px;
+//   margin-bottom: 5px;
+// `;
 
 const TheModal = styled(Modal)`
   height: 50%;

@@ -1,6 +1,7 @@
 import React from "react";
 import { RuntimeInterface } from "../SelectedNodeSidebar";
 import { ArrayFieldsGroup } from "./prop-fields/ArrayFieldsGroup";
+import { BooleanFieldInput } from "./prop-fields/BooleanFieldInput";
 import { StringFieldTextInput } from "./prop-fields/StringFieldTextInput";
 
 interface props {
@@ -19,6 +20,10 @@ export const PropInputsSwitch: React.FC<props> = ({ runtimeInterfaces }) => {
 
           {runtimeInterface.typeData.type === "STRING" ? (
             <StringFieldTextInput runtimeInterface={runtimeInterface} />
+          ) : null}
+
+          {runtimeInterface.typeData.type === "BOOLEAN" ? (
+            <BooleanFieldInput runtimeInterface={runtimeInterface} />
           ) : null}
         </div>
       ))}

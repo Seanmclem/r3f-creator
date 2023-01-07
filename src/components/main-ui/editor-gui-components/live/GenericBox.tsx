@@ -7,13 +7,19 @@ export const GenericBox = ({
   dimensions,
   color,
   rotation,
+  fixed = false,
 }: {
   position: number[];
   dimensions: number[];
   rotation: number[];
   color: string;
+  fixed?: boolean;
 }) => (
-  <RigidBody position={position as Vector3} rotation={rotation as Euler}>
+  <RigidBody
+    position={position as Vector3}
+    rotation={rotation as Euler}
+    type={fixed ? "fixed" : undefined}
+  >
     <Box args={dimensions as any} castShadow>
       <meshPhongMaterial color={color} />
     </Box>

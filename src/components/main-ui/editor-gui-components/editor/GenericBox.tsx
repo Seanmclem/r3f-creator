@@ -44,7 +44,26 @@ export const runtimeInterfaces: RuntimeInterface[] = [
     propName: "color",
     typeData: {
       type: "STRING",
-      // fieldDefinitions: xyz_TemplatesArray,
+    },
+    optional: true,
+  },
+
+  {
+    propName: "fixed",
+    typeData: {
+      type: "BOOLEAN",
+      style: "CHECKBOX",
+      label_override: "fixed? (no gravity)",
+    },
+    optional: true,
+  },
+
+  {
+    propName: "nickname",
+    typeData: {
+      type: "STRING",
+      label_override: "Nickname",
+      editor_only: true,
     },
     optional: true,
   },
@@ -90,6 +109,9 @@ const GenericBox = ({
     },
     [handle_onDrag_both]
   );
+
+  // nick Name
+  // fixed
 
   return useMemo(
     () => (

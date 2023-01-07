@@ -81,8 +81,12 @@ export interface FieldDefinition {
 }
 
 export interface TypeData {
-  type: "ARRAY" | "STRING";
+  type: "ARRAY" | "STRING" | "BOOLEAN";
   fieldDefinitions?: FieldDefinition[];
+  style?: "CHECKBOX";
+  label_override?: string;
+  description?: string;
+  editor_only?: boolean; // Is this what I want?
 }
 
 export interface RuntimeInterface {

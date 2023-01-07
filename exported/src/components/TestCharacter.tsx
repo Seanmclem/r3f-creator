@@ -161,7 +161,7 @@ export const TestCharacter = ({
         ref={rigidBody_Ref}
         colliders={false}
         rotation={[0, byDegree(0), 0]}
-        enabledRotations={[false, true, false]} // <-------- works, middle value is the desired horizontal rotation. update a stateful value for rotation, would a ref work? would be faster? Easilty animatated
+        enabledRotations={[false, true, false]} // <-------- works, middle value is the desired horizontal rotation. update a stateful value for rotation, would a ref work? would be faster? Easily animatated?, yeah try useFrame animations
       >
         {/* <mesh position={[-10, 5, 2]} ref={ref1}>
           <boxGeometry />

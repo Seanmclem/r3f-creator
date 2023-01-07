@@ -46,6 +46,20 @@ export const saveFilesToDirectory = async (
   // return fileHandle;
 }; // Can only save with a space
 
+export const update_File_In_Directory = async ({
+  directoryHandle,
+  filename,
+  contents,
+}: {
+  directoryHandle: FileSystemDirectoryHandle;
+  filename: string;
+  contents: string;
+}) => {
+  const fileHandle = await directoryHandle.getFileHandle(filename);
+  await writeFile({ fileHandle, contents });
+  return fileHandle;
+};
+
 export const createFileInDirectory = async ({
   directoryHandle,
   filename,
@@ -174,7 +188,7 @@ const loop_paths = async ({
     (entry) => entry[0] === current_path
   );
   if (!next_folder) {
-    console.error("Failed to find path", {
+    console.error("loop_paths: Failed to find path", {
       folder_contents,
       paths,
       current_path,
@@ -185,7 +199,7 @@ const loop_paths = async ({
   const next_folder_handle = next_folder[1];
 
   if (next_folder_handle.kind !== "directory") {
-    console.error("Entry handle is not a directory", {
+    console.error("loop_paths: Entry handle is not a directory", {
       folder_contents,
       paths,
       current_path,
@@ -206,7 +220,7 @@ const loop_paths = async ({
   });
 };
 
-/** Takes a folder's contnets, and array of nested paths, and returns the EntryType[name][contents] at the final path */
+/** Takes a folder's contents, and array of nested folder paths, and returns the EntryType[name, contents] at the final path */
 export const traverse_folder_paths = async ({
   folder_contents,
   paths,

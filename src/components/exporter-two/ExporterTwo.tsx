@@ -10,6 +10,8 @@ import {
 } from "../../utils/file-system-utils";
 import { useTemplateStore } from "../../stores/templateStore";
 import { FilePreview, generate_files } from "./export-utils";
+import { Button } from "@mantine/core";
+import { Spacer } from "../Spacer";
 
 export const ExporterTwo = () => {
   const mainTemplate = useTemplateStore((state) => state.mainTemplate);
@@ -148,13 +150,22 @@ export const ExporterTwo = () => {
   return (
     <Container>
       <TopBar>
-        <ButtonPretty onClick={handleClick_PreviewOutput}>
+        <Button
+          onClick={handleClick_PreviewOutput}
+          size="xs"
+          style={{ fontSize: 14 }}
+        >
           Preview output
-        </ButtonPretty>
+        </Button>
+        <Spacer width={10} />
         {filePreviews.length ? (
-          <ButtonPretty onClick={handleClick_Export_previews_to_final_folder}>
+          <Button
+            size="xs"
+            style={{ fontSize: 14 }}
+            onClick={handleClick_Export_previews_to_final_folder}
+          >
             Do Export
-          </ButtonPretty>
+          </Button>
         ) : null}
       </TopBar>
       <FileArea>

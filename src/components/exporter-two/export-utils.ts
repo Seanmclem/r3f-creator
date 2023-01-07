@@ -286,6 +286,23 @@ export const formatPropValue = (value: unknown) => {
   }
 };
 
+export const changeCodetoAST = (code: string) => {
+  return transform(code, {
+    ast: true,
+    babelrc: false,
+    plugins: [
+      [
+        tsPlugin,
+        {
+          isTSX: true,
+          allExtensions: true,
+        },
+      ],
+    ],
+    filename: "code-output.tsx",
+  });
+};
+
 export const changeAstToCode = ({
   new_Ast,
   new_BabelFileResult,
@@ -309,6 +326,8 @@ export const changeAstToCode = ({
       new_BabelFileResult.code
     );
     console.log("new_BabelFileResult?.code", new_BabelFileResult?.code);
+
+    // extract resule as code property, backToCode.code
     return backToCode;
   }
 };

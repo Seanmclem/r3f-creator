@@ -38,21 +38,29 @@
   - [x] bug?/need-improvement, camera positions are relative to world, not local to character/rigid-body ... so original camera pos needs to be zero-based. no good
   - [x] tests with 3rd-person camera
   - [ ] First-person, no-thing clone style
-    - [ ] NEXT ...> add `fixed` option to shape opject-types
-    - [ ] add floating platforms
-    - [ ] Fork TestCharacter for no-thing-clone, generic 3rd person
-      - [ ] control random rotation
+    - [x] NEXT ...> add `fixed` option to shape opject-types
+    - [x] Permenant, template saving...
+    - [ ] BUG - sometimes, right after selecting another shape, if you touch the new shapes gizmo, it performs operations on the previous one. Like, 2 gizoms are there, or 2nd item stuff gets applied to first
+    - [ ] BUG - Position clicking the numbers/arrow-buttons don't update it properly anymore.
+    - [ ] BUG - ^ similar but for rotation. not quite right when updated with numbers/arrows
+    - [ ] NI - Maybe gizmo should het bigger when you zoom out.
+    - [ ] NI - Adjusted item should maybe be followed by the camera?
+    - [ ] add floating platforms.. what else is needed?
+    - [ ] Fork TestCharacter for no-thing-clone, and generic 3rd person, generic FPS
+      - [ ] control random rotation/spinning
       - [ ] add basic no-thing moving, turns, momentum
   - [ ] add character_service
   - [ ] add "characters" folder for character-controller stuff. like "components"
   - [ ] First-person, twin stick style
   - [ ] Third-Person
 - [ ] Later
-  - [ ] add Nick-name field for components/tree
+  - [x] add Nick-name field for components/tree
+  - [ ] Still need _multiple_ template saving/switching
   - [ ] add welcome screen, for granting permissions, basic instructions, shown when you first launch
   - [ ] add model uploader
     - https://docs.pmnd.rs/react-three-fiber/tutorials/loading-models
-  - Issues
-    - [ ] Gizmo can't stopPropagation?
-- [ ] Derps?
-  - [ ] floors at right-angles appear/replace after 2 seconds of standing still
+  - [ ] CTRL+Z / History
+- Issues
+  - [ ] Gizmo can't stopPropagation?
+- [ ] idears?
+  - [ ] perpendicular floors appear/replace after 2 seconds of standing still
