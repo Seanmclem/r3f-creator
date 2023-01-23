@@ -17,7 +17,7 @@ export const PropsText: React.FC<props> = ({
   controlType,
   myTypeNow,
 }) => {
-  const handleUpdate = useSendNodeUpdate();
+  const { handleUpdate } = useSendNodeUpdate();
   const [textValue, setTextValue] = useState(propValue);
   const [hasChanges, setHasChanges] = useState(false);
 

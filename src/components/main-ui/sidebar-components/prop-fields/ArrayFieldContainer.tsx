@@ -16,7 +16,7 @@ export const ArrayFieldContainer: React.FC<props> = ({
   arrayFieldIndex,
   runtimeInterface,
 }) => {
-  const sendNodeUpdate = useSendNodeUpdate();
+  const { handleUpdate } = useSendNodeUpdate();
 
   const selectedNode = useTemplateStore((state) => state.selectedNode);
 
@@ -41,7 +41,7 @@ export const ArrayFieldContainer: React.FC<props> = ({
     });
 
     // setArrayValue(newArray);
-    sendNodeUpdate({
+    handleUpdate({
       key: runtimeInterface.propName,
       value: newArray,
     });

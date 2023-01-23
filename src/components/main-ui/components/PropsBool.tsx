@@ -17,7 +17,7 @@ export const PropsBool: React.FC<props> = ({
   controlType,
   myTypeNow,
 }) => {
-  const handleUpdate = useSendNodeUpdate();
+  const { handleUpdate } = useSendNodeUpdate();
   const [boolValue, setBoolValue] = useState(!!propValue);
   const [hasChanges, setHasChanges] = useState(false);
 

@@ -3,10 +3,10 @@ import { UIchild } from "../translators/TemplateToComponents";
 
 type ISet = {
   selectedNode?: UIchild;
-  updateSelectedNode: (selectedNode: UIchild) => void;
+  updateSelectedNode: (selectedNode?: UIchild) => void;
 
   selectedNodeAddress?: string;
-  updateSelectedNodeAddress: (selectedNodeAddress: string) => void;
+  updateSelectedNodeAddress: (selectedNodeAddress?: string) => void;
 
   mainTemplate: UIchild[];
   updateMainTemplate: (mainTemplate: UIchild[]) => void;
@@ -14,13 +14,13 @@ type ISet = {
 
 export const useTemplateStore = create<ISet>((set: SetState<ISet>) => ({
   selectedNode: undefined,
-  updateSelectedNode: (selectedNode: UIchild) =>
+  updateSelectedNode: (selectedNode?: UIchild) =>
     set((_state: ISet) => {
       return { selectedNode };
     }),
 
   selectedNodeAddress: undefined,
-  updateSelectedNodeAddress: (selectedNodeAddress: string) =>
+  updateSelectedNodeAddress: (selectedNodeAddress?: string) =>
     set((_state: ISet) => {
       return { selectedNodeAddress };
     }),

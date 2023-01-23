@@ -38,7 +38,7 @@ export const PropsArray: React.FC<props> = ({
 
   /** Already populated values */
   const [arrayOfValues, setArrayOfValues] = useState(propValue);
-  const handleUpdate = useSendNodeUpdate();
+  const { handleUpdate } = useSendNodeUpdate();
 
   const updateArray = (val: string, idx: number, isNumeric = false) => {
     const newArray = [...arrayOfValues];

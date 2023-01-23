@@ -20,9 +20,23 @@ export const useSendNodeUpdate = () => {
         update,
       });
     } else {
-      console.error("useSendNodeUpdate - has no selectedNodeAddress");
+      console.error("useSendNodeUpdate - no selectedNodeAddress provided");
     }
   };
 
-  return handleUpdate;
+  const handleDelete = () => {
+    if (selectedNodeAddress) {
+      sendNodeUpdate({
+        nodeAddress: selectedNodeAddress,
+        mainTemplate,
+        updateMainTemplate,
+        update: {}, // epty because delete?
+        action: "DELETE",
+      });
+    } else {
+      console.error("useSendNodeUpdate - no selectedNodeAddress provided");
+    }
+  };
+
+  return { handleUpdate, handleDelete };
 };

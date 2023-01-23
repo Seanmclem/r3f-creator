@@ -24,8 +24,9 @@
     - [x] half way there, need to make hooks or something for controls and Gizmos
       - [x] Need to select-on-click
   - [x] update `handleAddNode`/`useAddNewNode` to be dynamic
-  - [ ] add saving-changes for template-json
+  - [x] add saving-changes for template-json
   - [ ] add revert template-json to a generic, new starter-template
+  - [ ] add template-json switching, between projects, basis for levels
 - [ ] Add a `Lighting` component
   - [x] Add directionalLight component.
   - [ ] Add pointLight?
@@ -40,19 +41,30 @@
   - [ ] First-person, no-thing clone style
     - [x] NEXT ...> add `fixed` option to shape opject-types
     - [x] Permenant, template saving...
-    - [ ] BUG - sometimes, right after selecting another shape, if you touch the new shapes gizmo, it performs operations on the previous one. Like, 2 gizoms are there, or 2nd item stuff gets applied to first
+    - [ ] Test/make - Programatic rotation, with rotation disabled
+    - [ ] BUG - sometimes, right after selecting another shape, if you touch the new shapes gizmo, it performs operations on the previous one. Like, 2 gizoms are there, or 2nd item stuff gets applied to first...
+      - [ ] NOT easily reproduced. Skip for now
+      - [ ] ^^ Just try adding a small timeout-callback for setting a new selection. Might be saving to the wrong one after selectedNode changes quickly. OR, just wait until any pending changes are saved before allowing new selection to happen... Like, in zustand, save a Next_Selected, and make the change after the update is completed -if any next-selected
     - [ ] BUG - Position clicking the numbers/arrow-buttons don't update it properly anymore.
     - [ ] BUG - ^ similar but for rotation. not quite right when updated with numbers/arrows
     - [ ] NI - Maybe gizmo should het bigger when you zoom out.
     - [ ] NI - Adjusted item should maybe be followed by the camera?
-    - [ ] add floating platforms.. what else is needed?
-    - [ ] Fork TestCharacter for no-thing-clone, and generic 3rd person, generic FPS
-      - [ ] control random rotation/spinning
-      - [ ] add basic no-thing moving, turns, momentum
-  - [ ] add character_service
-  - [ ] add "characters" folder for character-controller stuff. like "components"
-  - [ ] First-person, twin stick style
-  - [ ] Third-Person
+    - [x] add floating platforms.. what else is needed?
+
+### GAME
+
+- [ ] Neede Delete button on components
+- [ ] Need History on-updates
+  - [ ] Use fot Ctrl-Z
+- [ ] Fork TestCharacter for no-thing-clone, and generic 3rd person, generic FPS
+
+  - [ ] control random rotation/spinning
+  - [ ] add basic no-thing moving, turns, momentum
+
+- [ ] add character_service
+- [ ] add "characters" folder for character-controller stuff. like "components"
+- [ ] First-person, twin stick style
+- [ ] Third-Person
 - [ ] Later
   - [x] add Nick-name field for components/tree
   - [ ] Still need _multiple_ template saving/switching

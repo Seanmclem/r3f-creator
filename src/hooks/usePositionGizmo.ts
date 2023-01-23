@@ -20,7 +20,7 @@ const detect_MoveOnly = ({ x, y, z }: { x: number; y: number; z: number }) => {
 };
 
 export const usePositionGizmo = (position: number[], rotation?: number[]) => {
-  const sendNodeUpdate = useSendNodeUpdate();
+  const { handleUpdate } = useSendNodeUpdate();
 
   const [newPosition, setNewPosition] = useState<Vector3>();
   const [newRotation, setNewRotation] = useState<Vector3>();
@@ -39,23 +39,23 @@ export const usePositionGizmo = (position: number[], rotation?: number[]) => {
     // LATER.. could keep a history in-store, for like, ctrl Z?
 
     if (newPosition) {
-      sendNodeUpdate({
+      handleUpdate({
         key: "position",
         value: newPosition,
       });
     }
-  }, [newPosition, sendNodeUpdate]);
+  }, [newPosition, handleUpdate]);
 
   const handle_onDragEnd_rotation = useCallback(() => {
     // LATER.. could keep a history in-store, for like, ctrl Z?
 
     if (newRotation) {
-      sendNodeUpdate({
+      handleUpdate({
         key: "rotation",
         value: newRotation as number[], // not using `remove_whole_numbers`, are whole numbers necessaru? Seems like maybe
       });
     }
-  }, [newRotation, sendNodeUpdate]);
+  }, [newRotation, handleUpdate]);
 
   const handle_onDrag_rotation = useCallback(
     (matrix: Matrix4, meshRef: React.RefObject<Object3D<Event>>) => {

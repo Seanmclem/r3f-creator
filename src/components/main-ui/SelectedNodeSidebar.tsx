@@ -6,6 +6,7 @@ import { StandardContainer } from "../styled-components";
 import { useEffect, useRef, useState } from "react";
 import { PropInputsSwitch } from "./sidebar-components/PropInputsSwitch";
 import { editorNodeState } from "../../stores/editorNodeProxy";
+import { DeleteButton } from "./sidebar-components/DeleteButton";
 
 interface props {}
 
@@ -70,6 +71,7 @@ export const SelectedNodeSidebar: React.FC<props> = () => {
         <div>{selectedNode.tagName}</div>
         {/* V where the magic happens V */}
         <PropInputsSwitch runtimeInterfaces={runtimeInterfaces} />
+        <DeleteButton />
       </StandardContainer>
     </SidebarContainer>
   );

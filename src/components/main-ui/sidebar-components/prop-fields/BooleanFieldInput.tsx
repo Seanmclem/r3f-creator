@@ -10,7 +10,7 @@ interface props {
 }
 
 export const BooleanFieldInput: React.FC<props> = ({ runtimeInterface }) => {
-  const sendNodeUpdate = useSendNodeUpdate();
+  const { handleUpdate } = useSendNodeUpdate();
   const selectedNode = useTemplateStore((state) => state.selectedNode);
 
   const currentProps_Value = selectedNode?.props?.[runtimeInterface?.propName];
@@ -33,7 +33,7 @@ export const BooleanFieldInput: React.FC<props> = ({ runtimeInterface }) => {
       update,
     });
 
-    sendNodeUpdate(update);
+    handleUpdate(update);
   };
 
   useEffect(() => {
