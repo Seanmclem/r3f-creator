@@ -1,12 +1,7 @@
 import { randomString } from "../utils/generic_utils";
 import { useTemplateStore } from "../stores/templateStore";
 
-export interface New_Node_Starter {
-  tagName: string;
-  template_props: any;
-}
-
-const get_New_Thing = ({ tagName, template_props }: New_Node_Starter) => ({
+const get_New_Thing = ({ tagName, template_props }: any) => ({
   id: randomString(),
   tagName,
   props: { ...template_props },
@@ -19,7 +14,7 @@ export const useAddNewNode = () => {
     (state) => state.updateMainTemplate
   );
 
-  const handleAddNode = ({ tagName, template_props }: New_Node_Starter) => {
+  const handleAddNode = ({ tagName, template_props }: any) => {
     const updatedTemplate = [...mainTemplate];
 
     const new_thing = get_New_Thing({ tagName, template_props });

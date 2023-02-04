@@ -1,6 +1,5 @@
+import { NodeAction } from "../stores/historyStore";
 import { UIchild } from "../translators/TemplateToComponents";
-
-export type NodeAction = "ADD" | "UPDATE" | "DELETE";
 
 export interface SendNodeUpdate {
   /** String path to node. Example `"0.3.1.0"` */
@@ -27,7 +26,7 @@ export const sendNodeUpdate = ({
     mainTemplate,
   });
   const numericIndicies = nodeAddressSplitArray.map((x) => parseInt(x));
-  const newTemplate = deepSplice({
+  const { newTemplate, previousValue } = deepSplice({
     main_template_copy: mainTemplateCopy, // mainTemplate copy
     indices: numericIndicies, // [0, 3, 1, 0]
     deleteCount: 1, // always 1
@@ -36,6 +35,8 @@ export const sendNodeUpdate = ({
   });
 
   updateMainTemplate(newTemplate || []);
+
+  return { newTemplate, previousValue };
 };
 
 // Thanks to Q+A at https://stackoverflow.com/questions/62268544/using-an-array-of-indices-to-access-and-modify-arbitrarily-deep-nested-arrays-in
@@ -59,16 +60,23 @@ export const deepSplice = ({
   );
 
   const changingItem = finalItems[last];
+  const previousValue = {
+    [update.key]: structuredClone(changingItem.props[update.key]),
+  };
 
   if (action === "UPDATE") {
     changingItem.props[update.key] = update.value;
     finalItems.splice(last, deleteCount, changingItem);
-    return main_template_copy;
+    return { newTemplate: main_template_copy, previousValue };
   } else if (action === "DELETE") {
     changingItem.props[update.key] = update.value;
     finalItems.splice(last, deleteCount);
-    return main_template_copy;
+    return { newTemplate: main_template_copy };
+  } else {
+    // Placeholder for "ADD" action
+    return { newTemplate: main_template_copy, previousValue };
   }
+
   // console.log({ finalItems });
 };
 

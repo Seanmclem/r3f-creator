@@ -7,8 +7,8 @@ import {
   useMantineTheme,
 } from "@mantine/core";
 import styled from "@emotion/styled";
-import { New_Node_Starter } from "../../hooks/useAddNewNode";
 import { Fragment } from "react";
+import { useSendNodeUpdate } from "../../hooks/useSendNodeUpdate";
 interface Component_ListItem {
   name: string;
   short_description?: string;
@@ -65,15 +65,15 @@ const mock_components: Component_ListItem[] = [
 export interface props {
   component_drawer_open: boolean;
   set_component_drawer_open: React.Dispatch<React.SetStateAction<boolean>>;
-  handleAddNode: ({ tagName, template_props }: New_Node_Starter) => void;
 }
 
 export const ComponentSelectorDrawer = ({
   component_drawer_open,
   set_component_drawer_open,
-  handleAddNode,
 }: props) => {
   const theme = useMantineTheme();
+
+  const { handleAddNode } = useSendNodeUpdate();
 
   const handle_click_component = (component: Component_ListItem) => {
     handleAddNode({

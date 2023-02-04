@@ -3,11 +3,8 @@ import React from "react";
 import styled from "styled-components";
 import { useSendNodeUpdate } from "../../../hooks/useSendNodeUpdate";
 import { useTemplateStore } from "../../../stores/templateStore";
-import { UIchild } from "../../../translators/TemplateToComponents";
 
-interface props {
-  //   selectedNode: UIchild;
-}
+interface props {}
 
 export const DeleteButton: React.FC<props> = () => {
   const { handleDelete } = useSendNodeUpdate();

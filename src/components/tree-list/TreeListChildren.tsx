@@ -1,6 +1,5 @@
 import { useState } from "react";
 import styled from "styled-components/macro";
-import { useAddNewNode } from "../../hooks/useAddNewNode";
 import { UIchild } from "../../translators/TemplateToComponents";
 import { ComponentSelectorDrawer } from "../component-selector/ComponentSelectorDrawer";
 import { TreeItemLabelBox } from "./TreeItem";
@@ -10,7 +9,6 @@ const AddNewButton: React.FC<{ mainChild: UIchild }> = ({ mainChild }) => {
   const [component_drawer_open, set_component_drawer_open] = useState(false);
 
   const [fade, setFade] = useState(false);
-  const { handleAddNode } = useAddNewNode();
 
   const handleClick = () => {
     setFade(true);
@@ -29,8 +27,8 @@ const AddNewButton: React.FC<{ mainChild: UIchild }> = ({ mainChild }) => {
       <ComponentSelectorDrawer
         component_drawer_open={component_drawer_open}
         set_component_drawer_open={set_component_drawer_open}
-        handleAddNode={handleAddNode}
       />
+      {/*  not a wrapper  ^^ just a component */}
       <PrimitivesList>
         <AddNew
           className={` ${fade ? " fade" : ""}`}
