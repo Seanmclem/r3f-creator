@@ -1,4 +1,5 @@
 import create, { SetState } from "zustand";
+import { useSendNodeUpdate } from "../hooks/useSendNodeUpdate";
 
 export type NodeAction = "ADD" | "UPDATE" | "DELETE";
 
@@ -15,7 +16,10 @@ export interface HistoryItem {
 interface ISet {
   history_list: HistoryItem[];
   add_to_history_list: (new_history_item: HistoryItem) => void;
-  //   update_history_list: (mainTemplate: any[]) => void
+
+  current_history_item_index: number;
+  decrement_current_history_index: () => void;
+  increment_current_history_index: () => void;
 }
 
 export const useHistoryStore = create<ISet>((set: SetState<ISet>) => ({
@@ -30,7 +34,7 @@ export const useHistoryStore = create<ISet>((set: SetState<ISet>) => ({
     }
     console.log("add_to_history_list");
     set((state: ISet) => {
-      return { history_list: [...state.history_list, new_history_item] };
+      return { history_list: [new_history_item, ...state.history_list] };
     });
   },
   // Then, for Adds, store the path/id of the new node
@@ -42,4 +46,52 @@ export const useHistoryStore = create<ISet>((set: SetState<ISet>) => ({
   //     set((_state: ISet) => {
   //       return { mainTemplate: updatedTemplate }
   //     })
+  current_history_item_index: 0,
+  decrement_current_history_index: () => {
+    set((state: ISet) => {
+      return {
+        current_history_item_index: state.current_history_item_index - 1,
+      };
+    });
+  },
+  increment_current_history_index: () => {
+    set((state: ISet) => {
+      return {
+        current_history_item_index: state.current_history_item_index + 1,
+      };
+    });
+  },
 }));
+
+export const useBackwardInHistory = () => {
+  const increment_current_history_index = useHistoryStore(
+    (state) => state.increment_current_history_index
+  );
+  const current_history_item_index = useHistoryStore(
+    (state) => state.current_history_item_index
+  );
+  const history_list = useHistoryStore((state) => state.history_list);
+  const { handleAddNode, handleDelete } = useSendNodeUpdate();
+
+  const current_component_in_history = history_list[current_history_item_index];
+
+  const go_back_in_history = () => {
+    increment_current_history_index();
+
+    if (current_component_in_history.action === "ADD") {
+      console.log("Undo - ADD ... so, remove");
+      handleDelete({
+        undo_ADD: {
+          node_address: current_component_in_history.path,
+          node_id: current_component_in_history.id,
+        },
+      });
+    } else if (current_component_in_history.action === "UPDATE") {
+      console.log("UPDATE");
+    } else if (current_component_in_history.action === "DELETE") {
+      console.log("DELETE");
+    }
+  };
+
+  return { go_back_in_history };
+};

@@ -19,7 +19,7 @@ export const DeleteButton: React.FC<props> = () => {
   const handleDeleteClick = () => {
     updateSelectedNode(undefined);
     updateSelectedNodeAddress(undefined);
-    handleDelete();
+    handleDelete({});
   };
 
   return (

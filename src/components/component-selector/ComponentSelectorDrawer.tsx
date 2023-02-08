@@ -17,6 +17,7 @@ interface Component_ListItem {
 }
 
 const mock_components: Component_ListItem[] = [
+  // should replace with dybamic list of components
   {
     name: "GenericBox",
     template_props: {
@@ -76,6 +77,7 @@ export const ComponentSelectorDrawer = ({
   const { handleAddNode } = useSendNodeUpdate();
 
   const handle_click_component = (component: Component_ListItem) => {
+    // works like this because components are added from a list of components
     handleAddNode({
       tagName: component.name,
       template_props: component.template_props,

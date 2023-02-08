@@ -24,6 +24,7 @@ const AddNewButton: React.FC<{ mainChild: UIchild }> = ({ mainChild }) => {
 
   return mainChild.tagName === "Fragment" ? (
     <>
+      {/* v ComponentSelectorDrawer - opens a list of components to select to add. That drawer is where the magic happens */}
       <ComponentSelectorDrawer
         component_drawer_open={component_drawer_open}
         set_component_drawer_open={set_component_drawer_open}

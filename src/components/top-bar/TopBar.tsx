@@ -6,6 +6,7 @@ import { ExporterTwo } from "../exporter-two/ExporterTwo";
 import { Button } from "@mantine/core";
 import { Spacer } from "../Spacer";
 import { SaveToTemplateBtn } from "./SaveToTemplateBtn";
+import { useBackwardInHistory } from "../../stores/historyStore";
 
 Modal.setAppElement("#root");
 
@@ -17,6 +18,8 @@ export const TopBar: React.FC<props> = () => {
   const toggleModal = () => {
     setIsOpen(!isOpen);
   };
+
+  const { go_back_in_history } = useBackwardInHistory();
 
   return (
     <>
@@ -54,6 +57,22 @@ export const TopBar: React.FC<props> = () => {
       </Modal>
       <Container>
         <Spacer width={20} />
+        <Button
+          size="xs"
+          onClick={() => go_back_in_history()}
+          style={{ height: "75%", marginTop: 3 }}
+        >
+          Undo
+        </Button>
+        <Spacer width={10} />
+        <Button
+          size="xs"
+          onClick={() => null}
+          style={{ height: "75%", marginTop: 3 }}
+        >
+          Redo
+        </Button>
+        <Spacer width={40} />
         <Button
           size="xs"
           onClick={toggleModal}
