@@ -11,6 +11,7 @@ import { useEffect, Suspense } from "react";
 import { TopBar } from "../components/top-bar/TopBar";
 import { OrbitControls } from "@react-three/drei";
 import { Physics } from "@react-three/rapier";
+import { HistoryViewer } from "../components/history-viewer/HistoryViewer";
 
 export const MainUI: React.VFC<{}> = () => {
   const [width, height] = useWindowSize();
@@ -28,6 +29,7 @@ export const MainUI: React.VFC<{}> = () => {
       <TopBar />
       <MainUiContainer>
         <Sidebar mainTemplate={mainTemplate} />
+        {true ? <HistoryViewer /> : null}
         <Canvas
           style={{ height, width: width - 300 }}
           camera={{ fov: 75, position: [10, 8, 10] }}
