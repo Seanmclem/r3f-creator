@@ -50,7 +50,6 @@
     - [ ] NI - Maybe gizmo should het bigger when you zoom out.
     - [ ] NI - Adjusted item should maybe be followed by the camera?
     - [x] add floating platforms.. what else is needed?
-    - [ ] BUG - clicking on an eisting box, causes an update, tecnically.. Because `fixed:undefined` gets changed to `fixed:false`
 
 ### GAME
 
