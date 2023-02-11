@@ -33,7 +33,9 @@ export const SelectedNodeSidebar: React.FC<props> = () => {
         `../main-ui/editor-gui-components/editor/${selectedNode.tagName}`
       ).then(({ runtimeInterfaces }) => {
         if (runtimeInterfaces) {
-          setruntimeInterfaces(runtimeInterfaces);
+          setruntimeInterfaces([]);
+          setTimeout(() => setruntimeInterfaces(runtimeInterfaces), 12);
+          // hack to un-render the sidebar before re-rendering it
         } else {
           setruntimeInterfaces([]);
         }
@@ -99,7 +101,7 @@ export interface RuntimeInterface {
 
 const SidebarContainer = styled.div`
   /* width: 300px; */
-  min-width: 300px;
+  min-width: 365px;
   width: auto;
   padding: 0 15px;
   /* height: 100%; */

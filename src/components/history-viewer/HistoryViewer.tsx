@@ -41,6 +41,10 @@ export const HistoryViewer: React.FC<props> = () => {
                 <Text weight={"bold"}>Index: </Text>
                 <Text>{idx} </Text>
               </Group>
+              <Group>
+                <Text weight={"bold"}>Path: </Text>
+                <Text>{history_item.path} </Text>
+              </Group>
               <Text sx={{ whiteSpace: "pre-wrap" }}>
                 <Text weight="bold">New Value: </Text>
                 {/* <Code lang="javascript"> */}

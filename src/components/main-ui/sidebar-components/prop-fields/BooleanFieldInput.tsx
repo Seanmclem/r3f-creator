@@ -36,17 +36,21 @@ export const BooleanFieldInput: React.FC<props> = ({ runtimeInterface }) => {
     handleUpdate(update);
   };
 
-  useEffect(() => {
-    set_boolean_value(currentProps_Value);
-    // This lets the field-value change if selectedNode changes
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [selectedNode?.id]);
+  // useEffect(() => {
+  //   set_boolean_value(currentProps_Value);
+  //   // This lets the field-value change if selectedNode changes
+  //   // eslint-disable-next-line react-hooks/exhaustive-deps
+  // }, [selectedNode?.id]);
 
   useEffect(() => {
     const currentProps_Value =
       selectedNode?.props?.[runtimeInterface?.propName];
 
-    if (boolean_value !== currentProps_Value) {
+    if (
+      !(currentProps_Value === undefined && boolean_value === false) &&
+      boolean_value !== currentProps_Value
+    ) {
+      // hacky condition checking is to prevent erroneous update on first render
       handlePropUpdate();
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
