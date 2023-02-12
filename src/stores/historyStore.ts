@@ -76,6 +76,12 @@ export const useBackwardInHistory = () => {
   const current_component_in_history = history_list[current_history_item_index];
 
   const go_back_in_history = () => {
+    if (!current_component_in_history) {
+      console.log("No more history to go back to");
+      // no more history to go back to
+      return;
+    }
+
     increment_current_history_index();
 
     if (current_component_in_history.action === "ADD") {
