@@ -4,9 +4,9 @@ import { KeyValueProp } from "../types/shared";
 
 import { randomString } from "../utils/generic_utils";
 import {
-  add_to_history_list_SIGNAL,
-  HistoryItem_Signal,
-  history_list_SIGNAL,
+  add_to_history_list,
+  HistoryItem,
+  history_list,
 } from "../signals-state/history-signals";
 
 export const useSendNodeUpdate = () => {
@@ -28,7 +28,7 @@ export const useSendNodeUpdate = () => {
         update,
       });
 
-      const new_history_item: HistoryItem_Signal = {
+      const new_history_item: HistoryItem = {
         action: "UPDATE",
         path: selectedNodeAddress,
         id: selectedNode?.id || "",
@@ -36,7 +36,7 @@ export const useSendNodeUpdate = () => {
         newValue: update,
       };
 
-      add_to_history_list_SIGNAL(new_history_item);
+      add_to_history_list(new_history_item);
     } else {
       console.error(
         "useSendNodeUpdate - UPDATE - no selectedNodeAddress provided"
@@ -62,7 +62,7 @@ export const useSendNodeUpdate = () => {
         action: "DELETE",
       });
 
-      const new_history_item: HistoryItem_Signal = {
+      const new_history_item: HistoryItem = {
         action: "DELETE",
         path: selected_node_address,
         id: undo_ADD?.node_id || selectedNode?.id || "",
@@ -71,7 +71,7 @@ export const useSendNodeUpdate = () => {
         isHistoryUpdate: !!undo_ADD,
       };
 
-      add_to_history_list_SIGNAL(new_history_item);
+      add_to_history_list(new_history_item);
     } else {
       console.error(
         "useSendNodeUpdate - DELETE - no selectedNodeAddress provided"
@@ -102,7 +102,7 @@ export const useSendNodeUpdate = () => {
 
     updateMainTemplate(updatedTemplate);
 
-    const new_history_item: HistoryItem_Signal = {
+    const new_history_item: HistoryItem = {
       action: "ADD",
       path: `0.${mainTemplate[0].children.length - 1}`, // last postion, plus one?,
       id: selectedNode?.id || "",
@@ -111,11 +111,11 @@ export const useSendNodeUpdate = () => {
       isHistoryUpdate,
     };
 
-    add_to_history_list_SIGNAL(new_history_item);
+    add_to_history_list(new_history_item);
 
     console.log({
       mainTemplate,
-      history_list_SIGNAL: history_list_SIGNAL.value,
+      history_list: history_list.value,
     });
   };
 

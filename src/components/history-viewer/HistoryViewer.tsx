@@ -2,8 +2,8 @@ import { Card, Code, Group, SimpleGrid, Text } from "@mantine/core";
 import React from "react";
 import styled from "styled-components";
 import {
-  current_history_item_INDEX_SIGNAL,
-  history_list_SIGNAL,
+  current_history_item_INDEX,
+  history_list,
 } from "../../signals-state/history-signals";
 
 interface props {}
@@ -20,10 +20,10 @@ export const HistoryViewer: React.FC<props> = () => {
         <Card shadow="sm" p="lg" radius="md" withBorder m={10}>
           <Group>
             <Text weight={"bold"}>Current Item Index: </Text>
-            <Text>{current_history_item_INDEX_SIGNAL.value}</Text>
+            <Text>{current_history_item_INDEX.value}</Text>
           </Group>
         </Card>
-        {history_list_SIGNAL.value.map((history_item, idx) => {
+        {history_list.value.map((history_item, idx) => {
           return (
             <Card
               shadow="sm"
@@ -33,7 +33,7 @@ export const HistoryViewer: React.FC<props> = () => {
               m={10}
               sx={{
                 backgroundColor:
-                  idx === current_history_item_INDEX_SIGNAL.value
+                  idx === current_history_item_INDEX.value
                     ? "lightblue"
                     : "white",
               }}
