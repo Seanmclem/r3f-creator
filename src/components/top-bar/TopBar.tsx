@@ -6,7 +6,12 @@ import { ExporterTwo } from "../exporter-two/ExporterTwo";
 import { Button } from "@mantine/core";
 import { Spacer } from "../Spacer";
 import { SaveToTemplateBtn } from "./SaveToTemplateBtn";
-import { useBackwardInHistory } from "../../stores/historyStore";
+
+import {
+  forward_in_history,
+  go_back_in_history,
+} from "../../signals-state/history-signals";
+import { useSendNodeUpdate } from "../../hooks/useSendNodeUpdate";
 
 Modal.setAppElement("#root");
 
@@ -19,7 +24,12 @@ export const TopBar: React.FC<props> = () => {
     setIsOpen(!isOpen);
   };
 
-  const { go_back_in_history } = useBackwardInHistory();
+  const { handleDelete, handleAddNode } = useSendNodeUpdate();
+
+  const go_backward_in_history = () => go_back_in_history(handleDelete);
+
+  const go_forward_in_history = () => forward_in_history(handleAddNode); //n
+  // ^^ add to history-signals file
 
   return (
     <>
@@ -59,7 +69,7 @@ export const TopBar: React.FC<props> = () => {
         <Spacer width={20} />
         <Button
           size="xs"
-          onClick={() => go_back_in_history()}
+          onClick={go_backward_in_history}
           style={{ height: "75%", marginTop: 3 }}
         >
           Undo
@@ -67,7 +77,7 @@ export const TopBar: React.FC<props> = () => {
         <Spacer width={10} />
         <Button
           size="xs"
-          onClick={() => null}
+          onClick={go_forward_in_history}
           style={{ height: "75%", marginTop: 3 }}
         >
           Redo

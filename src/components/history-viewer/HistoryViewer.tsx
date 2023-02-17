@@ -1,15 +1,18 @@
 import { Card, Code, Group, SimpleGrid, Text } from "@mantine/core";
 import React from "react";
 import styled from "styled-components";
-import { useHistoryStore } from "../../stores/historyStore";
+import {
+  current_history_item_INDEX_SIGNAL,
+  history_list_SIGNAL,
+} from "../../signals-state/history-signals";
 
 interface props {}
 
 export const HistoryViewer: React.FC<props> = () => {
-  const history_list = useHistoryStore((state) => state.history_list);
-  const current_history_item_index = useHistoryStore(
-    (state) => state.current_history_item_index
-  );
+  //   const history_list = useHistoryStore((state) => state.history_list);
+  //   const current_history_item_index = useHistoryStore(
+  //     (state) => state.current_history_item_index
+  //   );
 
   return (
     <Container>
@@ -17,10 +20,10 @@ export const HistoryViewer: React.FC<props> = () => {
         <Card shadow="sm" p="lg" radius="md" withBorder m={10}>
           <Group>
             <Text weight={"bold"}>Current Item Index: </Text>
-            <Text>{current_history_item_index}</Text>
+            <Text>{current_history_item_INDEX_SIGNAL.value}</Text>
           </Group>
         </Card>
-        {history_list.map((history_item, idx) => {
+        {history_list_SIGNAL.value.map((history_item, idx) => {
           return (
             <Card
               shadow="sm"
@@ -30,7 +33,9 @@ export const HistoryViewer: React.FC<props> = () => {
               m={10}
               sx={{
                 backgroundColor:
-                  idx === current_history_item_index ? "lightblue" : "white",
+                  idx === current_history_item_INDEX_SIGNAL.value
+                    ? "lightblue"
+                    : "white",
               }}
             >
               <Group>

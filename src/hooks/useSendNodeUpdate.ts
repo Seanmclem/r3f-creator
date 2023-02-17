@@ -1,9 +1,13 @@
 import { sendNodeUpdate } from "../utils/editor-tree-functions";
 import { useTemplateStore } from "../stores/templateStore";
 import { KeyValueProp } from "../types/shared";
-import { HistoryItem, useHistoryStore } from "../stores/historyStore";
+
 import { randomString } from "../utils/generic_utils";
-import { useEffect } from "react";
+import {
+  add_to_history_list_SIGNAL,
+  HistoryItem_Signal,
+  history_list_SIGNAL,
+} from "../signals-state/history-signals";
 
 export const useSendNodeUpdate = () => {
   const mainTemplate = useTemplateStore((state) => state.mainTemplate);
@@ -15,27 +19,6 @@ export const useSendNodeUpdate = () => {
   );
   const selectedNode = useTemplateStore((state) => state.selectedNode);
 
-  const add_to_history_list = useHistoryStore(
-    (state) => state.add_to_history_list
-  );
-
-  const history_list = useHistoryStore((state) => state.history_list);
-
-  useEffect(() => {
-    console.log("HISTORY UPDATED", history_list);
-  }, [history_list]);
-
-  const current_history_item_index = useHistoryStore(
-    (state) => state.current_history_item_index
-  );
-
-  useEffect(() => {
-    console.log(
-      "current_history_item_index UPDATED",
-      current_history_item_index
-    );
-  }, [current_history_item_index]);
-
   const handleUpdate = (update: KeyValueProp) => {
     if (selectedNodeAddress) {
       const { previousValue } = sendNodeUpdate({
@@ -45,7 +28,7 @@ export const useSendNodeUpdate = () => {
         update,
       });
 
-      const new_history_item: HistoryItem = {
+      const new_history_item: HistoryItem_Signal = {
         action: "UPDATE",
         path: selectedNodeAddress,
         id: selectedNode?.id || "",
@@ -53,7 +36,7 @@ export const useSendNodeUpdate = () => {
         newValue: update,
       };
 
-      add_to_history_list(new_history_item);
+      add_to_history_list_SIGNAL(new_history_item);
     } else {
       console.error(
         "useSendNodeUpdate - UPDATE - no selectedNodeAddress provided"
@@ -66,6 +49,7 @@ export const useSendNodeUpdate = () => {
   }: {
     undo_ADD?: { node_address?: string; node_id?: string };
   }) => {
+    debugger;
     // for undo-ADD functionality, we need to know the node_address and node_id of the node that was added, instead of the selectedNodeAddress
     const selected_node_address = undo_ADD?.node_address || selectedNodeAddress;
 
@@ -78,7 +62,7 @@ export const useSendNodeUpdate = () => {
         action: "DELETE",
       });
 
-      const new_history_item: HistoryItem = {
+      const new_history_item: HistoryItem_Signal = {
         action: "DELETE",
         path: selected_node_address,
         id: undo_ADD?.node_id || selectedNode?.id || "",
@@ -87,7 +71,7 @@ export const useSendNodeUpdate = () => {
         isHistoryUpdate: !!undo_ADD,
       };
 
-      add_to_history_list(new_history_item);
+      add_to_history_list_SIGNAL(new_history_item);
     } else {
       console.error(
         "useSendNodeUpdate - DELETE - no selectedNodeAddress provided"
@@ -98,10 +82,13 @@ export const useSendNodeUpdate = () => {
   const handleAddNode = ({
     tagName,
     template_props,
+    isHistoryUpdate = false,
   }: {
     tagName: string;
     template_props: any;
+    isHistoryUpdate?: boolean;
   }) => {
+    console.log("handleAddNode", { tagName, template_props, isHistoryUpdate });
     const updatedTemplate = [...mainTemplate];
 
     const new_thing = {
@@ -115,17 +102,21 @@ export const useSendNodeUpdate = () => {
 
     updateMainTemplate(updatedTemplate);
 
-    const new_history_item: HistoryItem = {
+    const new_history_item: HistoryItem_Signal = {
       action: "ADD",
       path: `0.${mainTemplate[0].children.length - 1}`, // last postion, plus one?,
       id: selectedNode?.id || "",
       previousValue: undefined,
       newValue: new_thing,
+      isHistoryUpdate,
     };
 
-    add_to_history_list(new_history_item);
+    add_to_history_list_SIGNAL(new_history_item);
 
-    console.log({ mainTemplate, history_list });
+    console.log({
+      mainTemplate,
+      history_list_SIGNAL: history_list_SIGNAL.value,
+    });
   };
 
   // need to add a handleAdd function, also where is the

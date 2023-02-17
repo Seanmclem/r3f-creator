@@ -11,6 +11,7 @@
     "@emotion/styled": "^11.10.5",
     "@mantine/core": "^5.8.4",
     "@mantine/hooks": "^5.8.4",
+    "@preact/signals-react": "^1.2.2",
     "@react-hook/window-size": "^3.0.7",
     "@react-three/cannon": "^6.4.0",
     "@react-three/drei": "^9.31.1",

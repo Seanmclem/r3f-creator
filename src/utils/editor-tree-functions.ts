@@ -1,4 +1,4 @@
-import { NodeAction } from "../stores/historyStore";
+import { NodeAction_Signal } from "../signals-state/history-signals";
 import { UIchild } from "../translators/TemplateToComponents";
 
 export interface SendNodeUpdate {
@@ -11,7 +11,7 @@ export interface SendNodeUpdate {
   /** Update payload */
   update: any;
   /** Action to perform on node */
-  action?: NodeAction;
+  action?: NodeAction_Signal;
 }
 
 export const sendNodeUpdate = ({
@@ -51,7 +51,7 @@ export const deepSplice = ({
   indices: number[];
   deleteCount: number;
   update: { key: string; value: unknown };
-  action: NodeAction;
+  action: NodeAction_Signal;
 }) => {
   const last = indices.pop() as number;
   const finalItems = indices.reduce(

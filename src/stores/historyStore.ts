@@ -64,6 +64,7 @@ export const useHistoryStore = create<ISet>((set: SetState<ISet>) => ({
 }));
 
 export const useBackwardInHistory = () => {
+  // Load variables
   const increment_current_history_index = useHistoryStore(
     (state) => state.increment_current_history_index
   );
@@ -75,6 +76,7 @@ export const useBackwardInHistory = () => {
 
   const current_component_in_history = history_list[current_history_item_index];
 
+  // Do stuff
   const go_back_in_history = () => {
     if (!current_component_in_history) {
       console.log("No more history to go back to");
@@ -100,4 +102,44 @@ export const useBackwardInHistory = () => {
   };
 
   return { go_back_in_history };
+};
+
+export const useForwardInHistory = () => {
+  const decrement_current_history_index = useHistoryStore(
+    (state) => state.decrement_current_history_index
+  );
+  const current_history_item_index = useHistoryStore(
+    (state) => state.current_history_item_index
+  );
+  const history_list = useHistoryStore((state) => state.history_list);
+  const { handleAddNode, handleDelete } = useSendNodeUpdate();
+
+  const current_component_in_history = history_list[current_history_item_index];
+
+  const go_forward_in_history = () => {
+    if (!current_component_in_history) {
+      console.log("No more history to go forward to");
+      // no more history to go forward to
+      return;
+    }
+    console.log("current_history_item_index_1", current_history_item_index);
+    decrement_current_history_index();
+    console.log("current_history_item_index_2", current_history_item_index);
+
+    // if (current_component_in_history.action === "ADD") {
+    //   handleAddNode({
+    //     tagName: current_component_in_history.newValue as string,
+    //     template_props: (current_component_in_history.newValue as any)
+    //       ?.props as any,
+    //     isHistoryUpdate: true,
+    //   });
+    //   console.log("ADD");
+    // } else if (current_component_in_history.action === "UPDATE") {
+    //   console.log("UPDATE");
+    // } else if (current_component_in_history.action === "DELETE") {
+    //   console.log("DELETE");
+    // }
+  };
+
+  return { go_forward_in_history };
 };
