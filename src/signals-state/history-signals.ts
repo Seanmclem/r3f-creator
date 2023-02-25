@@ -1,5 +1,6 @@
 import { signal } from "@preact/signals-core";
 import { computed } from "@preact/signals-react";
+import { KeyValueProp } from "../types/shared";
 
 export type NodeAction = "ADD" | "UPDATE" | "DELETE";
 
@@ -46,7 +47,17 @@ export const go_back_in_history = (
           node_id?: string | undefined;
         }
       | undefined;
-  }) => void
+  }) => void,
+  handleAddNode: ({
+    tagName,
+    template_props,
+    isHistoryUpdate,
+  }: {
+    tagName: string;
+    template_props: any;
+    isHistoryUpdate?: boolean | undefined;
+  }) => void,
+  handleUpdate: (update: KeyValueProp) => void
 ) => {
   debugger;
 
@@ -66,13 +77,23 @@ export const go_back_in_history = (
     });
     increment_current_history_index();
   } else if (current_component_in_history.value.action === "UPDATE") {
-    console.log("UPDATE");
+    console.log("UPDATE NODE", current_component_in_history.value);
   } else if (current_component_in_history.value.action === "DELETE") {
     console.log("DELETE");
   }
 };
 
 export const forward_in_history = (
+  handleDelete: ({
+    undo_ADD,
+  }: {
+    undo_ADD?:
+      | {
+          node_address?: string | undefined;
+          node_id?: string | undefined;
+        }
+      | undefined;
+  }) => void,
   handleAddNode: ({
     tagName,
     template_props,
@@ -81,7 +102,8 @@ export const forward_in_history = (
     tagName: string;
     template_props: any;
     isHistoryUpdate?: boolean | undefined;
-  }) => void
+  }) => void,
+  handleUpdate: (update: KeyValueProp) => void
 ) => {
   if (current_history_item_INDEX.value === 0) {
     console.log("No more history to go forward to");

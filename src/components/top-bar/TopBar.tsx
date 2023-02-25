@@ -24,11 +24,13 @@ export const TopBar: React.FC<props> = () => {
     setIsOpen(!isOpen);
   };
 
-  const { handleDelete, handleAddNode } = useSendNodeUpdate();
+  const { handleDelete, handleAddNode, handleUpdate } = useSendNodeUpdate();
 
-  const go_backward_in_history = () => go_back_in_history(handleDelete);
+  const go_backward_in_history = () =>
+    go_back_in_history(handleDelete, handleAddNode, handleUpdate);
 
-  const go_forward_in_history = () => forward_in_history(handleAddNode); //n
+  const go_forward_in_history = () =>
+    forward_in_history(handleDelete, handleAddNode, handleUpdate); //n
   // ^^ add to history-signals file
 
   return (
