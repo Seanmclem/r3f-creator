@@ -61,7 +61,8 @@ export const deepSplice = ({
 
   const changingItem = finalItems[last];
   const previousValue = {
-    [update.key]: structuredClone(changingItem.props[update.key]),
+    key: update.key,
+    value: structuredClone(changingItem.props[update.key]),
   };
 
   if (action === "UPDATE") {
