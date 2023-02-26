@@ -33,7 +33,7 @@ export const BooleanFieldInput: React.FC<props> = ({ runtimeInterface }) => {
       update,
     });
 
-    handleUpdate(update);
+    handleUpdate({ update });
   };
 
   // useEffect(() => {

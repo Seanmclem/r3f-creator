@@ -19,10 +19,17 @@ export const useSendNodeUpdate = () => {
   );
   const selectedNode = useTemplateStore((state) => state.selectedNode);
 
-  const handleUpdate = (update: KeyValueProp) => {
-    if (selectedNodeAddress) {
+  const handleUpdate = ({
+    update,
+    specific_node_override,
+  }: {
+    update: KeyValueProp;
+    specific_node_override?: string;
+  }) => {
+    const node_address = specific_node_override || selectedNodeAddress;
+    if (node_address) {
       const { previousValue } = sendNodeUpdate({
-        nodeAddress: selectedNodeAddress,
+        nodeAddress: node_address,
         mainTemplate,
         updateMainTemplate,
         update,
@@ -30,10 +37,11 @@ export const useSendNodeUpdate = () => {
 
       const new_history_item: HistoryItem = {
         action: "UPDATE",
-        path: selectedNodeAddress,
+        path: node_address,
         id: selectedNode?.id || "",
         previousValue: previousValue,
         newValue: update,
+        isHistoryUpdate: !!specific_node_override, // if has the value, it's history update
       };
 
       add_to_history_list(new_history_item);

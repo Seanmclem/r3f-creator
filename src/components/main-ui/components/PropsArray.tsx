@@ -53,8 +53,10 @@ export const PropsArray: React.FC<props> = ({
       orig: propValue,
     });
     handleUpdate({
-      key: propKey,
-      value: arrayOfValues,
+      update: {
+        key: propKey,
+        value: arrayOfValues,
+      },
     });
   };
 

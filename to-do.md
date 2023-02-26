@@ -55,7 +55,13 @@
 
 - [ ] Neede Delete button on components
 - [ ] Need History on-updates
-  - [ ] Use fot Ctrl-Z
+  - [x] History tracked
+  - [x] history visualizer
+  - [x] undo/redo ADDs
+  - [x] undo/redo UPDATEs
+    - [ ] Works, but NOT if you mix ADDs and UPDATEs in the history. Gets wonky.. needs fix
+  - [ ] undo/redo DELETEs
+  - [ ] Use for Ctrl-Z
 - [ ] Fork TestCharacter for no-thing-clone, and generic 3rd person, generic FPS
 
   - [ ] control random rotation/spinning
@@ -71,7 +77,6 @@
   - [ ] add welcome screen, for granting permissions, basic instructions, shown when you first launch
   - [ ] add model uploader
     - https://docs.pmnd.rs/react-three-fiber/tutorials/loading-models
-  - [ ] CTRL+Z / History
 - Issues
   - [ ] Gizmo can't stopPropagation?
 - [ ] idears?

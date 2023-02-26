@@ -57,7 +57,13 @@ export const go_back_in_history = (
     template_props: any;
     isHistoryUpdate?: boolean | undefined;
   }) => void,
-  handleUpdate: (update: KeyValueProp) => void
+  handleUpdate: ({
+    update,
+    specific_node_override,
+  }: {
+    update: KeyValueProp;
+    specific_node_override?: string;
+  }) => void
 ) => {
   debugger;
 
@@ -78,6 +84,12 @@ export const go_back_in_history = (
     increment_current_history_index();
   } else if (current_component_in_history.value.action === "UPDATE") {
     console.log("UPDATE NODE", current_component_in_history.value);
+    //
+    handleUpdate({
+      update: current_component_in_history.value.previousValue as KeyValueProp,
+      specific_node_override: current_component_in_history.value.path,
+    });
+    increment_current_history_index();
   } else if (current_component_in_history.value.action === "DELETE") {
     console.log("DELETE");
   }
@@ -103,7 +115,13 @@ export const forward_in_history = (
     template_props: any;
     isHistoryUpdate?: boolean | undefined;
   }) => void,
-  handleUpdate: (update: KeyValueProp) => void
+  handleUpdate: ({
+    update,
+    specific_node_override,
+  }: {
+    update: KeyValueProp;
+    specific_node_override?: string;
+  }) => void
 ) => {
   if (current_history_item_INDEX.value === 0) {
     console.log("No more history to go forward to");
@@ -113,32 +131,39 @@ export const forward_in_history = (
 
   decrement_current_history_index();
 
-  const current_component_in_history =
-    history_list.value[current_history_item_INDEX.value];
+  //   const current_component_in_history =
+  //     history_list.value[current_history_item_INDEX.value];
 
   console.log("current_history_item_index_1", current_history_item_INDEX.value);
 
   //
 
-  if (current_component_in_history.action === "ADD") {
+  if (current_component_in_history.value.action === "ADD") {
     console.log("~Add");
 
     console.log("REDO", {
-      tagName: (current_component_in_history.newValue as any).tagName as string,
-      template_props: (current_component_in_history.newValue as any)
+      tagName: (current_component_in_history.value.newValue as any)
+        .tagName as string,
+      template_props: (current_component_in_history.value.newValue as any)
         ?.props as any,
       isHistoryUpdate: true,
     });
 
     handleAddNode({
-      tagName: (current_component_in_history.newValue as any).tagName as string,
-      template_props: (current_component_in_history.newValue as any)
+      tagName: (current_component_in_history.value.newValue as any)
+        .tagName as string,
+      template_props: (current_component_in_history.value.newValue as any)
         ?.props as any,
       isHistoryUpdate: true,
     });
-  } else if (current_component_in_history.action === "UPDATE") {
+  } else if (current_component_in_history.value.action === "UPDATE") {
     console.log("UPDATE");
-  } else if (current_component_in_history.action === "DELETE") {
+
+    handleUpdate({
+      update: current_component_in_history.value.newValue as KeyValueProp,
+      specific_node_override: current_component_in_history.value.path,
+    });
+  } else if (current_component_in_history.value.action === "DELETE") {
     console.log("DELETE");
   }
 };

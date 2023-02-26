@@ -42,8 +42,10 @@ export const ArrayFieldContainer: React.FC<props> = ({
 
     // setArrayValue(newArray);
     handleUpdate({
-      key: runtimeInterface.propName,
-      value: newArray,
+      update: {
+        key: runtimeInterface.propName,
+        value: newArray,
+      },
     });
   };
 

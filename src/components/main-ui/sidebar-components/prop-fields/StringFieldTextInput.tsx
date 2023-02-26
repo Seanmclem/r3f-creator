@@ -53,7 +53,7 @@ export const StringFieldTextInput: React.FC<props> = ({ runtimeInterface }) => {
       orig: currentProps_Value,
     });
 
-    handleUpdate(update);
+    handleUpdate({ update });
   };
 
   return (

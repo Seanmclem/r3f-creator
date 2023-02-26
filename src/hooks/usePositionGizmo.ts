@@ -40,8 +40,10 @@ export const usePositionGizmo = (position: number[], rotation?: number[]) => {
 
     if (newPosition) {
       handleUpdate({
-        key: "position",
-        value: newPosition,
+        update: {
+          key: "position",
+          value: newPosition,
+        },
       });
     }
   }, [newPosition, handleUpdate]);
@@ -51,8 +53,10 @@ export const usePositionGizmo = (position: number[], rotation?: number[]) => {
 
     if (newRotation) {
       handleUpdate({
-        key: "rotation",
-        value: newRotation as number[], // not using `remove_whole_numbers`, are whole numbers necessaru? Seems like maybe
+        update: {
+          key: "rotation",
+          value: newRotation as number[], // not using `remove_whole_numbers`, are whole numbers necessaru? Seems like maybe
+        },
       });
     }
   }, [newRotation, handleUpdate]);

@@ -32,7 +32,7 @@ export const PropsText: React.FC<props> = ({
       orig: propValue,
     });
 
-    handleUpdate(update);
+    handleUpdate({ update });
   };
 
   useEffect(() => {
