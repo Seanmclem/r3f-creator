@@ -51,14 +51,6 @@ export const main_template = {
     },
     "children": []
   }, {
-    "id": "nbNE2xAarHg1",
-    "tagName": "TestCharacter",
-    "props": {
-      "position": [0, 4.080371366244004, 0],
-      "rotation": [0, 0, 0]
-    },
-    "children": []
-  }, {
     "id": "7ODwoFbLJXO7",
     "tagName": "GenericBox",
     "props": {
@@ -77,6 +69,14 @@ export const main_template = {
       "position": [20.835747171253466, 14.500613903345116, -18.361846767055503],
       "dimensions": [5, 5, 5],
       "rotation": [0.2245285263674862, -0.13556564297611615, 0]
+    },
+    "children": []
+  }, {
+    "id": "00Z53v1EE3Ka",
+    "tagName": "ThirdPersonCharacter",
+    "props": {
+      "position": [0, 4.1, 0],
+      "rotation": [0, 0, 0]
     },
     "children": []
   }]

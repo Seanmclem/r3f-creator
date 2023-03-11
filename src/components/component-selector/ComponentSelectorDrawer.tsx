@@ -14,6 +14,8 @@ interface Component_ListItem {
   short_description?: string;
   long_description?: string;
   template_props: any;
+  component_name?: string;
+  display_name?: string;
 }
 
 const mock_components: Component_ListItem[] = [
@@ -56,6 +58,16 @@ const mock_components: Component_ListItem[] = [
     name: "TestCharacter",
     template_props: {
       position: [0, 0, 0],
+      rotation: [0, 0, 0],
+      // these should be part of the component, to read from
+    },
+  },
+  {
+    name: "ThirdPersonCharacter",
+    display_name: "Third Person Character",
+    component_name: "ThirdPersonCharacter",
+    template_props: {
+      position: [0, 4.1, 0],
       rotation: [0, 0, 0],
     },
   },
