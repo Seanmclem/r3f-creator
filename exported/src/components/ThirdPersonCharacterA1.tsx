@@ -42,6 +42,20 @@ export const ThirdPersonCharacter = ({ position, rotation }: any) => {
       offset.x -= 0.1;
     }
 
+    if (pressedKeys.current.has("ArrowLeft")) {
+      angleRef.current += 0.02;
+    }
+    if (pressedKeys.current.has("ArrowRight")) {
+      angleRef.current -= 0.02;
+    }
+
+    if (pressedKeys.current.has("ArrowUp")) {
+      setDistance(Math.max(distance - 0.1, 2));
+    }
+    if (pressedKeys.current.has("ArrowDown")) {
+      setDistance(Math.min(distance + 0.1, 10));
+    }
+
     return offset;
   };
   // MOVEMENT END
@@ -49,10 +63,13 @@ export const ThirdPersonCharacter = ({ position, rotation }: any) => {
   // CAMERA START
   const { camera } = useThree();
   const [distance, setDistance] = useState(5);
-  const [angle, setAngle] = useState(0);
+  const angleRef = useRef(0);
 
   useFrame(() => {
-    if (!character_ref.current) {
+    if (
+      !character_ref.current ||
+      (!angleRef.current && angleRef.current !== 0)
+    ) {
       return;
     }
 
@@ -65,7 +82,7 @@ export const ThirdPersonCharacter = ({ position, rotation }: any) => {
 
     const camera_offset = new THREE.Vector3(0, 3.5, -distance).applyAxisAngle(
       new THREE.Vector3(0, 1, 0),
-      angle
+      angleRef.current
     );
     const camera_position = character_target.clone().add(camera_offset);
 
