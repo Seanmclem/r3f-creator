@@ -30,16 +30,16 @@ export const ThirdPersonCharacter = ({ position, rotation }: any) => {
     // Calculate character offset based on pressed keys
     let offset = new THREE.Vector3(0, 0, 0);
     if (pressedKeys.current.has("w")) {
-      offset.z -= 0.1;
-    }
-    if (pressedKeys.current.has("s")) {
       offset.z += 0.1;
     }
+    if (pressedKeys.current.has("s")) {
+      offset.z -= 0.1;
+    }
     if (pressedKeys.current.has("a")) {
-      offset.x -= 0.1;
+      offset.x += 0.1;
     }
     if (pressedKeys.current.has("d")) {
-      offset.x += 0.1;
+      offset.x -= 0.1;
     }
 
     return offset;
@@ -90,7 +90,7 @@ export const ThirdPersonCharacter = ({ position, rotation }: any) => {
       <mesh>
         <boxGeometry attach="geometry" args={[0.5, 0.5, 0.5]} />
         <meshBasicMaterial attach="material" color="orange" />
-        <arrowHelper />
+        <arrowHelper args={[new THREE.Vector3(0, 0, 1)]} />
       </mesh>
     </group>
   );
