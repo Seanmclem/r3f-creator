@@ -79,7 +79,7 @@ export const ThirdPersonCharacter = ({ position, rotation }: any) => {
     character_ref.current.position.add(character_offset);
 
     const character_target = new THREE.Vector3().setFromMatrixPosition(
-      horizontal_box_ref.current.matrixWorld
+      character_ref.current.matrixWorld
     );
 
     // const camera_offset = new THREE.Vector3(0, 3.5, -distance).applyAxisAngle(
@@ -91,7 +91,7 @@ export const ThirdPersonCharacter = ({ position, rotation }: any) => {
     // camera_ref.current.position.copy(camera_position);
     camera_ref.current.lookAt(character_target);
 
-    // horizontal_box_ref.current.rotateY(0.01);
+    horizontal_box_ref.current.rotateY(0.01);
   });
 
   // CAMERA END
@@ -111,17 +111,17 @@ export const ThirdPersonCharacter = ({ position, rotation }: any) => {
       rotation={rotation}
       scale={3}
     >
-      <PerspectiveCamera
-        ref={camera_ref}
-        makeDefault={true}
-        position={[0, 1.5, -distance]}
-        fov={75}
-      />
       {/* add first mesh here */}
       {/* add second mesh here */}
       {/* thanks chat gpt, for a little help */}
       {/*  */}
       <mesh ref={horizontal_box_ref}>
+        <PerspectiveCamera
+          ref={camera_ref}
+          makeDefault={true}
+          position={[0, 1.5, -distance]}
+          fov={75}
+        />
         <boxGeometry attach="geometry" args={[1, 1, 1]} />
         <meshBasicMaterial attach="material" color="red" wireframe={true} />
       </mesh>
