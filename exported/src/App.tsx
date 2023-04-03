@@ -8,7 +8,7 @@ const App = () => {
   return (
     <Canvas
       // style={{ height, width: width - 300 }}
-      camera={{ fov: 75, position: [10, 8, 10] }}
+      // camera={{ fov: 75, position: [10, 8, 10] }}
       shadows={{ enabled: true, type: PCFSoftShadowMap }}
     >
       <OrbitControls makeDefault />

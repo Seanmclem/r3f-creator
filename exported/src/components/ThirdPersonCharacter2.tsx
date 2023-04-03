@@ -79,10 +79,15 @@ export const ThirdPersonCharacter = ({ position, rotation }: any) => {
   }, []);
 
   return (
-    <group ref={groupRef} position={position} rotation={rotation}>
+    <group position={position} rotation={rotation} scale={3}>
       {/* add first mesh here */}
       {/* add second mesh here */}
       {/* thanks chat pts, for a little help */}
+      <mesh>
+        <boxGeometry attach="geometry" args={[0.5, 0.5, 0.5]} />
+        <meshBasicMaterial attach="material" color="orange" />
+        <arrowHelper />
+      </mesh>
     </group>
   );
 };
