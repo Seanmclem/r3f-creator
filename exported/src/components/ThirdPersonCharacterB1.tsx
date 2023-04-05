@@ -36,7 +36,7 @@ export const ThirdPersonCharacter = ({ position, rotation }: any) => {
         <PerspectiveCamera
           ref={camera_ref}
           makeDefault={true}
-          position={[0, 1.5, -distance_ref]}
+          position={[0, 1.5, -distance_ref.current]}
           fov={75}
         />
         <boxGeometry attach="geometry" args={[1, 1, 1]} />
