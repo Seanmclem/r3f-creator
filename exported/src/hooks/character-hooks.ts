@@ -84,13 +84,15 @@ export const useMovement = ({
     // camera_ref.current.position.copy(camera_position);
     camera_ref.current.lookAt(character_target);
 
-    // if (pressedKeys.current.has("ArrowUp")) {
-    //   horizontal_box_ref.current.position.y =
-    //     horizontal_box_ref.current.position.y + 0.1;
-    // }
-    // if (pressedKeys.current.has("ArrowDown")) {
-    //   horizontal_box_ref.current.position.y -= 0.01;
-    // }
+    if (pressedKeys.current.has("ArrowUp")) {
+      horizontal_box_ref.current.position.y += 0.02;
+
+      // horizontal_box_ref.current.position.z += 0.02;
+    }
+    if (pressedKeys.current.has("ArrowDown")) {
+      horizontal_box_ref.current.position.y -= 0.02;
+      // horizontal_box_ref.current.position.z -= 0.02;
+    }
 
     if (pressedKeys.current.has("ArrowLeft")) {
       horizontal_box_ref.current.rotateY(0.01);
