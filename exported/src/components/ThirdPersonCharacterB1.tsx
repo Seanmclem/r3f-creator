@@ -24,12 +24,7 @@ export const ThirdPersonCharacter = ({ position, rotation }: any) => {
   });
 
   return (
-    <group
-      ref={character_ref}
-      position={position}
-      rotation={rotation}
-      scale={3}
-    >
+    <group ref={character_ref} position={position} rotation={rotation}>
       {/* thanks chat gpt, for a little help */}
       {/*  */}
       <mesh ref={horizontal_box_ref}>
