@@ -2,6 +2,7 @@ import { useEffect, useRef, useState } from "react";
 import { useFrame, useThree } from "@react-three/fiber";
 import * as THREE from "three";
 import { PerspectiveCamera } from "@react-three/drei";
+import { useControls } from "leva";
 
 export const ThirdPersonCharacter = ({ position, rotation }: any) => {
   // MOVEMENT START
@@ -26,13 +27,16 @@ export const ThirdPersonCharacter = ({ position, rotation }: any) => {
     };
   }, []);
 
-  const [distance, setDistance] = useState(3.5);
-
   const character_ref =
     useRef<THREE.Mesh<THREE.BufferGeometry, THREE.Material | THREE.Material[]>>(
       null
     );
   const camera_ref = useRef<THREE.PerspectiveCamera>(null);
+
+  const { cameraDistance, cameraHeight } = useControls({
+    cameraDistance: 3.5,
+    cameraHeight: 2.5,
+  });
 
   // Use useFrame to update the camera position and lookAt
   useFrame(() => {
@@ -77,13 +81,21 @@ export const ThirdPersonCharacter = ({ position, rotation }: any) => {
     }
 
     // Update camera position and lookAt
-    const cameraPosition = new THREE.Vector3(0, 2.5, -distance);
+    const cameraPosition = new THREE.Vector3(0, cameraHeight, -cameraDistance);
     cameraPosition.applyQuaternion(character.quaternion);
     cameraPosition.add(character.position);
     camera.position.copy(cameraPosition);
-    camera.lookAt(character.position);
-  });
 
+    // Calculate the center of the character mesh
+    const characterCenter = new THREE.Vector3();
+    character.geometry.computeBoundingBox();
+    character.geometry.boundingBox &&
+      character.geometry.boundingBox.getCenter(characterCenter);
+    characterCenter.applyMatrix4(character.matrixWorld);
+
+    // Set the camera's lookAt target to the center of the character mesh
+    camera.lookAt(characterCenter);
+  });
   return (
     <group position={position} rotation={rotation}>
       <PerspectiveCamera
@@ -91,6 +103,8 @@ export const ThirdPersonCharacter = ({ position, rotation }: any) => {
         makeDefault={true}
         // position={[0, 15.5, -distance]}
         fov={75}
+        // matrixWorldAutoUpdate={undefined}
+        // getObjectsByProperty={undefined}
       />
       <mesh ref={character_ref}>
         <boxGeometry attach="geometry" args={[0.5, 0.5, 0.5]} />
