@@ -3,7 +3,7 @@ import { Physics } from "@react-three/rapier";
 import { GenericBox } from "./GenericBox";
 import { PlaneGeneric } from "./PlaneGeneric";
 import { DirectionalLight } from "./DirectionalLight";
-import { ThirdPersonCharacter } from "./ThirdPersonCharacterC1";
+import { ThirdPersonCharacter } from "./ThirdPersonCharacterD1";
 export const ExportedTree: React.FC<{}> = () => {
   return (
     <Physics>
@@ -56,7 +56,7 @@ export const ExportedTree: React.FC<{}> = () => {
           rotation={[0.2245285263674862, -0.13556564297611615, 0]}
         ></GenericBox>
         <ThirdPersonCharacter
-          position={[0, 4.1, 0]}
+          position={[0, 1.1, 0]}
           rotation={[0, 0, 0]}
         ></ThirdPersonCharacter>
       </>
