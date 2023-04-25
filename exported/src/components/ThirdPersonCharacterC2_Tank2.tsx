@@ -95,14 +95,14 @@ export const ThirdPersonCharacter = ({ position, rotation }: any) => {
       follower_ref.current.position.x -= z_rotate;
     }
 
-    // Turn character left
-    if (pressedKeys.current.has("ArrowLeft")) {
-      character.rotation.y += rotationSpeed;
-    }
-    // Turn character right
-    if (pressedKeys.current.has("ArrowRight")) {
-      character.rotation.y -= rotationSpeed;
-    }
+    // // Turn character left
+    // if (pressedKeys.current.has("ArrowLeft")) {
+    //   character.rotation.y += rotationSpeed;
+    // }
+    // // Turn character right
+    // if (pressedKeys.current.has("ArrowRight")) {
+    //   character.rotation.y -= rotationSpeed;
+    // }
 
     // Update camera position and lookAt
     const cameraPosition = new THREE.Vector3(0, cameraHeight, -cameraDistance);
