@@ -40,6 +40,8 @@ export const ThirdPersonCharacter = ({ position, rotation }: any) => {
     camera_height: 3.5,
   });
 
+  const [follower_height] = useState(1);
+
   // Use useFrame to update the camera position and lookAt
   useFrame(() => {
     const follower_ref = followerRef.current;
@@ -89,6 +91,8 @@ export const ThirdPersonCharacter = ({ position, rotation }: any) => {
       follower_ref.position.x -= z_rotate;
     }
 
+    follower_ref.position.y = character_ref.position.y + follower_height;
+
     // Turn character left
     if (pressed_keys.current.has("ArrowLeft")) {
       // nothing yet
@@ -107,13 +111,21 @@ export const ThirdPersonCharacter = ({ position, rotation }: any) => {
     );
 
     // TOGGLED: cameraPosition.applyQuaternion(character.quaternion); // or follower
-    // NOTE:
+
+    // NOTE: Take camera-distance-offset, add the follower's position, and set the camera's position to that
     camera_distance_offset.add(follower_ref.position);
     camera_ref.position.copy(camera_distance_offset);
 
     // Calculate the center of the character mesh
+    // initialize a new vector3 for the center
     const character_center = new THREE.Vector3();
+
+    // compute the bounding box of the character mesh
     character_ref.geometry.computeBoundingBox();
+
+    // get the center of the bounding box, in the world, and set the character_center to that
+    // So you can tell the camera to look at the center of the character mesh.
+    // Center is important so the camera doesn't look too far in the wrong direction, like the edge of the box
     character_ref.geometry.boundingBox &&
       character_ref.geometry.boundingBox.getCenter(character_center);
     character_center.applyMatrix4(character_ref.matrixWorld);
@@ -134,7 +146,10 @@ export const ThirdPersonCharacter = ({ position, rotation }: any) => {
           getObjectsByProperty={undefined}
         />
         <mesh ref={followerRef}>
-          <boxGeometry attach="geometry" args={[1, 1, 1]} />
+          <boxGeometry
+            attach="geometry"
+            args={[follower_height, follower_height, follower_height]}
+          />
           <meshBasicMaterial color="green" wireframe={true} />
         </mesh>
 
