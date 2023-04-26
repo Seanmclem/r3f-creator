@@ -58,6 +58,12 @@ export const ThirdPersonCharacter = ({ position, rotation }: any) => {
     const z_rotate = Math.cos(character_ref.rotation.y) * movement_speed;
     const x_rotate = Math.sin(character_ref.rotation.y) * movement_speed;
 
+    const before_point = new THREE.Vector3(
+      characterRef.current.position.x,
+      characterRef.current.position.y,
+      characterRef.current.position.z
+    );
+
     // Move forward
     if (pressed_keys.current.has("w")) {
       character_ref.position.z += z_rotate;
@@ -91,7 +97,14 @@ export const ThirdPersonCharacter = ({ position, rotation }: any) => {
       follower_ref.position.x -= z_rotate;
     }
 
-    follower_ref.position.y = character_ref.position.y + follower_height;
+    // get the follower height to match the character
+    character_ref.position.y = follower_ref.position.y + follower_height;
+
+    const after_point = new THREE.Vector3(
+      characterRef.current.position.x,
+      characterRef.current.position.y,
+      characterRef.current.position.z
+    );
 
     // Turn character left
     if (pressed_keys.current.has("ArrowLeft")) {
@@ -132,6 +145,21 @@ export const ThirdPersonCharacter = ({ position, rotation }: any) => {
 
     // Set the camera's lookAt target to the center of the character mesh
     camera_ref.lookAt(character_center);
+
+    const newRotation = new THREE.Euler(
+      0, // x-axis rotation
+      1.5, // y-axis rotation
+      //q what type of unit or value range is this? 0-360? 0-1?
+      //a 0-1
+      //q so 0.5 is 180 degrees?
+      //a yes
+      //q it's not
+      //a it is
+      0, // z-axis rotation
+      "YXZ" // rotation order
+    );
+
+    follower_ref.setRotationFromEuler(newRotation);
   });
 
   return (
@@ -145,7 +173,7 @@ export const ThirdPersonCharacter = ({ position, rotation }: any) => {
           matrixWorldAutoUpdate={undefined}
           getObjectsByProperty={undefined}
         />
-        <mesh ref={followerRef}>
+        <mesh ref={characterRef}>
           <boxGeometry
             attach="geometry"
             args={[follower_height, follower_height, follower_height]}
@@ -167,7 +195,7 @@ export const ThirdPersonCharacter = ({ position, rotation }: any) => {
 */}
       </group>
       <group position={position} rotation={rotation}>
-        <mesh ref={characterRef}>
+        <mesh ref={followerRef}>
           <boxGeometry attach="geometry" args={[0.5, 0.5, 0.5]} />
           <meshBasicMaterial attach="material" color="orange" />
           <arrowHelper args={[new THREE.Vector3(0, 0, 1)]} />
