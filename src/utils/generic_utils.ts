@@ -26,3 +26,6 @@ export const xy_TemplatesArray: FieldDefinition[] = [
   { key: "y", type: "number" },
   //   { key: "z", type: "number" },
 ];
+
+export const degrees_to_radians = (degrees: number) =>
+  degrees * (Math.PI / 180);

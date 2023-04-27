@@ -4,6 +4,8 @@ import * as THREE from "three";
 import { PerspectiveCamera } from "@react-three/drei";
 import { useControls } from "leva";
 
+const degrees_to_radians = (degrees: number) => degrees * (Math.PI / 180);
+
 export const ThirdPersonCharacter = ({ position, rotation }: any) => {
   // MOVEMENT START
   const pressed_keys = useRef(new Set());
@@ -38,6 +40,7 @@ export const ThirdPersonCharacter = ({ position, rotation }: any) => {
   const { camera_distance, camera_height } = useControls({
     camera_distance: 3.5,
     camera_height: 3.5,
+    rotation: 0, // do it
   });
 
   const [follower_height] = useState(1);
@@ -51,6 +54,8 @@ export const ThirdPersonCharacter = ({ position, rotation }: any) => {
     if (!character_ref || !camera_ref || !follower_ref) {
       return;
     }
+
+    let rotation_degrees = 0;
 
     const movement_speed = 0.1; // Adjust this value to control the character's movement speed
     const rotation_speed = 0.03; // Adjust this value to control the character's rotation speed
@@ -71,6 +76,8 @@ export const ThirdPersonCharacter = ({ position, rotation }: any) => {
 
       follower_ref.position.z += z_rotate;
       follower_ref.position.x += x_rotate;
+
+      rotation_degrees += 0;
     }
     // Move backward
     if (pressed_keys.current.has("s")) {
@@ -79,6 +86,8 @@ export const ThirdPersonCharacter = ({ position, rotation }: any) => {
 
       follower_ref.position.z -= z_rotate;
       follower_ref.position.x -= x_rotate;
+
+      rotation_degrees += 180;
     }
     // Move left
     if (pressed_keys.current.has("a")) {
@@ -87,6 +96,8 @@ export const ThirdPersonCharacter = ({ position, rotation }: any) => {
 
       follower_ref.position.z -= x_rotate;
       follower_ref.position.x += z_rotate;
+
+      rotation_degrees += 90;
     }
     // Move right
     if (pressed_keys.current.has("d")) {
@@ -95,6 +106,8 @@ export const ThirdPersonCharacter = ({ position, rotation }: any) => {
 
       follower_ref.position.z += x_rotate;
       follower_ref.position.x -= z_rotate;
+
+      rotation_degrees += 270;
     }
 
     // get the follower height to match the character
@@ -110,6 +123,12 @@ export const ThirdPersonCharacter = ({ position, rotation }: any) => {
     if (pressed_keys.current.has("ArrowLeft")) {
       // nothing yet
       // character_ref.rotation.y += rotation_speed;
+      // follower_ref.rotation.y += rotation_speed;
+      ////
+      // Changing this ^ does change the relative forward/all directions of movement
+      // could rotate the character/camaera/follower together, to change relevant forward direction of movement
+      //
+      // character_ref is now basically the follower box. Names have swapped and I can't figure out how to make it make sense
     }
     // Turn character right
     if (pressed_keys.current.has("ArrowRight")) {
@@ -146,20 +165,17 @@ export const ThirdPersonCharacter = ({ position, rotation }: any) => {
     // Set the camera's lookAt target to the center of the character mesh
     camera_ref.lookAt(character_center);
 
+    // console.log("degrees_to_radians", degrees_to_radians(45));
+
     const newRotation = new THREE.Euler(
       0, // x-axis rotation
-      1.5, // y-axis rotation
-      //q what type of unit or value range is this? 0-360? 0-1?
-      //a 0-1
-      //q so 0.5 is 180 degrees?
-      //a yes
-      //q it's not
-      //a it is
+      degrees_to_radians(0), // 180 + 90 = 270
       0, // z-axis rotation
       "YXZ" // rotation order
     );
 
     follower_ref.setRotationFromEuler(newRotation);
+    // breaks character rotation
   });
 
   return (
