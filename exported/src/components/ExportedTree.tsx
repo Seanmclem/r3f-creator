@@ -3,7 +3,7 @@ import { Physics } from "@react-three/rapier";
 import { GenericBox } from "./GenericBox";
 import { PlaneGeneric } from "./PlaneGeneric";
 import { DirectionalLight } from "./DirectionalLight";
-import { ThirdPersonCharacter } from "./ThirdPersonCharacterD1";
+import { ThirdPersonCharacter } from "./ThirdPersonCharacterE1";
 export const ExportedTree: React.FC<{}> = () => {
   return (
     <Physics>

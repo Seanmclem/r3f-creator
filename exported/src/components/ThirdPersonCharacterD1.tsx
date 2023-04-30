@@ -29,13 +29,14 @@ export const ThirdPersonCharacter = ({ position, rotation }: any) => {
     };
   }, []);
 
-  const characterRef =
+  const followerBoxRef =
     useRef<THREE.Mesh<THREE.BufferGeometry, THREE.Material | THREE.Material[]>>(
       null
     );
 
   const cameraRef = useRef<THREE.PerspectiveCamera>(null);
-  const followerRef = useRef<THREE.Mesh>(null);
+  const characterMeshRef = useRef<THREE.Mesh>(null);
+  const followerGroupRef = useRef<THREE.Group>(null);
 
   const { camera_distance, camera_height } = useControls({
     camera_distance: 3.5,
@@ -47,11 +48,17 @@ export const ThirdPersonCharacter = ({ position, rotation }: any) => {
 
   // Use useFrame to update the camera position and lookAt
   useFrame(() => {
-    const follower_ref = followerRef.current;
-    const character_ref = characterRef.current;
+    const character_mesh_ref = characterMeshRef.current;
+    const follower_box_ref = followerBoxRef.current;
     const camera_ref = cameraRef.current;
+    const follower_group_ref = followerGroupRef.current;
 
-    if (!character_ref || !camera_ref || !follower_ref) {
+    if (
+      !follower_box_ref ||
+      !camera_ref ||
+      !character_mesh_ref ||
+      !follower_group_ref
+    ) {
       return;
     }
 
@@ -60,70 +67,71 @@ export const ThirdPersonCharacter = ({ position, rotation }: any) => {
     const movement_speed = 0.1; // Adjust this value to control the character's movement speed
     const rotation_speed = 0.03; // Adjust this value to control the character's rotation speed
 
-    const z_rotate = Math.cos(character_ref.rotation.y) * movement_speed;
-    const x_rotate = Math.sin(character_ref.rotation.y) * movement_speed;
+    const z_rotate = Math.cos(follower_box_ref.rotation.y) * movement_speed;
+    const x_rotate = Math.sin(follower_box_ref.rotation.y) * movement_speed;
 
-    const before_point = new THREE.Vector3(
-      characterRef.current.position.x,
-      characterRef.current.position.y,
-      characterRef.current.position.z
-    );
+    // const before_point = new THREE.Vector3(
+    //   followerBoxRef.current.position.x,
+    //   followerBoxRef.current.position.y,
+    //   followerBoxRef.current.position.z
+    // );
 
     // Move forward
     if (pressed_keys.current.has("w")) {
-      character_ref.position.z += z_rotate;
-      character_ref.position.x += x_rotate;
+      follower_box_ref.position.z += z_rotate;
+      follower_box_ref.position.x += x_rotate;
 
-      follower_ref.position.z += z_rotate;
-      follower_ref.position.x += x_rotate;
+      character_mesh_ref.position.z += z_rotate;
+      character_mesh_ref.position.x += x_rotate;
 
       rotation_degrees += 0;
     }
     // Move backward
     if (pressed_keys.current.has("s")) {
-      character_ref.position.z -= z_rotate;
-      character_ref.position.x -= x_rotate;
+      follower_box_ref.position.z -= z_rotate;
+      follower_box_ref.position.x -= x_rotate;
 
-      follower_ref.position.z -= z_rotate;
-      follower_ref.position.x -= x_rotate;
+      character_mesh_ref.position.z -= z_rotate;
+      character_mesh_ref.position.x -= x_rotate;
 
       rotation_degrees += 180;
     }
     // Move left
     if (pressed_keys.current.has("a")) {
-      character_ref.position.z -= x_rotate;
-      character_ref.position.x += z_rotate;
+      follower_box_ref.position.z -= x_rotate;
+      follower_box_ref.position.x += z_rotate;
 
-      follower_ref.position.z -= x_rotate;
-      follower_ref.position.x += z_rotate;
+      character_mesh_ref.position.z -= x_rotate;
+      character_mesh_ref.position.x += z_rotate;
 
       rotation_degrees += 90;
     }
     // Move right
     if (pressed_keys.current.has("d")) {
-      character_ref.position.z += x_rotate;
-      character_ref.position.x -= z_rotate;
+      follower_box_ref.position.z += x_rotate;
+      follower_box_ref.position.x -= z_rotate;
 
-      follower_ref.position.z += x_rotate;
-      follower_ref.position.x -= z_rotate;
+      character_mesh_ref.position.z += x_rotate;
+      character_mesh_ref.position.x -= z_rotate;
 
       rotation_degrees += 270;
     }
 
     // get the follower height to match the character
-    character_ref.position.y = follower_ref.position.y + follower_height;
+    follower_box_ref.position.y =
+      character_mesh_ref.position.y + follower_height;
 
-    const after_point = new THREE.Vector3(
-      characterRef.current.position.x,
-      characterRef.current.position.y,
-      characterRef.current.position.z
-    );
+    // const after_point = new THREE.Vector3(
+    //   followerBoxRef.current.position.x,
+    //   followerBoxRef.current.position.y,
+    //   followerBoxRef.current.position.z
+    // );
 
     // Turn character left
     if (pressed_keys.current.has("ArrowLeft")) {
       // nothing yet
       // character_ref.rotation.y += rotation_speed;
-      // follower_ref.rotation.y += rotation_speed;
+      follower_group_ref.rotation.y += rotation_speed;
       ////
       // Changing this ^ does change the relative forward/all directions of movement
       // could rotate the character/camaera/follower together, to change relevant forward direction of movement
@@ -133,6 +141,7 @@ export const ThirdPersonCharacter = ({ position, rotation }: any) => {
     // Turn character right
     if (pressed_keys.current.has("ArrowRight")) {
       // nothing yet
+      follower_group_ref.rotation.y -= rotation_speed;
     }
 
     // Update camera position and lookAt
@@ -145,7 +154,7 @@ export const ThirdPersonCharacter = ({ position, rotation }: any) => {
     // TOGGLED: cameraPosition.applyQuaternion(character.quaternion); // or follower
 
     // NOTE: Take camera-distance-offset, add the follower's position, and set the camera's position to that
-    camera_distance_offset.add(follower_ref.position);
+    camera_distance_offset.add(character_mesh_ref.position);
     camera_ref.position.copy(camera_distance_offset);
 
     // Calculate the center of the character mesh
@@ -153,14 +162,14 @@ export const ThirdPersonCharacter = ({ position, rotation }: any) => {
     const character_center = new THREE.Vector3();
 
     // compute the bounding box of the character mesh
-    character_ref.geometry.computeBoundingBox();
+    follower_box_ref.geometry.computeBoundingBox();
 
     // get the center of the bounding box, in the world, and set the character_center to that
     // So you can tell the camera to look at the center of the character mesh.
     // Center is important so the camera doesn't look too far in the wrong direction, like the edge of the box
-    character_ref.geometry.boundingBox &&
-      character_ref.geometry.boundingBox.getCenter(character_center);
-    character_center.applyMatrix4(character_ref.matrixWorld);
+    follower_box_ref.geometry.boundingBox &&
+      follower_box_ref.geometry.boundingBox.getCenter(character_center);
+    character_center.applyMatrix4(follower_box_ref.matrixWorld);
 
     // Set the camera's lookAt target to the center of the character mesh
     camera_ref.lookAt(character_center);
@@ -174,13 +183,23 @@ export const ThirdPersonCharacter = ({ position, rotation }: any) => {
       "YXZ" // rotation order
     );
 
-    follower_ref.setRotationFromEuler(newRotation);
+    character_mesh_ref.setRotationFromEuler(newRotation);
     // breaks character rotation
   });
 
+  const bboxRef = useRef<any>(null);
+
+  useEffect(() => {
+    if (!followerGroupRef.current) return;
+    const bbox = new THREE.Box3().setFromObject(followerGroupRef.current);
+    const center = new THREE.Vector3();
+    bbox.getCenter(center);
+    followerGroupRef.current.position.set(-center.x, -center.y, -center.z);
+  }, []);
+
   return (
     <>
-      <group>
+      <group ref={followerGroupRef} position={position} rotation={rotation}>
         {/* Camera doesn't follow group, it follows grouped-mesh from a distance */}
         <PerspectiveCamera
           ref={cameraRef}
@@ -189,29 +208,17 @@ export const ThirdPersonCharacter = ({ position, rotation }: any) => {
           matrixWorldAutoUpdate={undefined}
           getObjectsByProperty={undefined}
         />
-        <mesh ref={characterRef}>
+        <mesh ref={followerBoxRef}>
           <boxGeometry
             attach="geometry"
             args={[follower_height, follower_height, follower_height]}
           />
           <meshBasicMaterial color="green" wireframe={true} />
         </mesh>
-
-        {/* Why, is the camera following the thing still */}
-        {/* ^ Becauuse of `cameraPosition.add(character.position);` */}
-        {/* arrow left and right handled, rotation by     `cameraPosition.applyQuaternion(character.quaternion);`
-         */}
-
-        {/* TODO-ing
- ### 1. Make the camera follow the character
-  ### 2. Make the character move forward/backward/left/right
-  ### 3. Make the character turn left/right
-
-
-*/}
       </group>
+
       <group position={position} rotation={rotation}>
-        <mesh ref={followerRef}>
+        <mesh ref={characterMeshRef}>
           <boxGeometry attach="geometry" args={[0.5, 0.5, 0.5]} />
           <meshBasicMaterial attach="material" color="orange" />
           <arrowHelper args={[new THREE.Vector3(0, 0, 1)]} />

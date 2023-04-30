@@ -102,6 +102,12 @@ export const ThirdPersonCharacter = ({ position, rotation }: any) => {
       following_mesh.position.x -= x_change;
     }
 
+    // now make heirght position match
+    following_mesh.position.y = character.position.y + 1;
+
+    //   follower_box_ref.position.y =
+    // character_mesh_ref.position.y + follower_height;
+
     // Turn character left
     if (pressedKeys.current.has("ArrowLeft")) {
       character.rotation.y += rotationSpeed;
