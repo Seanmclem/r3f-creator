@@ -3,6 +3,7 @@ import { useFrame, useThree } from "@react-three/fiber";
 import * as THREE from "three";
 import { PerspectiveCamera } from "@react-three/drei";
 import { useControls } from "leva";
+import gsap from "gsap";
 
 const degrees_to_radians = (degrees: number) => degrees * (Math.PI / 180);
 const radians_to_degrees = (radians: number) => radians * (180 / Math.PI);
@@ -39,6 +40,8 @@ export const ThirdPersonCharacter = ({ position, rotation }: any) => {
   const following_mesh_ref = useRef<THREE.Mesh>(null);
 
   const prev_position_ref = useRef(position);
+
+  const targetRotationRef = useRef(new THREE.Quaternion());
 
   const [{ cameraDistance, cameraHeight, currentAngle, movementAngle }, set] =
     useControls(() => ({
@@ -187,12 +190,22 @@ export const ThirdPersonCharacter = ({ position, rotation }: any) => {
       .sub(prev_position_ref.current)
       .normalize();
 
-    // Rotate the mesh to face the direction of movement
-    following_mesh_ref.current.lookAt(
-      following_mesh_ref.current.position.clone().add(direction)
+    // Calculate the target rotation
+    targetRotationRef.current.setFromUnitVectors(
+      new THREE.Vector3(0, 0, 1),
+      direction
     );
 
-    // Update the previous position
+    // Tween the rotation over 0.5 seconds using gsap
+    gsap.to(following_mesh_ref.current.quaternion, {
+      duration: 0.5,
+      ease: "power2.out",
+      _x: targetRotationRef.current.x,
+      _y: targetRotationRef.current.y,
+      _z: targetRotationRef.current.z,
+      _w: targetRotationRef.current.w,
+    });
+
     prev_position_ref.current = following_mesh_ref.current.position.clone();
   });
   return (
