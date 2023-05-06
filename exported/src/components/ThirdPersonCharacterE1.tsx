@@ -43,6 +43,8 @@ export const ThirdPersonCharacter = ({ position, rotation }: any) => {
 
   const targetRotationRef = useRef(new THREE.Quaternion());
 
+  const currentRotationRef = useRef(new THREE.Quaternion());
+
   const [{ cameraDistance, cameraHeight, currentAngle, movementAngle }, set] =
     useControls(() => ({
       cameraDistance: 3.5,
@@ -161,23 +163,7 @@ export const ThirdPersonCharacter = ({ position, rotation }: any) => {
     ///
     //
 
-    // const after_point = new THREE.Vector3(
-    //   following_mesh.position.x,
-    //   following_mesh.position.y,
-    //   following_mesh.position.z
-    // );
-
-    // const deltaX = after_point.x - before_point.x;
-    // const deltaY = after_point.y - before_point.y;
-    // const angle_radians = Math.atan2(deltaY, deltaX);
-    // // const angle_degrees = angle_radians * (180 / Math.PI);
-
-    // const newRotation = new THREE.Euler(
-    //   0, // x-axis rotation
-    //   angle_radians, // y-axis rotation
-    //   0, // z-axis rotation
-    //   "YXZ" // rotation order
-    // );
+    // smooth rotation START
 
     if (!pressing_any_WASD) {
       return;
@@ -190,23 +176,26 @@ export const ThirdPersonCharacter = ({ position, rotation }: any) => {
       .sub(prev_position_ref.current)
       .normalize();
 
-    // Calculate the target rotation
-    targetRotationRef.current.setFromUnitVectors(
-      new THREE.Vector3(0, 0, 1),
-      direction
-    );
+    // Check if the direction vector is parallel to the up vector
+    if (Math.abs(direction.dot(new THREE.Vector3(0, 1, 0))) < 0.99) {
+      // Calculate the target rotation
+      targetRotationRef.current.setFromUnitVectors(
+        new THREE.Vector3(0, 0, 1),
+        direction
+      );
 
-    // Tween the rotation over 0.5 seconds using gsap
-    gsap.to(following_mesh_ref.current.quaternion, {
-      duration: 0.5,
-      ease: "power2.out",
-      _x: targetRotationRef.current.x,
-      _y: targetRotationRef.current.y,
-      _z: targetRotationRef.current.z,
-      _w: targetRotationRef.current.w,
-    });
+      // Interpolate the rotation
+      currentRotationRef.current.slerp(targetRotationRef.current, 0.1);
+
+      following_mesh_ref.current.quaternion.copy(currentRotationRef.current);
+    } else {
+      // Set the target rotation to the current rotation without tweening
+      following_mesh_ref.current.quaternion.copy(targetRotationRef.current);
+      currentRotationRef.current.copy(targetRotationRef.current);
+    }
 
     prev_position_ref.current = following_mesh_ref.current.position.clone();
+    // smooth rotation end
   });
   return (
     <>
