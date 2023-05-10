@@ -54,7 +54,7 @@ export const ThirdPersonCharacter = ({ position, rotation }: any) => {
     }));
 
   // Use useFrame to update the camera position and lookAt
-  useFrame(() => {
+  useFrame((_, delta) => {
     if (
       !character_ref.current ||
       !camera_ref.current ||
@@ -63,8 +63,14 @@ export const ThirdPersonCharacter = ({ position, rotation }: any) => {
       return;
     }
 
-    const movementSpeed = 0.1; // Adjust this value to control the character's movement speed
-    const rotationSpeed = 0.03; // Adjust this value to control the character's rotation speed
+    // console.log("delta", delta);
+
+    const movementSpeed = parseFloat(delta.toFixed(2)) * 9; // Adjust this value to control the character's movement speed
+    // const movementSpeed = 0.1;
+    // console.log("movementSpeed", movementSpeed);
+    // const rotationSpeed = 0.03;
+    const rotationSpeed = parseFloat(delta.toFixed(2)) * 3; // Adjust this value to control the character's rotation speed
+    // console.log("rotationSpeed", rotationSpeed);
 
     const character = character_ref.current;
     const camera = camera_ref.current;
