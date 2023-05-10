@@ -1,35 +1,13 @@
-import { useEffect, useRef, useState } from "react";
-import { useFrame, useThree } from "@react-three/fiber";
+import { useRef } from "react";
+import { useFrame } from "@react-three/fiber";
 import * as THREE from "three";
 import { PerspectiveCamera } from "@react-three/drei";
 import { useControls } from "leva";
-import gsap from "gsap";
-
-const degrees_to_radians = (degrees: number) => degrees * (Math.PI / 180);
-const radians_to_degrees = (radians: number) => radians * (180 / Math.PI);
+import { useKeyListeners } from "../hooks/character-hooks";
 
 export const ThirdPersonCharacter = ({ position, rotation }: any) => {
   // MOVEMENT START
-  const pressedKeys = useRef(new Set());
-
-  const handleKeyDown = (event: KeyboardEvent) => {
-    pressedKeys.current.add(event.key);
-  };
-
-  const handleKeyUp = (event: KeyboardEvent) => {
-    pressedKeys.current.delete(event.key);
-  };
-
-  // Add keydown and keyup event listeners
-  useEffect(() => {
-    document.addEventListener("keydown", handleKeyDown);
-    document.addEventListener("keyup", handleKeyUp);
-
-    return () => {
-      document.removeEventListener("keydown", handleKeyDown);
-      document.removeEventListener("keyup", handleKeyUp);
-    };
-  }, []);
+  const pressedKeys = useKeyListeners();
 
   const character_ref =
     useRef<THREE.Mesh<THREE.BufferGeometry, THREE.Material | THREE.Material[]>>(
@@ -45,13 +23,12 @@ export const ThirdPersonCharacter = ({ position, rotation }: any) => {
 
   const currentRotationRef = useRef(new THREE.Quaternion());
 
-  const [{ cameraDistance, cameraHeight, currentAngle, movementAngle }, set] =
-    useControls(() => ({
-      cameraDistance: 3.5,
-      cameraHeight: 2.5,
-      currentAngle: 0,
-      movementAngle: 0,
-    }));
+  const [{ cameraDistance, cameraHeight }, set] = useControls(() => ({
+    cameraDistance: 3.5,
+    cameraHeight: 2.5,
+    currentAngle: 0,
+    movementAngle: 0,
+  }));
 
   // Use useFrame to update the camera position and lookAt
   useFrame((_, delta) => {
@@ -75,12 +52,6 @@ export const ThirdPersonCharacter = ({ position, rotation }: any) => {
     const character = character_ref.current;
     const camera = camera_ref.current;
     const following_mesh = following_mesh_ref.current;
-
-    const before_point = new THREE.Vector3(
-      following_mesh.position.x,
-      following_mesh.position.y,
-      following_mesh.position.z
-    );
 
     // Move forward
     if (pressedKeys.current.has("w")) {
